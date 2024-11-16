@@ -41,7 +41,9 @@ let rpc = new XRPC({
 const [notice, setNotice] = createSignal("");
 const [pds, setPDS] = createSignal<string>();
 
+const didPDSCache: { [key: string]: string } = {};
 const getPDS = query(async (did: string) => {
+  if (did in didPDSCache) return didPDSCache[did];
   const res = await fetch(
     did.startsWith("did:web") ?
       `https://${did.split(":")[2]}/.well-known/did.json`
@@ -50,7 +52,10 @@ const getPDS = query(async (did: string) => {
 
   return res.json().then((doc) => {
     for (const service of doc.service) {
-      if (service.id === "#atproto_pds") return service.serviceEndpoint;
+      if (service.id === "#atproto_pds") {
+        didPDSCache[did] = service.serviceEndpoint;
+        return service.serviceEndpoint;
+      }
     }
   });
 }, "getPDS");
