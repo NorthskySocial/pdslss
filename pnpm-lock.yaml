@@ -1029,7 +1029,7 @@ packages:
     hasBin: true
 
   public-transport@file:pkg/pt.tgz:
-    resolution: {integrity: sha512-f4xFcUOg64Y4D6c5cEV4FDly5mYn7dlUo8WoPJlfdhF09NioxYvmjCPz/chTfoLNtea3v3fs3UDtxclOhXFLyw==, tarball: file:pkg/pt.tgz}
+    resolution: {integrity: sha512-+mCzQxYlZPBAW4ijT/PqLMkU4+Av5ztEEh90lUYgQRTWQM93Q+rvYTTFmTOva+P5NrBFL5xfkXDYDtqmJDkeNQ==, tarball: file:pkg/pt.tgz}
     version: 0.1.0
 
   readdirp@3.6.0:
