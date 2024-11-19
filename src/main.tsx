@@ -32,7 +32,7 @@ import {
   TbMoonStar,
   TbSun,
 } from "./components/svg.jsx";
-import { authenticate_post } from "public-transport";
+import { authenticate_post_with_doc } from "public-transport";
 import { agent, loginState, LoginStatus } from "./components/login.jsx";
 
 let rpc = new XRPC({
@@ -42,6 +42,7 @@ const [notice, setNotice] = createSignal("");
 const [pds, setPDS] = createSignal<string>();
 
 const didPDSCache: { [key: string]: string } = {};
+const didDocCache: { [key: string]: {} } = {};
 const getPDS = query(async (did: string) => {
   if (did in didPDSCache) return didPDSCache[did];
   const res = await fetch(
@@ -54,6 +55,7 @@ const getPDS = query(async (did: string) => {
     for (const service of doc.service) {
       if (service.id === "#atproto_pds") {
         didPDSCache[did] = service.serviceEndpoint;
+        didDocCache[did] = doc;
         return service.serviceEndpoint;
       }
     }
@@ -148,7 +150,12 @@ const RecordView: Component = () => {
       const res = await getRecord(params.repo, params.collection, params.rkey);
       setNotice("Validating...");
       setRecord(res.data);
-      await authenticate_post(res.data.uri, res.data.cid!, res.data.value);
+      await authenticate_post_with_doc(
+        res.data.uri,
+        res.data.cid!,
+        res.data.value,
+        didDocCache[params.repo],
+      );
       setNotice("");
     } catch (err: any) {
       if (err.message) setNotice(err.message);
