@@ -170,10 +170,6 @@ const RecordView: Component = () => {
       const res = await getRecord(params.repo, params.collection, params.rkey);
       setNotice("Validating...");
       setRecord(res.data);
-      model = editor.createModel(
-        JSON.stringify(res.data.value, null, 2),
-        "json",
-      );
       await authenticate_post_with_doc(
         res.data.uri,
         res.data.cid!,
@@ -274,7 +270,13 @@ const RecordView: Component = () => {
             </dialog>
           </Show>
           <button
-            onclick={() => setOpenEdit(true)}
+            onclick={() => {
+              model = editor.createModel(
+                JSON.stringify(record()?.value, null, 2),
+                "json",
+              );
+              setOpenEdit(true);
+            }}
             class="dark:bg-dark-700 dark:hover:bg-dark-800 rounded-lg border border-slate-400 bg-white px-2.5 py-1.5 font-sans text-sm font-bold hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-700 dark:focus:ring-slate-300"
           >
             Edit
