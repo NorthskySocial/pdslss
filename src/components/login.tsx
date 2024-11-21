@@ -59,7 +59,8 @@ const Login: Component = () => {
       await new Promise((resolve) => setTimeout(resolve, 250));
 
       location.assign(authUrl);
-    } catch {
+    } catch (e) {
+      console.log(e);
       setNotice("Error during OAuth login");
     }
   };
