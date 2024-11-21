@@ -34,7 +34,18 @@ import {
 } from "./components/svg.jsx";
 import { authenticate_post_with_doc } from "public-transport";
 import { agent, loginState, LoginStatus } from "./components/login.jsx";
+import { Editor } from "./components/editor.jsx";
+import { editor } from "monaco-editor";
 
+const [theme, setTheme] = createSignal(
+  (
+    localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        globalThis.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) ?
+    "dark"
+  : "light",
+);
 let rpc = new XRPC({
   handler: new CredentialManager({ service: "https://public.api.bsky.app" }),
 });
@@ -129,6 +140,7 @@ const RecordView: Component = () => {
   const [openDelete, setOpenDelete] = createSignal(false);
   const [openEdit, setOpenEdit] = createSignal(false);
   const [editNotice, setEditNotice] = createSignal("");
+  let model: editor.IModel;
 
   let clickEvent = (event: MouseEvent) => {
     if (modal() && event.target == modal()) {
@@ -158,6 +170,10 @@ const RecordView: Component = () => {
       const res = await getRecord(params.repo, params.collection, params.rkey);
       setNotice("Validating...");
       setRecord(res.data);
+      model = editor.createModel(
+        JSON.stringify(res.data.value, null, 2),
+        "json",
+      );
       await authenticate_post_with_doc(
         res.data.uri,
         res.data.cid!,
@@ -184,8 +200,8 @@ const RecordView: Component = () => {
     "getRecord",
   );
 
-  const editRecord = action(async (formData: FormData) => {
-    const record = formData.get("record");
+  const editRecord = action(async () => {
+    const record = model.getValue();
     if (!record) return;
     rpc = new XRPC({ handler: agent });
     try {
@@ -235,16 +251,7 @@ const RecordView: Component = () => {
               <div class="dark:bg-dark-400 rounded-md border border-slate-900 bg-slate-100 p-4 text-slate-900 dark:border-slate-100 dark:text-slate-100">
                 <h3 class="mb-2 text-lg font-bold">Editing record</h3>
                 <form action={editRecord} method="post">
-                  <div class="size-fit">
-                    <textarea
-                      name="record"
-                      required
-                      class="dark:bg-dark-200 w-xs h-sm sm:w-xl sm:h-lg text-nowrap px-2 py-1 font-mono"
-                      spellcheck={false}
-                    >
-                      {JSON.stringify(record()?.value, null, 2)}
-                    </textarea>
-                  </div>
+                  <Editor theme={theme()} model={model!} />
                   <div class="mt-2 flex w-full justify-end gap-2">
                     <div class="justify-start text-red-500 dark:text-red-400">
                       {editNotice()}
@@ -539,15 +546,6 @@ const Home: Component = () => {
 
 const Layout: Component<RouteSectionProps<unknown>> = (props) => {
   const params = useParams();
-  const [theme, setTheme] = createSignal(
-    (
-      localStorage.theme === "dark" ||
-        (!("theme" in localStorage) &&
-          globalThis.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) ?
-      "dark"
-    : "light",
-  );
   const [clip, setClip] = createSignal(false);
   setNotice("");
 

@@ -22,6 +22,7 @@
     "@atcute/oauth-browser-client": "^1.0.6",
     "@solidjs/router": "^0.15.1",
     "hls.js": "^1.5.17",
+    "monaco-editor": "^0.52.0",
     "public-transport": "file:pkg/pt.tgz",
     "solid-js": "^1.9.3"
   },
