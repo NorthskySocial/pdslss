@@ -128,6 +128,7 @@ const RecordView: Component = () => {
   const [modal, setModal] = createSignal<HTMLDialogElement>();
   const [openDelete, setOpenDelete] = createSignal(false);
   const [openEdit, setOpenEdit] = createSignal(false);
+  const [editNotice, setEditNotice] = createSignal("");
 
   let clickEvent = (event: MouseEvent) => {
     if (modal() && event.target == modal()) {
@@ -187,14 +188,19 @@ const RecordView: Component = () => {
     const record = formData.get("record");
     if (!record) return;
     rpc = new XRPC({ handler: agent });
-    await rpc.call("com.atproto.repo.putRecord", {
-      data: {
-        repo: params.repo,
-        collection: params.collection,
-        rkey: params.rkey,
-        record: JSON.parse(record.toString()),
-      },
-    });
+    try {
+      await rpc.call("com.atproto.repo.putRecord", {
+        data: {
+          repo: params.repo,
+          collection: params.collection,
+          rkey: params.rkey,
+          record: JSON.parse(record.toString()),
+        },
+      });
+    } catch {
+      setEditNotice("Invalid input");
+      return;
+    }
     setOpenEdit(false);
     setTimeout(async () => window.location.reload(), 500);
   });
@@ -214,6 +220,7 @@ const RecordView: Component = () => {
   createEffect(() => {
     if (openDelete() || openEdit()) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "auto";
+    setEditNotice("");
   });
 
   return (
@@ -238,7 +245,10 @@ const RecordView: Component = () => {
                       {JSON.stringify(record()?.value, null, 2)}
                     </textarea>
                   </div>
-                  <div class="mt-2 inline-flex w-full justify-end gap-2">
+                  <div class="mt-2 flex w-full justify-end gap-2">
+                    <div class="justify-start text-red-500 dark:text-red-400">
+                      {editNotice()}
+                    </div>
                     <button
                       onclick={() => setOpenEdit(false)}
                       class="dark:bg-dark-900 dark:hover:bg-dark-800 rounded-lg bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-700 dark:focus:ring-slate-300"
