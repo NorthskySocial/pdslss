@@ -17,6 +17,7 @@ import {
 import {
   A,
   action,
+  Navigate,
   query,
   redirect,
   RouteSectionProps,
@@ -29,6 +30,7 @@ import {
   Bluesky,
   BsClipboard,
   BsClipboardCheck,
+  TbBinaryTree,
   TbMoonStar,
   TbSun,
 } from "./components/svg.jsx";
@@ -558,6 +560,21 @@ const Layout: Component<RouteSectionProps<unknown>> = (props) => {
     >
       <div class="mb-2 flex w-[20rem] items-center">
         <div class="flex basis-1/3 gap-x-2">
+          <div
+            class="w-fit cursor-pointer"
+            title="Theme"
+            onclick={() => {
+              setTheme(theme() === "light" ? "dark" : "light");
+              if (theme() === "dark")
+                document.documentElement.classList.add("dark");
+              else document.documentElement.classList.remove("dark");
+              localStorage.theme = theme();
+            }}
+          >
+            {theme() === "dark" ?
+              <TbMoonStar class="size-6" />
+            : <TbSun class="size-6" />}
+          </div>
           <LoginStatus />
         </div>
         <div class="basis-1/3 text-center font-mono text-xl font-bold">
@@ -580,21 +597,6 @@ const Layout: Component<RouteSectionProps<unknown>> = (props) => {
           >
             <AiFillGithub class="size-6" />
           </a>
-          <div
-            class="w-fit cursor-pointer"
-            title="Theme"
-            onclick={() => {
-              setTheme(theme() === "light" ? "dark" : "light");
-              if (theme() === "dark")
-                document.documentElement.classList.add("dark");
-              else document.documentElement.classList.remove("dark");
-              localStorage.theme = theme();
-            }}
-          >
-            {theme() === "dark" ?
-              <TbMoonStar class="size-6" />
-            : <TbSun class="size-6" />}
-          </div>
         </div>
       </div>
       <div class="mb-5 flex max-w-full flex-col items-center text-pretty lg:max-w-screen-lg">
@@ -610,7 +612,7 @@ const Layout: Component<RouteSectionProps<unknown>> = (props) => {
                 PDS URL or AT URI
               </label>
             </div>
-            <div class="flex gap-x-2">
+            <div class="flex items-center gap-x-2">
               <input
                 type="text"
                 id="input"
@@ -625,6 +627,14 @@ const Layout: Component<RouteSectionProps<unknown>> = (props) => {
               >
                 Go
               </button>
+              <Show when={loginState()}>
+                <div title={`Repository`}>
+                  <a href={`/at/${agent.sub}`}>
+                    <TbBinaryTree class="size-6" />
+                    <Navigate href={`/at/${agent.sub}`} />
+                  </a>
+                </div>
+              </Show>
             </div>
           </form>
         </Show>

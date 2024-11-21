@@ -9,8 +9,7 @@ import {
   type Session,
 } from "@atcute/oauth-browser-client";
 import { At } from "@atcute/client/lexicons";
-import { FiLogIn, FiLogOut, TbBinaryTree } from "./svg";
-import { Navigate } from "@solidjs/router";
+import { FiLogIn, FiLogOut } from "./svg";
 
 configureOAuth({
   metadata: {
@@ -21,27 +20,7 @@ configureOAuth({
 
 const [loginState, setLoginState] = createSignal(false);
 const [notice, setNotice] = createSignal("");
-const [handle, setHandle] = createSignal("");
 let agent: OAuthUserAgent;
-
-const resolveDid = async (did: string) => {
-  const res = await fetch(
-    did.startsWith("did:web") ?
-      `https://${did.split(":")[2]}/.well-known/did.json`
-    : "https://plc.directory/" + did,
-  );
-
-  return res
-    .json()
-    .then((doc) => {
-      for (const alias of doc.alsoKnownAs) {
-        if (alias.includes("at://")) {
-          return alias.split("//")[1];
-        }
-      }
-    })
-    .catch(() => "");
-};
 
 const Login: Component = () => {
   const [loginInput, setLoginInput] = createSignal("");
@@ -131,7 +110,6 @@ const LoginStatus: Component = () => {
 
     if (session) {
       agent = new OAuthUserAgent(session);
-      setHandle(await resolveDid(agent.sub));
       setLoginState(true);
     }
 
@@ -148,12 +126,6 @@ const LoginStatus: Component = () => {
       <Show when={loginState()}>
         <div title="Logout" class="cursor-pointer" onclick={() => logoutBsky()}>
           <FiLogOut class="size-6" />
-        </div>
-        <div title={`Repository (${handle()})`}>
-          <a href={`/at/${agent.sub}`}>
-            <TbBinaryTree class="size-6" />
-            <Navigate href={`/at/${agent.sub}`} />
-          </a>
         </div>
       </Show>
       <Show when={!loginState()}>
