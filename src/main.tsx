@@ -557,7 +557,7 @@ const Layout: Component<RouteSectionProps<unknown>> = (props) => {
       class="m-5 flex flex-col items-center text-slate-900 dark:text-slate-100"
     >
       <div class="mb-2 flex w-[20rem] items-center">
-        <div class="flex basis-1/3 gap-x-1">
+        <div class="flex basis-1/3 gap-x-2">
           <div
             class="w-fit cursor-pointer"
             title="Theme"
