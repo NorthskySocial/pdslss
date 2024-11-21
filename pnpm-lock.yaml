@@ -12,8 +12,8 @@ importers:
         specifier: ^2.0.4
         version: 2.0.4
       '@atcute/oauth-browser-client':
-        specifier: ^1.0.5
-        version: 1.0.5
+        specifier: ^1.0.6
+        version: 1.0.6
       '@solidjs/router':
         specifier: ^0.15.1
         version: 0.15.1(solid-js@1.9.3)
@@ -64,8 +64,8 @@ packages:
   '@atcute/client@2.0.4':
     resolution: {integrity: sha512-bKA6KEOmrdhU2CDRNp13M4WyKN0EdrVLKJffzPo62ANSTMacz5hRJhmvQYwuo7BZSGIoDql4sH+QR6Xbk3DERg==}
 
-  '@atcute/oauth-browser-client@1.0.5':
-    resolution: {integrity: sha512-UUs2WFMh22rXOapRM848WfWtvgaxV/ji0tEupFrrBYe2i+/UlwhXcphlqdwm43LBsFtMWtV1Xsy2zmnItf0Akg==}
+  '@atcute/oauth-browser-client@1.0.6':
+    resolution: {integrity: sha512-O9M7YdpPTWdXfqqdGNlYFmyMwbTEwHvMz5Ew79ASiQFsrcAdFhdVywe/rMDT6jd2La6gQDhyhfLofUPMCRiDGQ==}
 
   '@babel/code-frame@7.26.2':
     resolution: {integrity: sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ==}
@@ -726,8 +726,8 @@ packages:
     resolution: {integrity: sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==}
     engines: {node: '>=8'}
 
-  caniuse-lite@1.0.30001680:
-    resolution: {integrity: sha512-rPQy70G6AGUMnbwS1z6Xg+RkHYPAi18ihs47GH0jcxIG7wArmPgY3XbS2sRdBbxJljp3thdT8BIqv9ccCypiPA==}
+  caniuse-lite@1.0.30001683:
+    resolution: {integrity: sha512-iqmNnThZ0n70mNwvxpEC2nBJ037ZHZUoBI5Gorh1Mw6IlEAZujEoU1tXA628iZfzm7R9FvFzxbfdgml82a3k8Q==}
 
   chokidar@3.6.0:
     resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
@@ -1215,7 +1215,7 @@ snapshots:
 
   '@atcute/client@2.0.4': {}
 
-  '@atcute/oauth-browser-client@1.0.5':
+  '@atcute/oauth-browser-client@1.0.6':
     dependencies:
       '@atcute/client': 2.0.4
       nanoid: 5.0.8
@@ -1832,7 +1832,7 @@ snapshots:
 
   browserslist@4.24.2:
     dependencies:
-      caniuse-lite: 1.0.30001680
+      caniuse-lite: 1.0.30001683
       electron-to-chromium: 1.5.63
       node-releases: 2.0.18
       update-browserslist-db: 1.1.1(browserslist@4.24.2)
@@ -1844,7 +1844,7 @@ snapshots:
 
   cac@6.7.14: {}
 
-  caniuse-lite@1.0.30001680: {}
+  caniuse-lite@1.0.30001683: {}
 
   chokidar@3.6.0:
     dependencies:

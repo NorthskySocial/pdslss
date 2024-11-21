@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@atcute/client": "^2.0.4",
-    "@atcute/oauth-browser-client": "^1.0.5",
+    "@atcute/oauth-browser-client": "^1.0.6",
     "@solidjs/router": "^0.15.1",
     "hls.js": "^1.5.17",
     "public-transport": "file:pkg/pt.tgz",
