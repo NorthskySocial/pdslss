@@ -176,7 +176,7 @@ const RecordView: Component = () => {
         res.data.uri,
         res.data.cid!,
         res.data.value,
-        didDocCache[params.repo],
+        didDocCache[res.data.uri.split("/")[2]],
       );
       setNotice("");
     } catch (err: any) {
