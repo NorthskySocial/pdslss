@@ -28,13 +28,13 @@ import { JSONValue } from "./components/json.jsx";
 import {
   AiFillGithub,
   Bluesky,
-  BsClipboard,
-  BsClipboardCheck,
   FaSolidAt,
+  IoList,
   TbBinaryTree,
   TbMoonStar,
   TbServer,
   TbSun,
+  VsJson,
 } from "./components/svg.jsx";
 import { authenticate_post_with_doc } from "public-transport";
 import { agent, loginState, LoginStatus } from "./components/login.jsx";
@@ -583,8 +583,6 @@ const Home: Component = () => {
 
 const Layout: Component<RouteSectionProps<unknown>> = (props) => {
   const params = useParams();
-  const [clipPDS, setClipPDS] = createSignal(false);
-  const [clipAt, setClipAt] = createSignal(false);
   setNotice("");
 
   return (
@@ -678,78 +676,56 @@ const Layout: Component<RouteSectionProps<unknown>> = (props) => {
           <div class="mb-3 mt-4 flex flex-col font-mono">
             <Show when={pds() && params.pds}>
               <div class="flex items-center">
-                <TbServer class="mr-1 size-4" />
+                <TbServer class="mr-0.5 size-4" />
                 <A
                   end
                   href={pds()!}
                   inactiveClass="text-lightblue-500 hover:underline"
+                  onclick={() => navigator.clipboard.writeText(location.href)}
                 >
                   {pds()}
                 </A>
-                <span
-                  title="Copy PDS URL"
-                  class="ml-1 flex cursor-pointer items-center pb-0.5"
-                  onclick={() =>
-                    navigator.clipboard
-                      .writeText(
-                        `${location.protocol}//${location.host}/${pds()}`,
-                      )
-                      .then(() => {
-                        setClipPDS(true);
-                        setTimeout(() => {
-                          setClipPDS(false);
-                        }, 3000);
-                      })
-                  }
-                >
-                  {clipPDS() ?
-                    <BsClipboardCheck class="size-4" />
-                  : <BsClipboard class="size-4" />}
-                </span>
               </div>
             </Show>
-            <div class="mt-1 flex flex-wrap items-center">
+            <div class="flex flex-col flex-wrap md:mt-1 md:flex-row">
               <Show when={params.repo}>
-                <FaSolidAt class="mr-1 size-3.5" />
-                <A
-                  end
-                  href={`at/${params.repo}`}
-                  inactiveClass="text-lightblue-500 hover:underline"
-                >
-                  {params.repo}
-                </A>
+                <div class="mt-1 flex items-center md:mt-0">
+                  <FaSolidAt class="mr-1 size-3.5" />
+                  <A
+                    end
+                    href={`at/${params.repo}`}
+                    inactiveClass="text-lightblue-500 hover:underline"
+                    onclick={() => navigator.clipboard.writeText(location.href)}
+                  >
+                    {params.repo}
+                  </A>
+                </div>
               </Show>
               <Show when={params.collection}>
-                <span class="mx-1">/</span>
-                <A
-                  end
-                  href={`at/${params.repo}/${params.collection}`}
-                  inactiveClass="text-lightblue-500 hover:underline"
-                >
-                  {params.collection}
-                </A>
+                <div class="mt-1 flex items-center md:mt-0">
+                  <IoList class="mr-1 size-3.5 md:hidden" />
+                  <span class="mx-1 hidden md:inline">/</span>
+                  <A
+                    end
+                    href={`at/${params.repo}/${params.collection}`}
+                    inactiveClass="text-lightblue-500 hover:underline"
+                    onclick={() => navigator.clipboard.writeText(location.href)}
+                  >
+                    {params.collection}
+                  </A>
+                </div>
               </Show>
               <Show when={params.rkey}>
-                <span class="mx-1">/</span>
-                {params.rkey}
-              </Show>
-              <Show when={params.repo}>
-                <span
-                  title="Copy AT URI URL"
-                  class="ml-1 flex cursor-pointer items-center pb-0.5"
-                  onclick={() =>
-                    navigator.clipboard.writeText(location.href).then(() => {
-                      setClipAt(true);
-                      setTimeout(() => {
-                        setClipAt(false);
-                      }, 3000);
-                    })
-                  }
-                >
-                  {clipAt() ?
-                    <BsClipboardCheck class="size-4" />
-                  : <BsClipboard class="size-4" />}
-                </span>
+                <div class="mt-1 flex items-center md:mt-0">
+                  <VsJson class="mr-1 size-3.5 md:hidden" />
+                  <span class="mx-1 hidden md:inline">/</span>
+                  <span
+                    class="cursor-pointer"
+                    onclick={() => navigator.clipboard.writeText(location.href)}
+                  >
+                    {params.rkey}
+                  </span>
+                </div>
               </Show>
             </div>
           </div>
