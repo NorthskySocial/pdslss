@@ -28,6 +28,8 @@ import { JSONValue } from "./components/json.jsx";
 import {
   AiFillGithub,
   Bluesky,
+  FaRegularCircleCheck,
+  FaRegularCircleXmark,
   FaSolidAt,
   IoList,
   TbBinaryTree,
@@ -55,6 +57,9 @@ let rpc = new XRPC({
 });
 const [notice, setNotice] = createSignal("");
 const [pds, setPDS] = createSignal<string>();
+const [validRecord, setValidRecord] = createSignal<boolean | undefined>(
+  undefined,
+);
 
 const didPDSCache: { [key: string]: string } = {};
 const didDocCache: { [key: string]: {} } = {};
@@ -163,6 +168,7 @@ const RecordView: Component = () => {
     window.addEventListener("click", clickEvent);
     window.addEventListener("keydown", keyEvent);
     setNotice("Loading...");
+    setValidRecord(undefined);
     setPDS(params.pds);
     let pds =
       params.pds.startsWith("localhost") ?
@@ -180,10 +186,12 @@ const RecordView: Component = () => {
         res.data.value,
         didDocCache[res.data.uri.split("/")[2]],
       );
+      setValidRecord(true);
       setNotice("");
     } catch (err: any) {
       if (err.message) setNotice(err.message);
       else setNotice(`Invalid Record: ${err}`);
+      setValidRecord(false);
     }
   });
 
@@ -722,6 +730,18 @@ const Layout: Component<RouteSectionProps<unknown>> = (props) => {
                   <VsJson class="mr-1 size-3.5 md:hidden" />
                   <span class="mx-1 hidden md:inline">/</span>
                   <span class="cursor-pointer">{params.rkey}</span>
+                  <Show when={validRecord()}>
+                    <FaRegularCircleCheck
+                      title="This record is valid"
+                      class="ml-1 size-3.5"
+                    />
+                  </Show>
+                  <Show when={validRecord() === false}>
+                    <FaRegularCircleXmark
+                      title="This record is invalid"
+                      class="ml-1 size-3.5"
+                    />
+                  </Show>
                 </div>
               </Show>
             </div>
