@@ -359,7 +359,7 @@ const RecordView: Component = () => {
           </button>
         </div>
       </Show>
-      <div class="overflow-y-auto pl-4">
+      <div class="overflow-y-auto pl-4 text-sm sm:text-base">
         <JSONValue data={record() as any} repo={record()!.uri.split("/")[2]} />
       </div>
     </Show>
