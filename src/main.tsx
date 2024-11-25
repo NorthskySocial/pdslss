@@ -540,6 +540,15 @@ const RepoView: Component = () => {
         >
           DID document <TbExternalLink class="ml-0.5 size-3.5" />
         </a>
+        <Show when={repo()?.did.startsWith("did:plc")}>
+          <a
+            class="text-lightblue-500 flex w-fit items-center text-sm hover:underline"
+            href={`https://boat.kelinci.net/plc-oplogs?q=${repo()?.did}`}
+            target="_blank"
+          >
+            PLC operation logs <TbExternalLink class="ml-0.5 size-3.5" />
+          </a>
+        </Show>
       </Show>
     </>
   );
