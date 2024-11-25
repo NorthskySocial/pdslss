@@ -56,38 +56,36 @@ const JSONObject = ({
   const [clip, setClip] = createSignal(false);
   const rawObj = (
     <>
-      {Object.entries(data)
-        .toSorted()
-        .map(([key, value]) => (
-          <span
-            classList={{
-              "flex gap-x-1": true,
-              "flex-col": value === Object(value),
-            }}
-          >
-            <span class="text-amber-600 dark:text-amber-400">
-              <span
-                class="group relative flex size-fit cursor-pointer items-center"
-                onmouseleave={() => setClip(false)}
-                onclick={() =>
-                  navigator.clipboard
-                    .writeText(JSON.stringify(value).replace(/^"(.+)"$/, "$1"))
-                    .then(() => setClip(true))
-                }
-              >
-                <span class="absolute -left-4 size-3">
-                  {clip() ?
-                    <BsClipboardCheck class="hidden size-3 group-hover:block" />
-                  : <BsClipboard class="hidden size-3 group-hover:block" />}
-                </span>
-                {key}:
+      {Object.entries(data).map(([key, value]) => (
+        <span
+          classList={{
+            "flex gap-x-1": true,
+            "flex-col": value === Object(value),
+          }}
+        >
+          <span class="text-amber-600 dark:text-amber-400">
+            <span
+              class="group relative flex size-fit cursor-pointer items-center"
+              onmouseleave={() => setClip(false)}
+              onclick={() =>
+                navigator.clipboard
+                  .writeText(JSON.stringify(value).replace(/^"(.+)"$/, "$1"))
+                  .then(() => setClip(true))
+              }
+            >
+              <span class="absolute -left-4 size-3">
+                {clip() ?
+                  <BsClipboardCheck class="hidden size-3 group-hover:block" />
+                : <BsClipboard class="hidden size-3 group-hover:block" />}
               </span>
-            </span>
-            <span classList={{ "ml-8": value === Object(value) }}>
-              <JSONValue data={value} repo={repo} />
+              {key}:
             </span>
           </span>
-        ))}
+          <span classList={{ "ml-8": value === Object(value) }}>
+            <JSONValue data={value} repo={repo} />
+          </span>
+        </span>
+      ))}
     </>
   );
 
