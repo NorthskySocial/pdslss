@@ -269,7 +269,7 @@ const RecordView: Component = () => {
   return (
     <Show when={record()}>
       <Show when={loginState() && agent.sub === record()?.uri.split("/")[2]}>
-        <div class="flex w-full justify-center gap-x-2">
+        <div class="mb-3 flex w-full justify-center gap-x-2">
           <Show when={openEdit()}>
             <dialog
               ref={setModal}
@@ -359,7 +359,7 @@ const RecordView: Component = () => {
           </button>
         </div>
       </Show>
-      <div class="overflow-y-auto pl-4 text-sm sm:text-base">
+      <div class="mt-2 overflow-y-auto pl-4 text-sm sm:text-base">
         <JSONValue data={record() as any} repo={record()!.uri.split("/")[2]} />
       </div>
     </Show>

@@ -58,10 +58,15 @@ const JSONObject = ({
     <>
       {Object.entries(data)
         .toSorted()
-        .map(([key, value], index) => (
-          <div classList={{ "flex gap-2 mt-0.5": true, "mt-4": index === 0 }}>
-            <div class="text-amber-600 dark:text-amber-400">
-              <div
+        .map(([key, value]) => (
+          <span
+            classList={{
+              "flex gap-x-1": true,
+              "flex-col": value === Object(value),
+            }}
+          >
+            <span class="text-amber-600 dark:text-amber-400">
+              <span
                 class="group relative flex size-fit cursor-pointer items-center"
                 onmouseleave={() => setClip(false)}
                 onclick={() =>
@@ -76,12 +81,12 @@ const JSONObject = ({
                   : <BsClipboard class="hidden size-3 group-hover:block" />}
                 </span>
                 {key}:
-              </div>
-            </div>
-            <span>
+              </span>
+            </span>
+            <span classList={{ "ml-8": value === Object(value) }}>
               <JSONValue data={value} repo={repo} />
             </span>
-          </div>
+          </span>
         ))}
     </>
   );
