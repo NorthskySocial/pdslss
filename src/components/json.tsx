@@ -81,7 +81,7 @@ const JSONObject = ({
               {key}:
             </span>
           </span>
-          <span classList={{ "ml-8": value === Object(value) }}>
+          <span classList={{ "ml-4 sm:ml-5": value === Object(value) }}>
             <JSONValue data={value} repo={repo} />
           </span>
         </span>
