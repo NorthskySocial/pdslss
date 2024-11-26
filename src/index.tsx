@@ -4,15 +4,12 @@ import "virtual:uno.css";
 import "./styles/tailwind-compat.css";
 import "./styles/index.css";
 import { Route, Router } from "@solidjs/router";
-import {
-  Layout,
-  CollectionView,
-  PdsView,
-  RecordView,
-  RepoView,
-  Home,
-} from "./main.tsx";
+import { Layout, Home } from "./main.tsx";
 import { Login } from "./components/login.tsx";
+import { PdsView } from "./views/pds.tsx";
+import { RepoView } from "./views/repo.tsx";
+import { CollectionView } from "./views/collection.tsx";
+import { RecordView } from "./views/record.tsx";
 
 render(
   () => (
