@@ -123,13 +123,17 @@ const JSONObject = ({
 
 const JSONArray = ({ data, repo }: { data: JSONType[]; repo: string }) => {
   return (
-    <div>
-      {data.map((value) => (
-        <span>
+    <ul>
+      {data.map((value, index) => (
+        <li
+          classList={{
+            "mb-3": value === Object(value) && index != data.length - 1,
+          }}
+        >
           <JSONValue data={value} repo={repo} />
-        </span>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 
