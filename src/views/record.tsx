@@ -146,18 +146,18 @@ const RecordView: Component = () => {
     setEditNotice("");
   });
 
-  type AtUri = { repo: string; collection: string; rkey: string; };
+  type AtUri = { repo: string; collection: string; rkey: string };
   type TemplateFn = (uri: AtUri) => { label: string; link: string };
   type TemplateMap = Record<string, TemplateFn>;
 
   const uriTemplates: TemplateMap = {
-    "app.bsky.actor.profile": uri => ({
+    "app.bsky.actor.profile": (uri) => ({
       label: "Bluesky",
-      link: `https://bsky.app/profile/${uri.repo}`
+      link: `https://bsky.app/profile/${uri.repo}`,
     }),
-    "app.bsky.feed.post": uri => ({
+    "app.bsky.feed.post": (uri) => ({
       label: "Bluesky",
-      link: `https://bsky.app/profile/${uri.repo}/post/${uri.rkey}`
+      link: `https://bsky.app/profile/${uri.repo}/post/${uri.rkey}`,
     }),
   };
 
@@ -168,7 +168,7 @@ const RecordView: Component = () => {
     const parsedUri: AtUri = {
       repo: uriParts[2],
       collection: uriParts[3],
-      rkey: uriParts[4]
+      rkey: uriParts[4],
     };
     const template = uriTemplates[parsedUri.collection];
     if (!template) return undefined;
