@@ -146,19 +146,39 @@ const RecordView: Component = () => {
     setEditNotice("");
   });
 
+  type atUri = {
+    repo: string;
+    collection: string;
+    rkey: string;
+  };
+
+  interface TemplateMap {
+    [key: string]: ((uri: atUri) => {label: string; link: string});
+  }
+
+  const uriTemplates: TemplateMap = {
+    "app.bsky.actor.profile": uri => ({
+      label: "Bluesky",
+      link: `https://bsky.app/profile/${uri.repo}`
+    }),
+    "app.bsky.feed.post": uri => ({
+      label: "Bluesky",
+      link: `https://bsky.app/profile/${uri.repo}/post/${uri.rkey}`
+    }),
+  };
+
   const checkUri = (uri: string) => {
-    if (uri.includes("/app.bsky.feed.post/")) {
-      return {
-        label: "Bluesky",
-        link: `https://bsky.app/profile/${uri.replace("at://", "").replace("/app.bsky.feed.post/", "/post/")}`,
-      };
-    } else if (uri.includes("/app.bsky.actor.profile/")) {
-      return {
-        label: "Bluesky",
-        link: `https://bsky.app/profile/${uri.split("/")[2]}`,
-      };
-    }
-    return undefined;
+    const uriParts = uri.split("/"); // expected: ["at:", "", "repo", "collection", "rkey"]
+    if (uriParts.length != 5) return undefined;
+    if (uriParts[0] !== "at:" || uriParts[1] !== "") return undefined;
+    const parsedUri: atUri = {
+      repo: uriParts[2],
+      collection: uriParts[3],
+      rkey: uriParts[4]
+    };
+    const template = uriTemplates[parsedUri.collection];
+    if (!template) return undefined;
+    return template(parsedUri);
   };
 
   return (
