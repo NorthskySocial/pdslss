@@ -59,7 +59,7 @@ const CollectionView: Component = () => {
       .replace("T", " ");
 
   return (
-    <div class="flex flex-col">
+    <div class="flex flex-col items-center">
       <Show when={records()}>
         <div class="mb-3 flex w-full justify-center gap-x-2 font-sans">
           <input
@@ -70,26 +70,28 @@ const CollectionView: Component = () => {
             onInput={(e) => setFilter(e.currentTarget.value)}
           />
         </div>
-        {records()!
-          .filter((rec) =>
-            filter() ? JSON.stringify(rec.value).includes(filter()!) : true,
-          )
-          .map((record) => {
-            const rkey = record.uri.split("/").pop()!;
-            return (
-              <A
-                href={`${rkey}`}
-                class="hover:bg-neutral-300 dark:hover:bg-neutral-700"
-              >
-                <span class="text-lightblue-500">{rkey}</span>
-                <Show when={TID.validate(rkey)}>
-                  <span class="ml-2 text-xs text-neutral-500 dark:text-neutral-400">
-                    {getDateFromTID(rkey)}
-                  </span>
-                </Show>
-              </A>
-            );
-          })}
+        <div class="flex flex-col">
+          {records()!
+            .filter((rec) =>
+              filter() ? JSON.stringify(rec.value).includes(filter()!) : true,
+            )
+            .map((record) => {
+              const rkey = record.uri.split("/").pop()!;
+              return (
+                <A
+                  href={`${rkey}`}
+                  class="hover:bg-neutral-300 dark:hover:bg-neutral-700"
+                >
+                  <span class="text-lightblue-500">{rkey}</span>
+                  <Show when={TID.validate(rkey)}>
+                    <span class="ml-2 text-xs text-neutral-500 dark:text-neutral-400">
+                      {getDateFromTID(rkey)}
+                    </span>
+                  </Show>
+                </A>
+              );
+            })}
+        </div>
       </Show>
       <Show when={cursorRecord()}>
         <button
