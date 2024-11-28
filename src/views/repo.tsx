@@ -50,14 +50,14 @@ const RepoView: Component = () => {
         </For>
       </div>
       <Show when={repo()}>
-        <div class="overflow-y-auto text-sm">
-          <div class="mb-3">
+        <div class="flex flex-col gap-y-1 break-words font-sans">
+          <div>
             <span class="font-semibold text-stone-600 dark:text-stone-400">
               DID{" "}
             </span>
             <span>{(repo()?.didDoc as any).id}</span>
           </div>
-          <div class="mb-3">
+          <div>
             <p class="font-semibold text-stone-600 dark:text-stone-400">
               Identities
             </p>
@@ -67,14 +67,14 @@ const RepoView: Component = () => {
               </For>
             </ul>
           </div>
-          <div class="mb-3">
+          <div>
             <p class="font-semibold text-stone-600 dark:text-stone-400">
               Services
             </p>
             <ul class="ml-3">
               <For each={(repo()?.didDoc as any).service}>
                 {(service) => (
-                  <li class="mb-2 flex flex-col">
+                  <li class="flex flex-col">
                     <span>{service.id}</span>
                     <a
                       class="text-lightblue-500 w-fit hover:underline"
@@ -95,7 +95,7 @@ const RepoView: Component = () => {
             <ul class="ml-3">
               <For each={(repo()?.didDoc as any).verificationMethod}>
                 {(verif) => (
-                  <li class="mb-2 flex flex-col">
+                  <li class="flex flex-col">
                     <span>#{verif.id.split("#")[1]}</span>
                     <span>{verif.publicKeyMultibase}</span>
                   </li>
@@ -103,27 +103,27 @@ const RepoView: Component = () => {
               </For>
             </ul>
           </div>
-        </div>
-        <a
-          class="text-lightblue-500 flex w-fit items-center text-sm hover:underline"
-          href={
-            repo()?.did.startsWith("did:plc") ?
-              `https://plc.directory/${repo()?.did}`
-            : `https://${repo()?.did.split("did:web:")[1]}/.well-known/did.json`
-          }
-          target="_blank"
-        >
-          DID document <TbExternalLink class="ml-0.5 size-3.5" />
-        </a>
-        <Show when={repo()?.did.startsWith("did:plc")}>
           <a
-            class="text-lightblue-500 flex w-fit items-center text-sm hover:underline"
-            href={`https://boat.kelinci.net/plc-oplogs?q=${repo()?.did}`}
+            class="text-lightblue-500 flex w-fit items-center hover:underline"
+            href={
+              repo()?.did.startsWith("did:plc") ?
+                `https://plc.directory/${repo()?.did}`
+              : `https://${repo()?.did.split("did:web:")[1]}/.well-known/did.json`
+            }
             target="_blank"
           >
-            PLC operation logs <TbExternalLink class="ml-0.5 size-3.5" />
+            DID document <TbExternalLink class="ml-0.5 size-3.5" />
           </a>
-        </Show>
+          <Show when={repo()?.did.startsWith("did:plc")}>
+            <a
+              class="text-lightblue-500 flex w-fit items-center hover:underline"
+              href={`https://boat.kelinci.net/plc-oplogs?q=${repo()?.did}`}
+              target="_blank"
+            >
+              PLC operation logs <TbExternalLink class="ml-0.5 size-3.5" />
+            </a>
+          </Show>
+        </div>
       </Show>
     </>
   );
