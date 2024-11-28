@@ -11,7 +11,7 @@ interface AtBlob {
 
 const JSONString = ({ data }: { data: string }) => {
   return (
-    <pre class="text-emerald-600 dark:text-emerald-400">
+    <span class="text-emerald-600 dark:text-emerald-400">
       {data.startsWith("at://") && data.split(" ").length === 1 ?
         <A class="underline" href={data.replace("at://", "/at/")}>
           {data}
@@ -30,20 +30,20 @@ const JSONString = ({ data }: { data: string }) => {
           {data}
         </a>
       : data}
-    </pre>
+    </span>
   );
 };
 
 const JSONNumber = ({ data }: { data: number }) => {
-  return <pre class="text-red-600 dark:text-red-500">{data}</pre>;
+  return <span class="text-red-600 dark:text-red-500">{data}</span>;
 };
 
 const JSONBoolean = ({ data }: { data: boolean }) => {
-  return <pre class="text-blue-500">{data ? "true" : "false"}</pre>;
+  return <span class="text-blue-500">{data ? "true" : "false"}</span>;
 };
 
 const JSONNull = () => {
-  return <pre class="text-gray-600 dark:text-gray-400">null</pre>;
+  return <span class="text-gray-600 dark:text-gray-400">null</span>;
 };
 
 const JSONObject = ({
@@ -63,7 +63,7 @@ const JSONObject = ({
             "flex-col": value === Object(value),
           }}
         >
-          <span class="text-amber-600 dark:text-amber-400">
+          <span class="shrink-0 text-amber-600 dark:text-amber-400">
             <span
               class="group relative flex size-fit cursor-pointer items-center"
               onmouseleave={() => setClip(false)}
