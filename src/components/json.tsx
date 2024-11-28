@@ -123,7 +123,7 @@ const JSONObject = ({
 
 const JSONArray = ({ data, repo }: { data: JSONType[]; repo: string }) => {
   return (
-    <ul>
+    <ul style="list-style-type: '- '">
       {data.map((value, index) => (
         <li
           classList={{
