@@ -227,7 +227,7 @@ const Layout: Component<RouteSectionProps<unknown>> = (props) => {
               </Show>
               <Show when={params.collection}>
                 <div class="mt-1 flex items-center md:mt-0">
-                  <div class="i-ion-ios-list mr-1 text-sm md:hidden" />
+                  <div class="i-uil-list-ul mr-1 text-sm md:hidden" />
                   <span class="mx-1 hidden md:inline">/</span>
                   <A
                     end
