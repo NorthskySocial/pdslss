@@ -104,11 +104,15 @@ const Home: Component = () => {
 };
 
 const Layout: Component<RouteSectionProps<unknown>> = (props) => {
-  navigator.registerProtocolHandler("web+at", "/%s");
-  const pathname = decodeURIComponent(useLocation().pathname);
-  if (pathname.startsWith("/web+at://")) {
-    const navigate = useNavigate();
-    navigate(pathname.replace("web+at://", "at/"));
+  try {
+    navigator.registerProtocolHandler("web+at", "/%s");
+    const pathname = decodeURIComponent(useLocation().pathname);
+    if (pathname.startsWith("/web+at://")) {
+      const navigate = useNavigate();
+      navigate(pathname.replace("web+at://", "at/"));
+    }
+  } catch (err) {
+    console.log(err);
   }
   const params = useParams();
   setNotice("");
