@@ -181,7 +181,6 @@ const Layout: Component<RouteSectionProps<unknown>> = (props) => {
                 type="text"
                 id="input"
                 name="input"
-                autofocus
                 spellcheck={false}
                 class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
               />
