@@ -10,7 +10,7 @@ interface AtBlob {
 
 const JSONString = ({ data }: { data: string }) => {
   return (
-    <span class="text-emerald-600 dark:text-emerald-400">
+    <span class="text-stone-700 dark:text-stone-300">
       {data.startsWith("at://") && data.split(" ").length === 1 ?
         <A class="underline" href={data.replace("at://", "/at/")}>
           {data}
@@ -34,11 +34,15 @@ const JSONString = ({ data }: { data: string }) => {
 };
 
 const JSONNumber = ({ data }: { data: number }) => {
-  return <span class="text-red-600 dark:text-red-500">{data}</span>;
+  return <span class="text-[#f85552] dark:text-red-400">{data}</span>;
 };
 
 const JSONBoolean = ({ data }: { data: boolean }) => {
-  return <span class="text-blue-500">{data ? "true" : "false"}</span>;
+  return (
+    <span class="text-[#f57d26] dark:text-orange-300">
+      {data ? "true" : "false"}
+    </span>
+  );
 };
 
 const JSONNull = () => {
@@ -62,7 +66,7 @@ const JSONObject = ({
             "flex-col": value === Object(value),
           }}
         >
-          <span class="shrink-0 text-amber-600 dark:text-amber-400">
+          <span class="shrink-0 text-[#3a94c5] dark:text-cyan-500">
             <span
               class="group relative flex size-fit cursor-pointer items-center"
               onmouseleave={() => setClip(false)}

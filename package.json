@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@atcute/client": "^2.0.6",
-    "@atcute/oauth-browser-client": "^1.0.6",
+    "@atcute/oauth-browser-client": "^1.0.7",
     "@atcute/tid": "^1.0.1",
     "@solidjs/router": "^0.15.1",
     "hls.js": "^1.5.17",
