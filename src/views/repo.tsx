@@ -3,11 +3,12 @@ import { CredentialManager, XRPC } from "@atcute/client";
 import { ComAtprotoRepoDescribeRepo } from "@atcute/client/lexicons";
 import { A, query, useParams } from "@solidjs/router";
 import { setNotice, setPDS } from "../main.jsx";
-import { resolveHandle, resolvePDS } from "../utils/api.js";
+import { didDocCache, resolveHandle, resolvePDS } from "../utils/api.js";
 
 const RepoView: Component = () => {
   const params = useParams();
   const [repo, setRepo] = createSignal<ComAtprotoRepoDescribeRepo.Output>();
+  const [didDoc, setDidDoc] = createSignal<any>();
   let rpc: XRPC;
 
   onMount(async () => {
@@ -27,6 +28,9 @@ const RepoView: Component = () => {
       const res = await describeRepo(did);
       setNotice("");
       setRepo(res.data);
+      setDidDoc(
+        (res.data.didDoc as any).id ? res.data.didDoc : didDocCache[did],
+      );
     } catch (err: any) {
       setNotice(err.message);
     }
@@ -57,20 +61,20 @@ const RepoView: Component = () => {
           </A>
         </div>
       </div>
-      <Show when={repo()}>
+      <Show when={didDoc()}>
         <div class="flex flex-col gap-y-1 break-words">
           <div>
             <span class="font-semibold text-stone-600 dark:text-stone-400">
               DID{" "}
             </span>
-            <span>{(repo()?.didDoc as any).id}</span>
+            <span>{didDoc().id}</span>
           </div>
           <div>
             <p class="font-semibold text-stone-600 dark:text-stone-400">
               Identities
             </p>
             <ul class="ml-3">
-              <For each={(repo()?.didDoc as any).alsoKnownAs}>
+              <For each={didDoc().alsoKnownAs}>
                 {(alias) => <li>{alias}</li>}
               </For>
             </ul>
@@ -80,7 +84,7 @@ const RepoView: Component = () => {
               Services
             </p>
             <ul class="ml-3">
-              <For each={(repo()?.didDoc as any).service}>
+              <For each={didDoc().service}>
                 {(service) => (
                   <li class="flex flex-col">
                     <span>{service.id}</span>
@@ -101,7 +105,7 @@ const RepoView: Component = () => {
               Verification methods
             </p>
             <ul class="ml-3">
-              <For each={(repo()?.didDoc as any).verificationMethod}>
+              <For each={didDoc().verificationMethod}>
                 {(verif) => (
                   <li class="flex flex-col">
                     <span>#{verif.id.split("#")[1]}</span>
