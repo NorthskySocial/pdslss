@@ -1,6 +1,6 @@
 import { createSignal, For, onMount, Show, type Component } from "solid-js";
 import { CredentialManager, XRPC } from "@atcute/client";
-import { A, query, useParams } from "@solidjs/router";
+import { query, useParams } from "@solidjs/router";
 import { setNotice, setPDS } from "../main.jsx";
 import { resolvePDS } from "../utils/api.js";
 import { resolveHandle } from "@atcute/oauth-browser-client";
@@ -34,7 +34,6 @@ const BlobView: Component = () => {
     const res = await listBlobs(did, cursor());
     setCursor(res.data.cids.length < 100 ? undefined : res.data.cursor);
     setBlobs(blobs()?.concat(res.data.cids) ?? res.data.cids);
-    setNotice("");
   };
 
   const listBlobs = query(
@@ -55,13 +54,13 @@ const BlobView: Component = () => {
         <div class="break-anywhere flex flex-col font-mono">
           <For each={blobs()}>
             {(cid) => (
-              <A
+              <a
                 href={`${pds}/xrpc/com.atproto.sync.getBlob?did=${did}&cid=${cid}`}
                 target="_blank"
                 class="hover:bg-neutral-300 dark:hover:bg-neutral-700"
               >
                 <span class="text-lightblue-500">{cid}</span>
-              </A>
+              </a>
             )}
           </For>
         </div>

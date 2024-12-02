@@ -39,7 +39,6 @@ const CollectionView: Component = () => {
       res.data.records.length < 100 ? undefined : res.data.cursor,
     );
     setRecords(records()?.concat(res.data.records) ?? res.data.records);
-    setNotice("");
   };
 
   const listRecords = query(
