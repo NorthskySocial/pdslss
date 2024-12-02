@@ -43,7 +43,7 @@ const RepoView: Component = () => {
   );
 
   return (
-    <>
+    <Show when={repo()}>
       <div class="mb-3 flex max-w-full flex-col self-center overflow-y-auto font-mono">
         <For each={repo()?.collections}>
           {(collection) => (
@@ -138,7 +138,7 @@ const RepoView: Component = () => {
           </Show>
         </div>
       </Show>
-    </>
+    </Show>
   );
 };
 
