@@ -79,16 +79,19 @@ const CollectionView: Component = () => {
             )
             .map((record) => {
               const rkey = record.uri.split("/").pop()!;
-              const timestamp = TID.parse(rkey).timestamp / 1000;
+              const timestamp =
+                TID.validate(rkey) ?
+                  TID.parse(rkey).timestamp / 1000
+                : undefined;
               return (
                 <A
                   href={`${rkey}`}
                   class="hover:bg-neutral-300 dark:hover:bg-neutral-700"
                 >
                   <span class="text-lightblue-500">{rkey}</span>
-                  <Show when={TID.validate(rkey) && timestamp <= Date.now()}>
+                  <Show when={timestamp && timestamp <= Date.now()}>
                     <span class="ml-2 text-xs text-neutral-500 dark:text-neutral-400">
-                      {getDateFromTimestamp(timestamp)}
+                      {getDateFromTimestamp(timestamp!)}
                     </span>
                   </Show>
                 </A>
