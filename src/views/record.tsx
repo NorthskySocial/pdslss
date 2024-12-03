@@ -133,7 +133,7 @@ const RecordView: Component = () => {
 
   const deleteRecord = action(async () => {
     rpc = new XRPC({ handler: agent });
-    rpc.call("com.atproto.repo.deleteRecord", {
+    await rpc.call("com.atproto.repo.deleteRecord", {
       data: {
         repo: params.repo,
         collection: params.collection,

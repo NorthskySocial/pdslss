@@ -11,6 +11,7 @@ import {
 } from "@solidjs/router";
 import { agent, loginState, LoginStatus } from "./views/login.jsx";
 import { resolveHandle, resolvePDS } from "./utils/api.js";
+import { CreateRecord } from "./components/create.jsx";
 
 export const [theme, setTheme] = createSignal(
   (
@@ -140,6 +141,9 @@ const Layout: Component<RouteSectionProps<unknown>> = (props) => {
             : <div class="i-tabler-sun text-xl" />}
           </div>
           <LoginStatus />
+          <Show when={loginState()}>
+            <CreateRecord />
+          </Show>
         </div>
         <div class="basis-1/3 text-center font-mono text-xl font-bold">
           <a href="/" class="hover:underline">
