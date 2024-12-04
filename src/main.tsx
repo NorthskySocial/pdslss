@@ -272,6 +272,12 @@ const Layout: Component<RouteSectionProps<unknown>> = (props) => {
                 </div>
               </Show>
             </div>
+            <Show when={useLocation().pathname === `/at/${params.repo}/blobs`}>
+              <div class="mt-1 flex items-center">
+                <div class="i-lucide-binary mr-1 text-sm" />
+                <span>blobs</span>
+              </div>
+            </Show>
           </div>
         </Show>
         <Show when={notice()}>

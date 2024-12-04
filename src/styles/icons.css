@@ -213,3 +213,15 @@
   width: 1.2em;
   height: 1.2em;
 }
+
+.i-lucide-binary {
+  --un-icon: url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 24 24' width='1.2em' height='1.2em' xmlns='http://www.w3.org/2000/svg' %3E%3Cg fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'%3E%3Crect width='4' height='6' x='14' y='14' rx='2'/%3E%3Crect width='4' height='6' x='6' y='4' rx='2'/%3E%3Cpath d='M6 20h4m4-10h4M6 14h2v6m6-16h2v6'/%3E%3C/g%3E%3C/svg%3E");
+  -webkit-mask: var(--un-icon) no-repeat;
+  mask: var(--un-icon) no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  background-color: currentColor;
+  color: inherit;
+  width: 1.2em;
+  height: 1.2em;
+}
