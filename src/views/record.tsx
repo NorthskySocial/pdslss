@@ -61,8 +61,9 @@ const RecordView: Component = () => {
     rpc = new XRPC({ handler: new CredentialManager({ service: pds }) });
     try {
       const res = await getRecord(did, params.collection, params.rkey);
-      setNotice("Validating...");
       setRecord(res.data);
+      setExternalLink(checkUri(res.data.uri));
+      setNotice("Validating...");
       await authenticate_post_with_doc(
         res.data.uri,
         res.data.cid!,
@@ -70,7 +71,6 @@ const RecordView: Component = () => {
         didDocCache[res.data.uri.split("/")[2]],
       );
       setValidRecord(true);
-      setExternalLink(checkUri(res.data.uri));
       setNotice("");
     } catch (err: any) {
       if (err.message) setNotice(err.message);
