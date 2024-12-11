@@ -13,6 +13,7 @@ const CollectionView: Component = () => {
   const [records, setRecords] =
     createSignal<ComAtprotoRepoListRecords.Record[]>();
   const [filter, setFilter] = createSignal<string>();
+  const [hoveringIndex, setHoveringIndex] = createSignal<number>();
   let did = params.repo;
   let pds: string;
   let rpc: XRPC;
@@ -67,7 +68,6 @@ const CollectionView: Component = () => {
               filter() ? JSON.stringify(rec.value).includes(filter()!) : true,
             )
             .map((record, index) => {
-              const [hoveringIndex, setHoveringIndex] = createSignal<number>();
               const rkey = record.uri.split("/").pop()!;
               const timestamp =
                 TID.validate(rkey) ?
@@ -87,7 +87,7 @@ const CollectionView: Component = () => {
                     </span>
                   </Show>
                   <Show when={hoveringIndex() === index}>
-                    <span class="bg-dark-400 left-50% max-h-xl absolute z-[2] mt-4 block -translate-x-1/2 overflow-hidden rounded-md border p-2 text-xs">
+                    <span class="bg-dark-400 left-50% max-h-xl break-anywhere absolute z-[2] mt-4 block -translate-x-1/2 overflow-hidden whitespace-pre-wrap rounded-md border p-2 text-xs">
                       <JSONValue
                         data={record.value as any}
                         repo={record.uri.split("/")[2]}
