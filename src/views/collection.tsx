@@ -105,7 +105,7 @@ const CollectionView: Component = () => {
                   <Show when={hoverRk()?.id === `rkey-${index}`}>
                     <span
                       classList={{
-                        "preview w-fit lg:max-w-lg max-w-sm bg-dark-400 left-50% max-h-lg pointer-events-none absolute z-[2] mt-4 block -translate-x-1/2 overflow-hidden whitespace-pre-wrap rounded-md border p-2 text-xs":
+                        "preview w-fit lg:max-w-lg max-w-sm bg-slate-100 dark:bg-dark-500 left-50% border-neutral-400 dark:border-neutral-600 max-h-lg pointer-events-none absolute z-[2] mt-4 block -translate-x-1/2 overflow-hidden whitespace-pre-wrap rounded-md border p-2 text-xs":
                           true,
                         "bottom-10": isOverflowing(hoverRk()!, previewHeight()),
                       }}
