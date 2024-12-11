@@ -69,6 +69,7 @@ const CollectionView: Component = () => {
             )
             .map((record, index) => {
               const rkey = record.uri.split("/").pop()!;
+              let previewElem!: HTMLAnchorElement;
               const timestamp =
                 TID.validate(rkey) ?
                   TID.parse(rkey).timestamp / 1000
@@ -76,7 +77,8 @@ const CollectionView: Component = () => {
               return (
                 <A
                   href={`${rkey}`}
-                  class="hover:bg-neutral-300 dark:hover:bg-neutral-700"
+                  ref={previewElem}
+                  class="relative hover:bg-neutral-300 dark:hover:bg-neutral-700"
                   onmouseover={() => setHoveringIndex(index)}
                   onmouseleave={() => setHoveringIndex(undefined)}
                 >
@@ -87,7 +89,15 @@ const CollectionView: Component = () => {
                     </span>
                   </Show>
                   <Show when={hoveringIndex() === index}>
-                    <span class="bg-dark-400 left-50% max-h-xl break-anywhere absolute z-[2] mt-4 block -translate-x-1/2 overflow-hidden whitespace-pre-wrap rounded-md border p-2 text-xs">
+                    <span
+                      classList={{
+                        "bg-dark-400 left-50% max-h-lg pointer-events-none absolute z-[2] mt-4 block -translate-x-1/2 overflow-hidden whitespace-pre-wrap rounded-md border p-2 text-xs":
+                          true,
+                        "mb-10 bottom-0":
+                          previewElem.offsetTop - window.scrollY + 520 >
+                          window.innerHeight,
+                      }}
+                    >
                       <JSONValue
                         data={record.value as any}
                         repo={record.uri.split("/")[2]}
