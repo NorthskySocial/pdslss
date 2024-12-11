@@ -5,13 +5,14 @@ import "./styles/tailwind-compat.css";
 import "./styles/index.css";
 import "./styles/icons.css";
 import { Route, Router } from "@solidjs/router";
-import { Layout, Home } from "./main.tsx";
+import { Layout } from "./main.tsx";
+import { Home } from "./views/home.tsx";
 import { Login } from "./views/login.tsx";
 import { PdsView } from "./views/pds.tsx";
 import { RepoView } from "./views/repo.tsx";
+import { BlobView } from "./views/blob.tsx";
 import { CollectionView } from "./views/collection.tsx";
 import { RecordView } from "./views/record.tsx";
-import { BlobView } from "./views/blob.tsx";
 
 render(
   () => (
