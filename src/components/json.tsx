@@ -10,7 +10,7 @@ interface AtBlob {
 
 const JSONString = ({ data }: { data: string }) => {
   return (
-    <span class="text-stone-700 dark:text-stone-300">
+    <span class="text-stone-800 dark:text-stone-200">
       {data.startsWith("at://") && data.split(" ").length === 1 ?
         <A class="underline" href={data.replace("at://", "/at/")}>
           {data}
