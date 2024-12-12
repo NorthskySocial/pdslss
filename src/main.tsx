@@ -83,15 +83,29 @@ const NavBar: Component<{ params: Params }> = (props) => {
         }}
       >
         <Show when={props.params.repo}>
-          <div class="mt-1 flex items-center md:mt-0">
-            <div class="i-atproto-logo mr-1 text-sm" />
-            <A
-              end
-              href={`at/${props.params.repo}`}
-              inactiveClass="text-lightblue-500 hover:underline"
-            >
-              {props.params.repo}
-            </A>
+          <div>
+            <div class="mt-1 flex items-center md:mt-0">
+              <div class="i-atproto-logo mr-1 text-sm" />
+              <A
+                end
+                href={`at/${props.params.repo}`}
+                inactiveClass="text-lightblue-500 hover:underline"
+              >
+                {props.params.repo}
+              </A>
+            </div>
+            <Show when={!props.params.collection && !props.params.rkey}>
+              <div class="mt-1 flex items-center">
+                <div class="i-lucide-binary mr-1 text-sm" />
+                <A
+                  end
+                  href={`at/${props.params.repo}/blobs`}
+                  inactiveClass="text-lightblue-500 hover:underline"
+                >
+                  blobs
+                </A>
+              </div>
+            </Show>
           </div>
         </Show>
         <Show when={props.params.collection}>
@@ -133,12 +147,6 @@ const NavBar: Component<{ params: Params }> = (props) => {
           </div>
         </Show>
       </div>
-      <Show when={useLocation().pathname === `/at/${props.params.repo}/blobs`}>
-        <div class="mt-1 flex items-center">
-          <div class="i-lucide-binary mr-1 text-sm" />
-          <span>blobs</span>
-        </div>
-      </Show>
     </div>
   );
 };

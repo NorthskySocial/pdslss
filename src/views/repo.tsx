@@ -53,11 +53,6 @@ const RepoView: Component = () => {
               </A>
             )}
           </For>
-          <div class="font-sans">
-            <A href="blobs" class="text-lightblue-500 hover:underline">
-              List blobs
-            </A>
-          </div>
         </div>
         <Show when={didDoc()}>
           {(didDocument) => (
