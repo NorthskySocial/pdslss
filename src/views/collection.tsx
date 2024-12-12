@@ -11,7 +11,7 @@ import { A, query, useParams } from "@solidjs/router";
 import { resolvePDS } from "../utils/api.js";
 import * as TID from "@atcute/tid";
 import { resolveHandle } from "@atcute/oauth-browser-client";
-import { JSONValue } from "../components/json.jsx";
+import { JSONType, JSONValue } from "../components/json.jsx";
 
 const CollectionView: Component = () => {
   const params = useParams();
@@ -111,7 +111,7 @@ const CollectionView: Component = () => {
                       }}
                     >
                       <JSONValue
-                        data={record.value as any}
+                        data={record.value as JSONType}
                         repo={record.uri.split("/")[2]}
                       />
                     </span>

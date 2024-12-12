@@ -1,9 +1,10 @@
 import { CredentialManager, XRPC } from "@atcute/client";
 import { query } from "@solidjs/router";
 import { setPDS } from "../main";
+import { DidDoc } from "./types";
 
 const didPDSCache: Record<string, string> = {};
-const didDocCache: Record<string, any> = {};
+const didDocCache: Record<string, DidDoc> = {};
 const getPDS = query(async (did: string) => {
   if (did in didPDSCache) return didPDSCache[did];
   const res = await fetch(
@@ -12,7 +13,7 @@ const getPDS = query(async (did: string) => {
     : "https://plc.directory/" + did,
   );
 
-  return res.json().then((doc) => {
+  return res.json().then((doc: DidDoc) => {
     for (const service of doc.service) {
       if (service.id === "#atproto_pds") {
         didPDSCache[did] = service.serviceEndpoint;
@@ -36,6 +37,7 @@ const resolveHandle = async (handle: string) => {
 const resolvePDS = async (did: string) => {
   setPDS(undefined);
   const pds = await getPDS(did);
+  if (!pds) throw new Error("No PDS found");
   setPDS(pds.replace("https://", "").replace("http://", ""));
   return pds;
 };
