@@ -1,6 +1,6 @@
 import { CredentialManager, XRPC } from "@atcute/client";
 import { query } from "@solidjs/router";
-import { setNotice, setPDS } from "../main";
+import { setPDS } from "../main";
 
 const didPDSCache: { [key: string]: string } = {};
 const didDocCache: { [key: string]: {} } = {};
@@ -34,14 +34,10 @@ const resolveHandle = async (handle: string) => {
 };
 
 const resolvePDS = async (did: string) => {
-  try {
-    setPDS(undefined);
-    const pds = await getPDS(did);
-    setPDS(pds.replace("https://", "").replace("http://", ""));
-    return pds;
-  } catch {
-    setNotice("Could not resolve PDS");
-  }
+  setPDS(undefined);
+  const pds = await getPDS(did);
+  setPDS(pds.replace("https://", "").replace("http://", ""));
+  return pds;
 };
 
 export { getPDS, didDocCache, resolveHandle, resolvePDS };

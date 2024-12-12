@@ -1,8 +1,6 @@
 import { Component } from "solid-js";
-import { setNotice } from "../main.js";
 
 const Home: Component = () => {
-  setNotice("");
   return (
     <div class="mt-3 flex w-full flex-col break-words">
       <div>

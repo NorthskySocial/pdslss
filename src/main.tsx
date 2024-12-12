@@ -14,9 +14,10 @@ import {
   useLocation,
   useNavigate,
   useParams,
+  useSubmission,
 } from "@solidjs/router";
 import { agent, loginState, LoginStatus } from "./views/login.jsx";
-import { resolveHandle, resolvePDS } from "./utils/api.js";
+import { resolveHandle } from "./utils/api.js";
 import { CreateRecord } from "./components/create.jsx";
 
 export const [theme, setTheme] = createSignal(
@@ -28,17 +29,15 @@ export const [theme, setTheme] = createSignal(
     "dark"
   : "light",
 );
-export const [notice, setNotice] = createSignal("");
 export const [pds, setPDS] = createSignal<string>();
 export const [validRecord, setValidRecord] = createSignal<boolean | undefined>(
   undefined,
 );
 
 const processInput = action(async (formData: FormData) => {
-  setNotice("");
   const input = formData.get("input")?.toString();
   (document.getElementById("uriForm") as HTMLFormElement).reset();
-  if (!input) return;
+  if (!input) return new Error("Empty input");
   if (
     !input.startsWith("https://bsky.app/") &&
     !input.startsWith("https://main.bsky.dev/") &&
@@ -53,18 +52,10 @@ const processInput = action(async (formData: FormData) => {
     .replace("https://bsky.app/profile/", "")
     .replace("https://main.bsky.dev/profile/", "")
     .replace("/post/", "/app.bsky.feed.post/");
-  let did = "";
-  try {
-    did =
-      !uri.startsWith("did:") ?
-        await resolveHandle(uri.split("/")[0])
-      : uri.split("/")[0];
-    if (!did) throw Error;
-    await resolvePDS(did);
-  } catch {
-    setNotice("Could not resolve AT URI");
-    return;
-  }
+  const did =
+    !uri.startsWith("did:") ?
+      await resolveHandle(uri.split("/")[0])
+    : uri.split("/")[0];
   throw redirect(
     `/at/${did}${uri.split("/").length > 1 ? "/" + uri.split("/").slice(1).join("/") : ""}`,
   );
@@ -82,7 +73,7 @@ const Layout: Component<RouteSectionProps<unknown>> = (props) => {
     console.log(err);
   }
   const params = useParams();
-  setNotice("");
+  const submission = useSubmission(processInput);
 
   return (
     <div
@@ -172,9 +163,9 @@ const Layout: Component<RouteSectionProps<unknown>> = (props) => {
               </Show>
             </div>
           </form>
-        </Show>
-        <Show when={notice()}>
-          <div class="mt-3 w-full break-words text-center">{notice()}</div>
+          <Show when={submission.error}>
+            {(err) => <div class="mt-3">{err().message}</div>}
+          </Show>
         </Show>
         <Show when={params.pds}>
           <div class="break-anywhere mb-3 mt-4 flex min-w-[20rem] flex-col font-mono">
