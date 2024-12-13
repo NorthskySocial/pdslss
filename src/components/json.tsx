@@ -9,6 +9,17 @@ interface AtBlob {
 }
 
 const JSONString = ({ data }: { data: string }) => {
+  const isURL =
+    URL.canParse ??
+    ((url, base) => {
+      try {
+        new URL(url, base);
+        return true;
+      } catch {
+        return false;
+      }
+    });
+
   return (
     <span class="text-stone-800 dark:text-stone-200">
       {data.startsWith("at://") && data.split(" ").length === 1 ?
@@ -20,7 +31,7 @@ const JSONString = ({ data }: { data: string }) => {
           {data}
         </A>
       : (
-        URL.canParse(data) &&
+        isURL(data) &&
         ["http:", "https:", "web+at:"].includes(new URL(data).protocol)
       ) ?
         <a
