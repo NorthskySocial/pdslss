@@ -265,11 +265,10 @@ const CollectionView: Component = () => {
           )}
         >
           {(record, index) => (
-            <label>
+            <label class="flex items-center gap-1">
               <Show when={batchDelete()}>
                 <input
                   type="checkbox"
-                  class="mr-1"
                   checked={record.toDelete}
                   onchange={(e) =>
                     setRecords(index(), "toDelete", e.currentTarget.checked)
