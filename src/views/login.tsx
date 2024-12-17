@@ -1,4 +1,4 @@
-import { createSignal, onMount, Show, type Component } from "solid-js";
+import { createSignal, onMount, type Component } from "solid-js";
 import {
   configureOAuth,
   createAuthorizationUrl,
@@ -9,6 +9,7 @@ import {
   type Session,
 } from "@atcute/oauth-browser-client";
 import { At } from "@atcute/client/lexicons";
+import { useNavigate } from "@solidjs/router";
 
 configureOAuth({
   metadata: {
@@ -18,10 +19,10 @@ configureOAuth({
 });
 
 const [loginState, setLoginState] = createSignal(false);
-const [notice, setNotice] = createSignal("");
 let agent: OAuthUserAgent;
 
 const Login: Component = () => {
+  const [notice, setNotice] = createSignal("");
   const [loginInput, setLoginInput] = createSignal("");
 
   const loginBsky = async (handle: string) => {
@@ -46,40 +47,36 @@ const Login: Component = () => {
   };
 
   return (
-    <div class="mt-2 font-sans">
-      <form class="flex flex-col" onsubmit={(e) => e.preventDefault()}>
-        <div class="w-full">
-          <label for="handle" class="ml-0.5 text-sm">
-            Handle
-          </label>
-        </div>
-        <div class="flex gap-x-2">
-          <input
-            type="text"
-            id="handle"
-            placeholder="user.bsky.social"
-            class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
-            onInput={(e) => setLoginInput(e.currentTarget.value)}
-          />
-          <button
-            onclick={() => loginBsky(loginInput())}
-            class="dark:bg-dark-700 dark:hover:bg-dark-800 rounded-lg border border-gray-400 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-300"
-          >
-            Login
-          </button>
-        </div>
-      </form>
-      <Show when={notice()}>
-        <div class="mt-2">{notice()}</div>
-      </Show>
-    </div>
+    <form class="flex flex-col gap-y-1" onsubmit={(e) => e.preventDefault()}>
+      <div class="w-full">
+        <label for="handle" class="ml-0.5 text-sm">
+          Handle
+        </label>
+      </div>
+      <div class="flex gap-x-2">
+        <input
+          type="text"
+          id="handle"
+          placeholder="user.bsky.social"
+          class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
+          onInput={(e) => setLoginInput(e.currentTarget.value)}
+        />
+        <button
+          onclick={() => loginBsky(loginInput())}
+          class="dark:bg-dark-700 dark:hover:bg-dark-800 rounded-lg border border-gray-400 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-300"
+        >
+          Login
+        </button>
+      </div>
+      <div class="mt-1">{notice()}</div>
+    </form>
   );
 };
 
 const LoginStatus: Component = () => {
-  onMount(async () => {
-    setNotice("Loading...");
+  const navigate = useNavigate();
 
+  onMount(async () => {
     const init = async (): Promise<Session | undefined> => {
       const params = new URLSearchParams(location.hash.slice(1));
 
@@ -111,8 +108,6 @@ const LoginStatus: Component = () => {
       agent = new OAuthUserAgent(session);
       setLoginState(true);
     }
-
-    setNotice("");
   });
 
   const logoutBsky = async () => {
@@ -121,20 +116,15 @@ const LoginStatus: Component = () => {
   };
 
   return (
-    <>
-      <Show when={loginState()}>
-        <div title="Logout" class="cursor-pointer" onclick={() => logoutBsky()}>
-          <div class="i-lucide-log-out text-xl" />
-        </div>
-      </Show>
-      <Show when={!loginState()}>
-        <div title="Login">
-          <a href="/login">
-            <div class="i-lucide-log-in text-xl" />
-          </a>
-        </div>
-      </Show>
-    </>
+    <div
+      title={loginState() ? "Logout" : "Login"}
+      classList={{
+        "cursor-pointer text-xl": true,
+        "i-lucide-log-in": !loginState(),
+        "i-lucide-log-out": loginState(),
+      }}
+      onclick={() => (loginState() ? logoutBsky() : navigate("/login"))}
+    />
   );
 };
 
