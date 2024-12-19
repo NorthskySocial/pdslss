@@ -140,11 +140,11 @@ const JSONObject = ({
 
 const JSONArray = ({ data, repo }: { data: JSONType[]; repo: string }) => {
   return (
-    <ul class="list-dash">
+    <ul class="list-dash ml-4 sm:ml-5">
       {data.map((value, index) => (
         <li
           classList={{
-            "mb-3": value === Object(value) && index !== data.length - 1,
+            "mb-2": value === Object(value) && index !== data.length - 1,
           }}
         >
           <JSONValue data={value} repo={repo} />
