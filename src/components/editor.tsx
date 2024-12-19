@@ -1,7 +1,7 @@
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
 import * as monaco from "monaco-editor";
-import { Component, onMount } from "solid-js";
+import { onMount } from "solid-js";
 
 self.MonacoEnvironment = {
   getWorker(_, label) {
@@ -10,9 +10,7 @@ self.MonacoEnvironment = {
   },
 };
 
-const Editor: Component<{ theme: string; model: monaco.editor.IModel }> = (
-  props,
-) => {
+const Editor = (props: { theme: string; model: monaco.editor.IModel }) => {
   let editorDiv!: HTMLDivElement;
 
   onMount(() => {

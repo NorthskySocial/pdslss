@@ -1,11 +1,4 @@
-import {
-  createSignal,
-  onMount,
-  Show,
-  type Component,
-  onCleanup,
-  createEffect,
-} from "solid-js";
+import { createSignal, onMount, Show, onCleanup, createEffect } from "solid-js";
 import { CredentialManager, XRPC } from "@atcute/client";
 import { ComAtprotoRepoGetRecord } from "@atcute/client/lexicons";
 import { action, query, redirect, useParams } from "@solidjs/router";
@@ -17,7 +10,7 @@ import { editor } from "monaco-editor";
 import { setValidRecord, theme, validRecord } from "../main.jsx";
 import { didDocCache, resolveHandle, resolvePDS } from "../utils/api.js";
 
-const RecordView: Component = () => {
+const RecordView = () => {
   const params = useParams();
   const [record, setRecord] = createSignal<ComAtprotoRepoGetRecord.Output>();
   const [modal, setModal] = createSignal<HTMLDialogElement>();

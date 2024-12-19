@@ -1,16 +1,10 @@
-import {
-  createSignal,
-  For,
-  Show,
-  type Component,
-  createResource,
-} from "solid-js";
+import { createSignal, For, Show, createResource } from "solid-js";
 import { CredentialManager, XRPC } from "@atcute/client";
 import { A, query, useParams } from "@solidjs/router";
 import { didDocCache, resolveHandle, resolvePDS } from "../utils/api.js";
 import { DidDoc } from "../utils/types.js";
 
-const RepoView: Component = () => {
+const RepoView = () => {
   const params = useParams();
   const [didDoc, setDidDoc] = createSignal<DidDoc>();
   let rpc: XRPC;

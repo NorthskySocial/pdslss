@@ -1,16 +1,10 @@
-import {
-  createSignal,
-  For,
-  Show,
-  type Component,
-  createResource,
-} from "solid-js";
+import { createSignal, For, Show, createResource } from "solid-js";
 import { CredentialManager, XRPC } from "@atcute/client";
 import { ComAtprotoSyncListRepos } from "@atcute/client/lexicons";
 import { A, useParams } from "@solidjs/router";
 import { setPDS } from "../main";
 
-const PdsView: Component = () => {
+const PdsView = () => {
   const params = useParams();
   if (params.pds.startsWith("web%2Bat%3A%2F%2F")) return;
   const [cursor, setCursor] = createSignal<string>();

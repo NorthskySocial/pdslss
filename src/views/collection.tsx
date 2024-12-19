@@ -7,7 +7,6 @@ import {
   onMount,
   Show,
   untrack,
-  type Component,
 } from "solid-js";
 import { CredentialManager, XRPC } from "@atcute/client";
 import {
@@ -30,7 +29,7 @@ interface AtprotoRecord {
   toDelete: boolean;
 }
 
-const CollectionView: Component = () => {
+const CollectionView = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [cursor, setCursor] = createSignal<string>();

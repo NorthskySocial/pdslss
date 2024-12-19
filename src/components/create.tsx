@@ -1,11 +1,4 @@
-import {
-  createSignal,
-  onMount,
-  Show,
-  type Component,
-  onCleanup,
-  createEffect,
-} from "solid-js";
+import { createSignal, onMount, Show, onCleanup, createEffect } from "solid-js";
 import { XRPC, XRPCResponse } from "@atcute/client";
 import { agent } from "../views/login.jsx";
 import { Editor } from "../components/editor.jsx";
@@ -14,7 +7,7 @@ import { theme } from "../main.jsx";
 import { action, redirect } from "@solidjs/router";
 import { ComAtprotoRepoCreateRecord } from "@atcute/client/lexicons";
 
-const CreateRecord: Component = () => {
+const CreateRecord = () => {
   const [modal, setModal] = createSignal<HTMLDialogElement>();
   const [openCreate, setOpenCreate] = createSignal(false);
   const [createNotice, setCreateNotice] = createSignal("");

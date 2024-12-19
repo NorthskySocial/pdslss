@@ -1,16 +1,10 @@
-import {
-  createResource,
-  createSignal,
-  For,
-  Show,
-  type Component,
-} from "solid-js";
+import { createResource, createSignal, For, Show } from "solid-js";
 import { CredentialManager, XRPC } from "@atcute/client";
 import { query, useParams } from "@solidjs/router";
 import { resolvePDS } from "../utils/api.js";
 import { resolveHandle } from "@atcute/oauth-browser-client";
 
-const BlobView: Component = () => {
+const BlobView = () => {
   const params = useParams();
   const [cursor, setCursor] = createSignal<string>();
   let did = params.repo;

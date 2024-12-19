@@ -1,4 +1,4 @@
-import { createSignal, onMount, type Component } from "solid-js";
+import { createSignal, onMount } from "solid-js";
 import {
   configureOAuth,
   createAuthorizationUrl,
@@ -21,7 +21,7 @@ configureOAuth({
 const [loginState, setLoginState] = createSignal(false);
 let agent: OAuthUserAgent;
 
-const Login: Component = () => {
+const Login = () => {
   const [notice, setNotice] = createSignal("");
   const [loginInput, setLoginInput] = createSignal("");
 

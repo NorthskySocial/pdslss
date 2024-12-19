@@ -1,10 +1,4 @@
-import {
-  createSignal,
-  ErrorBoundary,
-  Show,
-  Suspense,
-  type Component,
-} from "solid-js";
+import { createSignal, ErrorBoundary, Show, Suspense } from "solid-js";
 import {
   A,
   action,
@@ -61,7 +55,7 @@ const processInput = action(async (formData: FormData) => {
   );
 });
 
-const NavBar: Component<{ params: Params }> = (props) => {
+const NavBar = (props: { params: Params }) => {
   return (
     <div class="break-anywhere mb-3 mt-4 flex min-w-[20rem] flex-col font-mono">
       <Show when={pds() && props.params.pds}>
@@ -151,7 +145,7 @@ const NavBar: Component<{ params: Params }> = (props) => {
   );
 };
 
-const Layout: Component<RouteSectionProps<unknown>> = (props) => {
+const Layout = (props: RouteSectionProps<unknown>) => {
   try {
     navigator.registerProtocolHandler("web+at", "/%s");
     const pathname = decodeURIComponent(useLocation().pathname);
