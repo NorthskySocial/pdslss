@@ -33,6 +33,9 @@ const PdsView = () => {
   return (
     <Show when={repos() || response()}>
       <div class="flex flex-col">
+        <p class="font-semibold text-stone-600 dark:text-stone-400">
+          Repositories
+        </p>
         <For each={repos()}>
           {(repo) => (
             <A
