@@ -32,7 +32,7 @@ const RepoView = () => {
 
   return (
     <Show when={repo()}>
-      <div class="flex w-[20rem] flex-col gap-2 break-words">
+      <div class="flex w-[21rem] flex-col gap-2 break-words">
         <div class="flex flex-col border-b border-neutral-500 pb-2 font-mono">
           <p class="font-sans font-semibold text-stone-600 dark:text-stone-400">
             Collections

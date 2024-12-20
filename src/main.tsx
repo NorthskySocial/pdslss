@@ -57,7 +57,7 @@ const processInput = action(async (formData: FormData) => {
 
 const NavBar = (props: { params: Params }) => {
   return (
-    <div class="break-anywhere mb-3 mt-4 flex min-w-[20rem] flex-col font-mono">
+    <div class="break-anywhere mb-3 mt-4 flex min-w-[21rem] flex-col font-mono">
       <Show when={pds() && props.params.pds}>
         <div class="flex items-center">
           <div class="i-tabler-server mr-1 text-sm" />
@@ -164,7 +164,7 @@ const Layout = (props: RouteSectionProps<unknown>) => {
       id="main"
       class="m-5 flex flex-col items-center text-slate-900 dark:text-slate-100"
     >
-      <div class="mb-2 flex w-[20rem] items-center">
+      <div class="mb-2 flex w-[21rem] items-center">
         <div class="flex basis-1/3 gap-x-2">
           <div
             class="w-fit cursor-pointer"
