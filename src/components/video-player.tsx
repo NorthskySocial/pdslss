@@ -31,7 +31,6 @@ const VideoPlayer = ({ did, cid }: VideoPlayerProps) => {
   return (
     <div>
       <video
-        class="max-h-md max-w-md"
         ref={(node) => {
           hls.attachMedia(node);
 
