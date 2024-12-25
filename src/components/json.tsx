@@ -1,5 +1,5 @@
 import VideoPlayer from "./video-player";
-import { createSignal } from "solid-js";
+import { createSignal, For } from "solid-js";
 
 interface AtBlob {
   $type: string;
@@ -71,8 +71,8 @@ const JSONObject = ({
 }) => {
   const [clip, setClip] = createSignal(false);
   const rawObj = (
-    <>
-      {Object.entries(data).map(([key, value]) => (
+    <For each={Object.entries(data)}>
+      {([key, value]) => (
         <span
           classList={{
             "flex gap-x-1": true,
@@ -101,8 +101,8 @@ const JSONObject = ({
             <JSONValue data={value} repo={repo} />
           </span>
         </span>
-      ))}
-    </>
+      )}
+    </For>
   );
 
   const blob: AtBlob = data as any;
@@ -140,15 +140,17 @@ const JSONObject = ({
 const JSONArray = ({ data, repo }: { data: JSONType[]; repo: string }) => {
   return (
     <ul class="list-dash ml-[2ch]">
-      {data.map((value, index) => (
-        <li
-          classList={{
-            "mb-2": value === Object(value) && index !== data.length - 1,
-          }}
-        >
-          <JSONValue data={value} repo={repo} />
-        </li>
-      ))}
+      <For each={data}>
+        {(value, index) => (
+          <li
+            classList={{
+              "mb-2": value === Object(value) && index() !== data.length - 1,
+            }}
+          >
+            <JSONValue data={value} repo={repo} />
+          </li>
+        )}
+      </For>
     </ul>
   );
 };
