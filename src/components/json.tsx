@@ -89,7 +89,7 @@ const JSONObject = ({
                   .then(() => setClip(true))
               }
             >
-              <span class="absolute -left-4 hidden text-[0.625rem] group-hover/clip:block">
+              <span class="absolute -left-3.5 hidden text-[0.7rem] group-hover/clip:block">
                 {clip() ?
                   <div class="i-bi-clipboard-check-fill" />
                 : <div class="i-bi-clipboard" />}
