@@ -77,6 +77,10 @@ const RecordView = () => {
 
   const editRecord = action(async (formData: FormData) => {
     const record = model.getValue();
+    const validate =
+      formData.get("validate")?.toString() === "true" ? true
+      : formData.get("validate")?.toString() === "false" ? false
+      : undefined;
     if (!record) return;
     rpc = new XRPC({ handler: agent });
     try {
@@ -95,6 +99,7 @@ const RecordView = () => {
             collection: params.collection,
             rkey: params.rkey,
             record: editedRecord,
+            validate: validate,
           },
         });
       } else {
@@ -104,6 +109,7 @@ const RecordView = () => {
             collection: params.collection,
             rkey: params.rkey,
             record: editedRecord,
+            validate: validate,
           },
         });
       }
@@ -216,6 +222,20 @@ const RecordView = () => {
                 <div class="dark:bg-dark-400 rounded-md border border-slate-900 bg-slate-100 p-4 text-slate-900 dark:border-slate-100 dark:text-slate-100">
                   <h3 class="mb-2 text-lg font-bold">Editing record</h3>
                   <form action={editRecord} method="post">
+                    <div class="mb-2 flex items-center gap-x-2">
+                      <label for="validate" class="min-w-20 select-none">
+                        Validate
+                      </label>
+                      <select
+                        name="validate"
+                        id="validate"
+                        class="dark:bg-dark-100 rounded-lg border border-gray-400 px-1 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
+                      >
+                        <option value="unset">Unset</option>
+                        <option value="true">True</option>
+                        <option value="false">False</option>
+                      </select>
+                    </div>
                     <Editor theme={theme()} model={model!} />
                     <div class="mt-2 flex flex-col gap-2">
                       <div class="text-red-500 dark:text-red-400">

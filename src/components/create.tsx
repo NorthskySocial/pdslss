@@ -41,6 +41,7 @@ const CreateRecord = () => {
     const rpc = new XRPC({ handler: agent });
     const collection = formData.get("collection");
     const rkey = formData.get("rkey");
+    const validate = formData.get("validate")?.toString();
     let res: XRPCResponse<ComAtprotoRepoCreateRecord.Output>;
     try {
       res = await rpc.call("com.atproto.repo.createRecord", {
@@ -49,6 +50,10 @@ const CreateRecord = () => {
           collection: collection!.toString(),
           rkey: rkey?.toString() ?? undefined,
           record: JSON.parse(model.getValue()),
+          validate:
+            validate === "true" ? true
+            : validate === "false" ? false
+            : undefined,
         },
       });
     } catch (err: any) {
@@ -81,7 +86,7 @@ const CreateRecord = () => {
             >
               <div class="flex w-fit flex-col gap-y-3">
                 <div class="flex items-center gap-x-2">
-                  <label for="collection" class="basis-1/2 select-none">
+                  <label for="collection" class="min-w-20 select-none">
                     Collection
                   </label>
                   <input
@@ -95,7 +100,7 @@ const CreateRecord = () => {
                   />
                 </div>
                 <div class="flex items-center gap-x-2">
-                  <label for="rkey" class="basis-1/2 select-none">
+                  <label for="rkey" class="min-w-20 select-none">
                     Record key
                   </label>
                   <input
@@ -106,6 +111,20 @@ const CreateRecord = () => {
                     placeholder="Optional"
                     class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
                   />
+                </div>
+                <div class="flex items-center gap-x-2">
+                  <label for="validate" class="min-w-20 select-none">
+                    Validate
+                  </label>
+                  <select
+                    name="validate"
+                    id="validate"
+                    class="dark:bg-dark-100 rounded-lg border border-gray-400 px-1 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
+                  >
+                    <option value="unset">Unset</option>
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                  </select>
                 </div>
               </div>
               <Editor theme={theme()} model={model!} />
