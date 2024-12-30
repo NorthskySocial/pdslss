@@ -317,7 +317,7 @@ const RecordView = () => {
             </button>
           </Show>
         </div>
-        <div class="break-anywhere mt-1 whitespace-pre-wrap pl-4 font-mono text-sm sm:text-base">
+        <div class="break-anywhere mt-1 whitespace-pre-wrap font-mono text-sm sm:text-base">
           <JSONValue
             data={record() as any}
             repo={record()!.uri.split("/")[2]}
