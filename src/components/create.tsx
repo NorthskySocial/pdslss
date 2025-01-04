@@ -76,7 +76,7 @@ const CreateRecord = () => {
       <Show when={openCreate()}>
         <dialog
           ref={setModal}
-          class="fixed left-0 top-0 z-[2] flex h-screen w-screen items-center justify-center bg-transparent"
+          class="fixed left-0 top-0 z-20 flex h-screen w-screen items-center justify-center bg-transparent"
         >
           <div class="dark:bg-dark-400 rounded-md border border-slate-900 bg-slate-100 p-4 text-slate-900 dark:border-slate-100 dark:text-slate-100">
             <h3 class="mb-2 text-lg font-bold">Creating record</h3>

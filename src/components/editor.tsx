@@ -25,11 +25,19 @@ const Editor = (props: {
       readOnly: props.readOnly ?? false,
       wordWrap: "on",
       automaticLayout: true,
+      scrollBeyondLastLine: !props.readOnly,
     });
   });
 
   return (
-    <div ref={editorDiv} class="w-xs h-sm sm:w-xl sm:h-lg lg:w-[60rem]"></div>
+    <div
+      ref={editorDiv}
+      classList={{
+        "w-xs sm:w-xl lg:w-[60rem]": true,
+        "h-sm sm:h-lg": !props.readOnly,
+        "h-[42rem]": props.readOnly,
+      }}
+    ></div>
   );
 };
 
