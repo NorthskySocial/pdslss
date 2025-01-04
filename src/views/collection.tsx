@@ -254,13 +254,13 @@ const CollectionView = () => {
                       <div class="mt-2 inline-flex gap-2">
                         <button
                           onclick={() => setOpenDelete(false)}
-                          class="dark:bg-dark-900 dark:hover:bg-dark-800 rounded-lg border border-neutral-500 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-700 dark:focus:ring-slate-300"
+                          class="dark:bg-dark-900 dark:hover:bg-dark-800 rounded-lg border border-neutral-500 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:focus:ring-slate-300"
                         >
                           Cancel
                         </button>
                         <button
                           type="submit"
-                          class="rounded-lg bg-red-500 px-2.5 py-1.5 text-sm font-bold text-slate-100 hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-slate-700 dark:bg-red-600 dark:hover:bg-red-500 dark:focus:ring-slate-300"
+                          class="rounded-lg bg-red-500 px-2.5 py-1.5 text-sm font-bold text-slate-100 hover:bg-red-400 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:bg-red-600 dark:hover:bg-red-500 dark:focus:ring-slate-300"
                         >
                           Delete
                         </button>
@@ -344,7 +344,7 @@ const CollectionView = () => {
         <button
           type="button"
           onclick={() => refetch()}
-          class="dark:bg-dark-700 dark:hover:bg-dark-800 mt-1 rounded-lg border border-gray-400 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300"
+          class="dark:bg-dark-700 dark:hover:bg-dark-800 mt-1 rounded-lg border border-gray-400 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-300"
         >
           Load More
         </button>
