@@ -122,22 +122,26 @@ const NavBar = (props: { params: Params }) => {
             <span class="mx-1 hidden md:inline">/</span>
             <span class="cursor-pointer">{props.params.rkey}</span>
             <Show when={validRecord()}>
-              <div class="group/tooltip relative flex items-center font-sans">
-                <div class="i-fluent-checkmark-circle-12-regular ml-1" />
-                <Tooltip text="Valid record" />
-              </div>
+              <Tooltip
+                text="Valid record"
+                children={
+                  <div class="i-fluent-checkmark-circle-12-regular ml-1" />
+                }
+              />
             </Show>
             <Show when={validRecord() === false}>
-              <div class="group/tooltip relative flex items-center font-sans">
-                <div class="i-fluent-dismiss-circle-12-regular ml-1" />
-                <Tooltip text="Invalid record" />
-              </div>
+              <Tooltip
+                text="Invalid record"
+                children={
+                  <div class="i-fluent-dismiss-circle-12-regular ml-1" />
+                }
+              />
             </Show>
             <Show when={validRecord() === undefined}>
-              <div class="group/tooltip relative flex items-center font-sans">
-                <div class="i-line-md-loading-twotone-loop ml-1" />
-                <Tooltip text="Validating" />
-              </div>
+              <Tooltip
+                text="Validating"
+                children={<div class="i-line-md-loading-twotone-loop ml-1" />}
+              />
             </Show>
           </div>
         </Show>
@@ -237,16 +241,17 @@ const Layout = (props: RouteSectionProps<unknown>) => {
                 Go
               </button>
               <Show when={loginState()}>
-                <a
-                  href={`/at/${agent.sub}`}
-                  class="group/tooltip relative flex items-center"
-                >
-                  <button class="i-tabler-binary-tree text-xl" />
-                  <Tooltip text="Repository" />
-                  <Show when={location.pathname === "/"}>
-                    <Navigate href={`/at/${agent.sub}`} />
-                  </Show>
-                </a>
+                <Tooltip
+                  text="Repository"
+                  children={
+                    <a href={`/at/${agent.sub}`} class="flex items-center">
+                      <button class="i-tabler-binary-tree text-xl" />
+                      <Show when={location.pathname === "/"}>
+                        <Navigate href={`/at/${agent.sub}`} />
+                      </Show>
+                    </a>
+                  }
+                />
               </Show>
             </div>
           </form>

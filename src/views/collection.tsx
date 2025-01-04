@@ -166,72 +166,80 @@ const CollectionView = () => {
               "border p-1 rounded-md border-neutral-500": batchDelete(),
             }}
           >
-            <div class="group/tooltip relative flex items-center">
-              <button
-                classList={{
-                  "flex items-center text-xl": true,
-                  "i-ic-round-delete-sweep text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300":
-                    !batchDelete(),
-                  "i-fluent-dismiss-circle-12-regular text-neutral-500 hover:text-neutral-600 dark:text-neutral-400 dark:hover:text-neutral-300":
-                    batchDelete(),
-                }}
-                onclick={() => {
-                  setRecords(
-                    { from: 0, to: untrack(() => records.length) - 1 },
-                    "toDelete",
-                    false,
-                  );
-                  setLastSelected(undefined);
-                  setBatchDelete(!batchDelete());
-                }}
-              />
-              <Tooltip text={batchDelete() ? "Cancel" : "Delete"} />
-            </div>
-            <Show when={batchDelete()}>
-              <div class="group/tooltip relative flex items-center">
+            <Tooltip
+              text={batchDelete() ? "Cancel" : "Delete"}
+              children={
                 <button
-                  class="i-mdi-checkbox-multiple-marked text-xl text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
-                  onclick={() =>
-                    setRecords(
-                      records
-                        .map((record, index) =>
-                          (
-                            JSON.stringify(record.record.value).includes(
-                              filter() ?? "",
-                            )
-                          ) ?
-                            index
-                          : undefined,
-                        )
-                        .filter((i) => i !== undefined),
-                      "toDelete",
-                      true,
-                    )
-                  }
-                />
-                <Tooltip text="Select All" />
-              </div>
-              <div class="group/tooltip relative flex items-center">
-                <button
-                  class="i-mdi-checkbox-multiple-blank-outline text-xl text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
+                  classList={{
+                    "flex items-center text-xl": true,
+                    "i-ic-round-delete-sweep text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300":
+                      !batchDelete(),
+                    "i-fluent-dismiss-circle-12-regular text-neutral-500 hover:text-neutral-600 dark:text-neutral-400 dark:hover:text-neutral-300":
+                      batchDelete(),
+                  }}
                   onclick={() => {
                     setRecords(
-                      { from: 0, to: records.length - 1 },
+                      { from: 0, to: untrack(() => records.length) - 1 },
                       "toDelete",
                       false,
                     );
                     setLastSelected(undefined);
+                    setBatchDelete(!batchDelete());
                   }}
                 />
-                <Tooltip text="Unselect All" />
-              </div>
-              <div class="group/tooltip relative flex items-center">
-                <button
-                  class="i-ic-round-delete-sweep text-xl text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300"
-                  onclick={() => setOpenDelete(true)}
-                />
-                <Tooltip text="Confirm" />
-              </div>
+              }
+            />
+            <Show when={batchDelete()}>
+              <Tooltip
+                text="Select All"
+                children={
+                  <button
+                    class="i-mdi-checkbox-multiple-marked text-xl text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
+                    onclick={() =>
+                      setRecords(
+                        records
+                          .map((record, index) =>
+                            (
+                              JSON.stringify(record.record.value).includes(
+                                filter() ?? "",
+                              )
+                            ) ?
+                              index
+                            : undefined,
+                          )
+                          .filter((i) => i !== undefined),
+                        "toDelete",
+                        true,
+                      )
+                    }
+                  />
+                }
+              />
+              <Tooltip
+                text="Unselect All"
+                children={
+                  <button
+                    class="i-mdi-checkbox-multiple-blank-outline text-xl text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
+                    onclick={() => {
+                      setRecords(
+                        { from: 0, to: records.length - 1 },
+                        "toDelete",
+                        false,
+                      );
+                      setLastSelected(undefined);
+                    }}
+                  />
+                }
+              />
+              <Tooltip
+                text="Confirm"
+                children={
+                  <button
+                    class="i-ic-round-delete-sweep text-xl text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300"
+                    onclick={() => setOpenDelete(true)}
+                  />
+                }
+              />
               <Show when={openDelete()}>
                 <dialog
                   ref={setModal}

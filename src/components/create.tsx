@@ -152,19 +152,21 @@ const CreateRecord = () => {
           </div>
         </dialog>
       </Show>
-      <div class="group/tooltip relative flex items-center">
-        <button
-          class="i-octicon-pencil-16 cursor-pointer text-xl"
-          onclick={() => {
-            model = editor.createModel(
-              JSON.stringify(placeholder(new Date().toISOString()), null, 2),
-              "json",
-            );
-            setOpenCreate(true);
-          }}
-        />
-        <Tooltip text="Create record" />
-      </div>
+      <Tooltip
+        text="Create record"
+        children={
+          <button
+            class="i-octicon-pencil-16 cursor-pointer text-xl"
+            onclick={() => {
+              model = editor.createModel(
+                JSON.stringify(placeholder(new Date().toISOString()), null, 2),
+                "json",
+              );
+              setOpenCreate(true);
+            }}
+          />
+        }
+      />
     </>
   );
 };

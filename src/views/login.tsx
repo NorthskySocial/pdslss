@@ -117,17 +117,19 @@ const LoginStatus = () => {
   };
 
   return (
-    <div class="group/tooltip relative flex items-center">
-      <button
-        classList={{
-          "cursor-pointer text-xl": true,
-          "i-lucide-log-in": !loginState(),
-          "i-lucide-log-out": loginState(),
-        }}
-        onclick={() => (loginState() ? logoutBsky() : navigate("/login"))}
-      />
-      <Tooltip text={loginState() ? "Logout" : "Login"} />
-    </div>
+    <Tooltip
+      text={loginState() ? "Logout" : "Login"}
+      children={
+        <button
+          classList={{
+            "cursor-pointer text-xl": true,
+            "i-lucide-log-in": !loginState(),
+            "i-lucide-log-out": loginState(),
+          }}
+          onclick={() => (loginState() ? logoutBsky() : navigate("/login"))}
+        />
+      }
+    />
   );
 };
 
