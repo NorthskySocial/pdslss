@@ -10,7 +10,11 @@ self.MonacoEnvironment = {
   },
 };
 
-const Editor = (props: { theme: string; model: monaco.editor.IModel }) => {
+const Editor = (props: {
+  theme: string;
+  model: monaco.editor.IModel;
+  readOnly?: boolean;
+}) => {
   let editorDiv!: HTMLDivElement;
 
   onMount(() => {
@@ -18,7 +22,9 @@ const Editor = (props: { theme: string; model: monaco.editor.IModel }) => {
       minimap: { enabled: false },
       theme: props.theme === "dark" ? "vs-dark" : "vs",
       model: props.model,
+      readOnly: props.readOnly ?? false,
       wordWrap: "on",
+      automaticLayout: true,
     });
   });
 

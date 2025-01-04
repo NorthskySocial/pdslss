@@ -332,7 +332,14 @@ const RecordView = () => {
             />
           </Show>
           <Show when={JSONSyntax()}>
-            <div>{JSON.stringify(record(), null, 2)}</div>
+            <Editor
+              theme={theme()}
+              model={editor.createModel(
+                JSON.stringify(record(), null, 2),
+                "json",
+              )}
+              readOnly={true}
+            />
           </Show>
         </div>
       </Show>
