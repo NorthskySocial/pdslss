@@ -6,6 +6,7 @@ import { editor } from "monaco-editor";
 import { theme } from "../main.jsx";
 import { action, redirect } from "@solidjs/router";
 import { ComAtprotoRepoCreateRecord } from "@atcute/client/lexicons";
+import Tooltip from "./tooltip.jsx";
 
 const CreateRecord = () => {
   const [modal, setModal] = createSignal<HTMLDialogElement>();
@@ -151,17 +152,19 @@ const CreateRecord = () => {
           </div>
         </dialog>
       </Show>
-      <div
-        class="i-octicon-pencil-16 cursor-pointer text-xl"
-        title="Create record"
-        onclick={() => {
-          model = editor.createModel(
-            JSON.stringify(placeholder(new Date().toISOString()), null, 2),
-            "json",
-          );
-          setOpenCreate(true);
-        }}
-      ></div>
+      <div class="group/tooltip relative flex items-center">
+        <button
+          class="i-octicon-pencil-16 cursor-pointer text-xl"
+          onclick={() => {
+            model = editor.createModel(
+              JSON.stringify(placeholder(new Date().toISOString()), null, 2),
+              "json",
+            );
+            setOpenCreate(true);
+          }}
+        />
+        <Tooltip text="Create record" />
+      </div>
     </>
   );
 };

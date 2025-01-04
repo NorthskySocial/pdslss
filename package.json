@@ -13,13 +13,13 @@
     "prettier-plugin-tailwindcss": "^0.6.9",
     "typescript": "^5.7.2",
     "unocss": "^0.65.3",
-    "vite": "^6.0.6",
+    "vite": "^6.0.7",
     "vite-plugin-solid": "^2.11.0",
     "vite-plugin-wasm": "^3.4.1"
   },
   "dependencies": {
     "@atcute/client": "^2.0.6",
-    "@atcute/oauth-browser-client": "^1.0.8",
+    "@atcute/oauth-browser-client": "^1.0.9",
     "@atcute/tid": "^1.0.2",
     "@solidjs/router": "^0.15.2",
     "hls.js": "^1.5.18",

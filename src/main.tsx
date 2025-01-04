@@ -14,6 +14,7 @@ import {
 import { agent, loginState, LoginStatus } from "./views/login.jsx";
 import { resolveHandle } from "./utils/api.js";
 import { CreateRecord } from "./components/create.jsx";
+import Tooltip from "./components/tooltip.jsx";
 
 export const [theme, setTheme] = createSignal(
   (
@@ -121,22 +122,22 @@ const NavBar = (props: { params: Params }) => {
             <span class="mx-1 hidden md:inline">/</span>
             <span class="cursor-pointer">{props.params.rkey}</span>
             <Show when={validRecord()}>
-              <div
-                title="This record is valid"
-                class="i-fluent-checkmark-circle-12-regular ml-1"
-              />
+              <div class="group/tooltip relative flex items-center font-sans">
+                <div class="i-fluent-checkmark-circle-12-regular ml-1" />
+                <Tooltip text="Valid record" />
+              </div>
             </Show>
             <Show when={validRecord() === false}>
-              <div
-                title="This record is invalid"
-                class="i-fluent-dismiss-circle-12-regular ml-1"
-              />
+              <div class="group/tooltip relative flex items-center font-sans">
+                <div class="i-fluent-dismiss-circle-12-regular ml-1" />
+                <Tooltip text="Invalid record" />
+              </div>
             </Show>
             <Show when={validRecord() === undefined}>
-              <div
-                title="Validating record..."
-                class="i-line-md-loading-twotone-loop ml-1"
-              />
+              <div class="group/tooltip relative flex items-center font-sans">
+                <div class="i-line-md-loading-twotone-loop ml-1" />
+                <Tooltip text="Validating" />
+              </div>
             </Show>
           </div>
         </Show>
@@ -236,14 +237,16 @@ const Layout = (props: RouteSectionProps<unknown>) => {
                 Go
               </button>
               <Show when={loginState()}>
-                <div title={`Repository`}>
-                  <a href={`/at/${agent.sub}`}>
-                    <div class="i-tabler-binary-tree text-xl" />
-                    <Show when={location.pathname === "/"}>
-                      <Navigate href={`/at/${agent.sub}`} />
-                    </Show>
-                  </a>
-                </div>
+                <a
+                  href={`/at/${agent.sub}`}
+                  class="group/tooltip relative flex items-center"
+                >
+                  <button class="i-tabler-binary-tree text-xl" />
+                  <Tooltip text="Repository" />
+                  <Show when={location.pathname === "/"}>
+                    <Navigate href={`/at/${agent.sub}`} />
+                  </Show>
+                </a>
               </Show>
             </div>
           </form>

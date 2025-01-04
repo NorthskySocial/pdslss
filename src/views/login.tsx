@@ -10,6 +10,7 @@ import {
 } from "@atcute/oauth-browser-client";
 import { At } from "@atcute/client/lexicons";
 import { useNavigate } from "@solidjs/router";
+import Tooltip from "../components/tooltip";
 
 configureOAuth({
   metadata: {
@@ -116,15 +117,17 @@ const LoginStatus = () => {
   };
 
   return (
-    <div
-      title={loginState() ? "Logout" : "Login"}
-      classList={{
-        "cursor-pointer text-xl": true,
-        "i-lucide-log-in": !loginState(),
-        "i-lucide-log-out": loginState(),
-      }}
-      onclick={() => (loginState() ? logoutBsky() : navigate("/login"))}
-    />
+    <div class="group/tooltip relative flex items-center">
+      <button
+        classList={{
+          "cursor-pointer text-xl": true,
+          "i-lucide-log-in": !loginState(),
+          "i-lucide-log-out": loginState(),
+        }}
+        onclick={() => (loginState() ? logoutBsky() : navigate("/login"))}
+      />
+      <Tooltip text={loginState() ? "Logout" : "Login"} />
+    </div>
   );
 };
 
