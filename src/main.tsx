@@ -120,27 +120,25 @@ const NavBar = (props: { params: Params }) => {
           <div class="mt-1 flex items-center md:mt-0">
             <div class="i-mdi-code-json mr-1 text-sm md:hidden" />
             <span class="mx-1 hidden md:inline">/</span>
-            <span class="cursor-pointer">{props.params.rkey}</span>
+            <span class="mr-1 cursor-pointer">{props.params.rkey}</span>
             <Show when={validRecord()}>
               <Tooltip
                 text="Valid record"
-                children={
-                  <div class="i-fluent-checkmark-circle-12-regular ml-1" />
-                }
+                children={<div class="i-fluent-checkmark-circle-12-regular" />}
               />
             </Show>
             <Show when={validRecord() === false}>
               <Tooltip
                 text="Invalid record"
                 children={
-                  <div class="i-fluent-dismiss-circle-12-regular ml-1 text-red-500 dark:text-red-400" />
+                  <div class="i-fluent-dismiss-circle-12-regular text-red-500 dark:text-red-400" />
                 }
               />
             </Show>
             <Show when={validRecord() === undefined}>
               <Tooltip
                 text="Validating"
-                children={<div class="i-line-md-loading-twotone-loop ml-1" />}
+                children={<div class="i-line-md-loading-twotone-loop" />}
               />
             </Show>
           </div>
