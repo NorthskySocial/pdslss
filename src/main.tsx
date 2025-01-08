@@ -61,7 +61,9 @@ const NavBar = (props: { params: Params }) => {
     <div class="break-anywhere mb-3 mt-4 flex min-w-[21rem] flex-col font-mono">
       <Show when={pds() && props.params.pds}>
         <div class="flex items-center">
-          <div class="i-tabler-server mr-1 text-sm" />
+          <Tooltip text="PDS">
+            <div class="i-tabler-server mr-1 text-sm" />
+          </Tooltip>
           <A
             end
             href={pds()!}
@@ -80,7 +82,9 @@ const NavBar = (props: { params: Params }) => {
         <Show when={props.params.repo}>
           <div>
             <div class="mt-1 flex items-center md:mt-0">
-              <div class="i-atproto-logo mr-1 text-sm" />
+              <Tooltip text={window.innerWidth > 768 ? "AT URI" : "Repository"}>
+                <div class="i-atproto-logo mr-1 text-sm" />
+              </Tooltip>
               <A
                 end
                 href={`at/${props.params.repo}`}
@@ -105,7 +109,9 @@ const NavBar = (props: { params: Params }) => {
         </Show>
         <Show when={props.params.collection}>
           <div class="mt-1 flex items-center md:mt-0">
-            <div class="i-uil-list-ul mr-1 text-sm md:hidden" />
+            <Tooltip text="Collection">
+              <div class="i-uil-list-ul mr-1 text-sm md:hidden" />
+            </Tooltip>
             <span class="mx-1 hidden md:inline">/</span>
             <A
               end
@@ -118,7 +124,9 @@ const NavBar = (props: { params: Params }) => {
         </Show>
         <Show when={props.params.rkey}>
           <div class="mt-1 flex items-center md:mt-0">
-            <div class="i-mdi-code-json mr-1 text-sm md:hidden" />
+            <Tooltip text="Record">
+              <div class="i-mdi-code-json mr-1 text-sm md:hidden" />
+            </Tooltip>
             <span class="mx-1 hidden md:inline">/</span>
             <span class="mr-1 cursor-pointer">{props.params.rkey}</span>
             <Show when={validRecord()}>
