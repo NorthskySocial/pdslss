@@ -41,7 +41,7 @@ const PdsView = () => {
             <a
               href={`/at/${repo.did}`}
               classList={{
-                "hover:underline w-fit font-mono relative": true,
+                "hover:underline w-full font-mono relative": true,
                 "text-lightblue-500": repo.active,
                 "text-gray-300 dark:text-gray-600": !repo.active,
               }}
