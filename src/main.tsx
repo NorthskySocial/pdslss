@@ -179,7 +179,6 @@ const Layout = (props: RouteSectionProps<unknown>) => {
         <div class="flex basis-1/3 gap-x-2">
           <div
             class="w-fit cursor-pointer"
-            title="Theme"
             onclick={() => {
               setTheme(theme() === "light" ? "dark" : "light");
               if (theme() === "dark")
@@ -188,9 +187,11 @@ const Layout = (props: RouteSectionProps<unknown>) => {
               localStorage.theme = theme();
             }}
           >
-            {theme() === "dark" ?
-              <div class="i-tabler-moon-stars text-xl" />
-            : <div class="i-tabler-sun text-xl" />}
+            <Tooltip text="Theme">
+              {theme() === "dark" ?
+                <div class="i-tabler-moon-stars text-xl" />
+              : <div class="i-tabler-sun text-xl" />}
+            </Tooltip>
           </div>
           <LoginStatus />
           <Show when={loginState()}>
@@ -204,18 +205,17 @@ const Layout = (props: RouteSectionProps<unknown>) => {
         </div>
         <div class="justify-right flex basis-1/3 items-center gap-x-2">
           <a
-            title="Bluesky"
             href="https://bsky.app/profile/did:plc:b3pn34agqqchkaf75v7h43dk"
             target="_blank"
           >
-            <div class="i-fa6-brands-bluesky text-xl" />
+            <Tooltip text="Bluesky">
+              <div class="i-fa6-brands-bluesky text-xl" />
+            </Tooltip>
           </a>
-          <a
-            title="GitHub"
-            href="https://github.com/notjuliet/pdsls"
-            target="_blank"
-          >
-            <div class="i-bi-github text-xl" />
+          <a href="https://github.com/notjuliet/pdsls" target="_blank">
+            <Tooltip text="GitHub">
+              <div class="i-bi-github text-xl" />
+            </Tooltip>
           </a>
         </div>
       </div>
