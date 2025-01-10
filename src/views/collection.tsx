@@ -238,7 +238,7 @@ const CollectionView = () => {
               <Show when={openDelete()}>
                 <dialog
                   ref={setModal}
-                  class="z-2 fixed left-0 top-0 flex h-screen w-screen items-center justify-center bg-transparent"
+                  class="z-2 backdrop-brightness-60 fixed left-0 top-0 flex h-screen w-screen items-center justify-center bg-transparent"
                 >
                   <div class="dark:bg-dark-400 rounded-md border border-neutral-500 bg-slate-100 p-3 text-slate-900 dark:text-slate-100">
                     <h3 class="text-lg font-bold">
