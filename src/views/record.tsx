@@ -201,7 +201,7 @@ const RecordView = () => {
         <div class="mb-2 break-words">{notice()}</div>
       </Show>
       <Show when={record()}>
-        <div class="mb-3 flex w-full justify-center gap-x-2">
+        <div class="my-3 flex w-full justify-center gap-x-2">
           <button
             onclick={() => setJSONSyntax(!JSONSyntax())}
             class="dark:bg-dark-700 dark:hover:bg-dark-800 rounded-lg border border-slate-400 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-slate-100 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:focus:ring-slate-300"

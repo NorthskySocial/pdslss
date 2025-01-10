@@ -38,7 +38,7 @@ const BlobView = () => {
   const [blobs, setBlobs] = createSignal<string[]>();
 
   return (
-    <div class="flex flex-col items-center">
+    <div class="mt-3 flex flex-col items-center">
       <Show when={blobs() || response()}>
         <div class="break-anywhere flex flex-col font-mono">
           <For each={blobs()}>

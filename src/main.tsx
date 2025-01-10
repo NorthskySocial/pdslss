@@ -58,7 +58,7 @@ const processInput = action(async (formData: FormData) => {
 
 const NavBar = (props: { params: Params }) => {
   return (
-    <div class="break-anywhere mb-3 mt-4 flex min-w-[21rem] flex-col font-mono">
+    <div class="break-anywhere mt-4 flex min-w-[21rem] flex-col font-mono">
       <Show when={pds() && props.params.pds}>
         <div class="flex items-center">
           <Tooltip text="PDS">

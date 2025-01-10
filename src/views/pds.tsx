@@ -33,7 +33,7 @@ const PdsView = () => {
 
   return (
     <Show when={repos() || response()}>
-      <div class="flex flex-col items-center">
+      <div class="mt-3 flex flex-col items-center">
         <p class="w-full font-semibold text-stone-600 dark:text-stone-400">
           Repositories
         </p>
