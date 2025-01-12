@@ -271,7 +271,7 @@ const Layout = (props: RouteSectionProps<unknown>) => {
         <Show keyed when={useLocation().pathname}>
           <ErrorBoundary
             fallback={(err) => (
-              <div class="break-words">Error: {err.message}</div>
+              <div class="mt-3 break-words">Error: {err.message}</div>
             )}
           >
             <Suspense
