@@ -25,7 +25,11 @@ const JSONString = ({ data }: { data: string }) => {
         <a class="underline" href={data.replace("at://", "/at/")}>
           {data}
         </a>
-      : data.startsWith("did:") && data.split(" ").length === 1 ?
+      : (
+        data.startsWith("did:") &&
+        data.split(" ").length === 1 &&
+        data.split(":").length === 3
+      ) ?
         <a class="underline" href={`/at/${data}`}>
           {data}
         </a>
