@@ -2,7 +2,7 @@ import { createSignal, For, Show, createResource } from "solid-js";
 import { CredentialManager, XRPC } from "@atcute/client";
 import { ComAtprotoSyncListRepos } from "@atcute/client/lexicons";
 import { useParams } from "@solidjs/router";
-import { setPDS } from "../main";
+import { setPDS } from "../components/navbar";
 import Tooltip from "../components/tooltip";
 
 const PdsView = () => {

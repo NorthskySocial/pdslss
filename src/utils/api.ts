@@ -1,6 +1,6 @@
 import { CredentialManager, XRPC } from "@atcute/client";
 import { query } from "@solidjs/router";
-import { setPDS } from "../main";
+import { setPDS } from "../components/navbar";
 import { DidDoc } from "./types";
 
 const didPDSCache: Record<string, string> = {};

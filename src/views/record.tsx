@@ -7,8 +7,9 @@ import { authenticate_post_with_doc } from "public-transport";
 import { agent, loginState } from "../views/login.jsx";
 import { Editor } from "../components/editor.jsx";
 import { editor } from "monaco-editor";
-import { setValidRecord, theme, validRecord } from "../main.jsx";
+import { setValidRecord, validRecord } from "../components/navbar.jsx";
 import { didDocCache, resolveHandle, resolvePDS } from "../utils/api.js";
+import { theme } from "../main.jsx";
 
 const RecordView = () => {
   const params = useParams();
