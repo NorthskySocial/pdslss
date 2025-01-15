@@ -3,7 +3,7 @@ import { XRPC, XRPCResponse } from "@atcute/client";
 import { agent } from "../views/login.jsx";
 import { Editor } from "../components/editor.jsx";
 import { editor } from "monaco-editor";
-import { theme } from "../main.jsx";
+import { theme } from "../layout.jsx";
 import { action, redirect } from "@solidjs/router";
 import { ComAtprotoRepoCreateRecord } from "@atcute/client/lexicons";
 import Tooltip from "./tooltip.jsx";

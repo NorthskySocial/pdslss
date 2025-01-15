@@ -9,7 +9,7 @@ import { Editor } from "../components/editor.jsx";
 import { editor } from "monaco-editor";
 import { setCID, setValidRecord, validRecord } from "../components/navbar.jsx";
 import { didDocCache, resolveHandle, resolvePDS } from "../utils/api.js";
-import { theme } from "../main.jsx";
+import { theme } from "../layout.jsx";
 
 const RecordView = () => {
   const params = useParams();
