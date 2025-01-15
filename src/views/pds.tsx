@@ -42,11 +42,11 @@ const PdsView = () => {
   return (
     <Show when={repos() || response()}>
       <div class="mt-3 flex flex-col items-center">
-        <div class="flex w-full gap-1">
+        <div class="flex max-w-[21rem] gap-1">
           <span class="font-semibold text-stone-600 dark:text-stone-400">
             Version
           </span>
-          <span>{version()}</span>
+          <span class="break-anywhere">{version()}</span>
         </div>
         <p class="w-full font-semibold text-stone-600 dark:text-stone-400">
           Repositories
