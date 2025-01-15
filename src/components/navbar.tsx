@@ -1,6 +1,6 @@
 import { A, Params } from "@solidjs/router";
 import Tooltip from "./tooltip";
-import { createSignal, Show } from "solid-js";
+import { createSignal, onCleanup, onMount, Show } from "solid-js";
 
 export const [pds, setPDS] = createSignal<string>();
 export const [validRecord, setValidRecord] = createSignal<boolean | undefined>(
@@ -8,22 +8,75 @@ export const [validRecord, setValidRecord] = createSignal<boolean | undefined>(
 );
 
 const NavBar = (props: { params: Params }) => {
+  const [openMenu, setOpenMenu] = createSignal(false);
+  const [dropdown, setDropdown] = createSignal<HTMLDivElement>();
+
+  const clickEvent = (event: MouseEvent) => {
+    if (openMenu() && event.target !== dropdown()) setOpenMenu(false);
+  };
+
+  onMount(() => window.addEventListener("click", clickEvent));
+  onCleanup(() => window.removeEventListener("click", clickEvent));
+
   return (
     <div class="break-anywhere mt-4 flex min-w-[21rem] flex-col font-mono">
-      <Show when={pds() && props.params.pds}>
-        <div class="flex items-center">
-          <Tooltip text="PDS">
-            <div class="i-tabler-server mr-1 text-sm" />
-          </Tooltip>
-          <A
-            end
-            href={pds()!}
-            inactiveClass="text-lightblue-500 hover:underline"
-          >
-            {pds()}
-          </A>
+      <div class="relative flex items-center justify-between">
+        <div class="flex basis-full items-center">
+          <Show when={pds() && props.params.pds}>
+            <Tooltip text="PDS">
+              <div class="i-tabler-server mr-1 shrink-0 text-sm" />
+            </Tooltip>
+            <A
+              end
+              href={pds()!}
+              inactiveClass="text-lightblue-500 hover:underline"
+            >
+              {pds()}
+            </A>
+          </Show>
         </div>
-      </Show>
+        <button
+          ref={setDropdown}
+          class="i-si-more-horiz-fill ml-1 shrink-0 text-lg"
+          onclick={() => setOpenMenu(!openMenu())}
+        />
+        <Show when={openMenu()}>
+          <div class="text-dark-700 absolute right-0 top-full z-10 w-max rounded-md border border-neutral-500 bg-white p-1 font-sans text-sm text-slate-900 dark:bg-neutral-800 dark:text-slate-100">
+            <div class="flex flex-col">
+              <Show when={props.params.repo}>
+                <button
+                  class="flex items-center bg-transparent p-0.5 hover:bg-neutral-200 dark:hover:bg-neutral-600"
+                  onclick={() =>
+                    navigator.clipboard.writeText(props.params.repo)
+                  }
+                >
+                  Copy DID
+                </button>
+                <button
+                  class="flex items-center bg-transparent p-0.5 hover:bg-neutral-200 dark:hover:bg-neutral-600"
+                  onclick={() =>
+                    navigator.clipboard.writeText(
+                      `at://${props.params.repo}${props.params.collection ? `/${props.params.collection}` : ""}${props.params.rkey ? `/${props.params.rkey}` : ""}`,
+                    )
+                  }
+                >
+                  Copy AT URI
+                </button>
+              </Show>
+              <Show when={pds()}>
+                {(pds) => (
+                  <button
+                    class="flex items-center bg-transparent p-0.5 hover:bg-neutral-200 dark:hover:bg-neutral-600"
+                    onclick={() => navigator.clipboard.writeText(pds())}
+                  >
+                    Copy PDS URL
+                  </button>
+                )}
+              </Show>
+            </div>
+          </div>
+        </Show>
+      </div>
       <div
         classList={{
           "flex flex-col flex-wrap md:flex-row": true,
