@@ -337,7 +337,7 @@ const RecordView = () => {
             <Editor
               theme={theme()}
               model={editor.createModel(
-                JSON.stringify(record(), null, 2).replace(
+                JSON.stringify(record()?.value, null, 2).replace(
                   /[\u007F-\uFFFF]/g,
                   (chr) =>
                     "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).slice(-4),
