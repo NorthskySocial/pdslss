@@ -1,19 +1,15 @@
 import { createSignal, ErrorBoundary, Show, Suspense } from "solid-js";
 import {
-  action,
-  Navigate,
-  redirect,
   RouteSectionProps,
   useLocation,
   useNavigate,
   useParams,
-  useSubmission,
 } from "@solidjs/router";
-import { agent, loginState, LoginStatus } from "./views/login.jsx";
-import { resolveHandle } from "./utils/api.js";
+import { loginState, LoginStatus } from "./views/login.jsx";
 import { CreateRecord } from "./components/create.jsx";
 import Tooltip from "./components/tooltip.jsx";
 import { NavBar } from "./components/navbar.jsx";
+import { Search } from "./components/search.jsx";
 
 export const [theme, setTheme] = createSignal(
   (
@@ -24,32 +20,6 @@ export const [theme, setTheme] = createSignal(
     "dark"
   : "light",
 );
-
-const processInput = action(async (formData: FormData) => {
-  const input = formData.get("input")?.toString();
-  (document.getElementById("uriForm") as HTMLFormElement).reset();
-  if (!input) return new Error("Empty input");
-  if (
-    !input.startsWith("https://bsky.app/") &&
-    !input.startsWith("https://main.bsky.dev/") &&
-    (input.startsWith("https://") || input.startsWith("http://"))
-  )
-    throw redirect(
-      `/${input.replace("https://", "").replace("http://", "").replace("/", "")}`,
-    );
-
-  const uri = input
-    .replace("at://", "")
-    .replace("https://bsky.app/profile/", "")
-    .replace("https://main.bsky.dev/profile/", "")
-    .replace("/post/", "/app.bsky.feed.post/");
-  const uriParts = uri.split("/");
-  const actor = uriParts[0];
-  const did = uri.startsWith("did:") ? actor : await resolveHandle(actor);
-  throw redirect(
-    `/at/${did}${uriParts.length > 1 ? `/${uriParts.slice(1).join("/")}` : ""}`,
-  );
-});
 
 const Layout = (props: RouteSectionProps<unknown>) => {
   try {
@@ -63,7 +33,6 @@ const Layout = (props: RouteSectionProps<unknown>) => {
     console.log(err);
   }
   const params = useParams();
-  const submission = useSubmission(processInput);
 
   return (
     <div
@@ -116,49 +85,7 @@ const Layout = (props: RouteSectionProps<unknown>) => {
       </div>
       <div class="mb-5 flex max-w-full flex-col items-center text-pretty lg:max-w-screen-lg">
         <Show when={useLocation().pathname !== "/login"}>
-          <form
-            class="flex flex-col items-center gap-y-1"
-            id="uriForm"
-            method="post"
-            action={processInput}
-          >
-            <div class="w-full">
-              <label for="input" class="ml-0.5 text-sm">
-                PDS URL or AT URI
-              </label>
-            </div>
-            <div class="flex items-center gap-x-2">
-              <input
-                type="text"
-                id="input"
-                name="input"
-                spellcheck={false}
-                class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
-              />
-              <button
-                type="submit"
-                class="dark:bg-dark-700 dark:hover:bg-dark-800 rounded-lg border border-gray-400 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-300"
-              >
-                Go
-              </button>
-              <Show when={loginState()}>
-                <Tooltip
-                  text="Repository"
-                  children={
-                    <a href={`/at/${agent.sub}`} class="flex items-center">
-                      <button class="i-tabler-binary-tree text-xl" />
-                      <Show when={location.pathname === "/"}>
-                        <Navigate href={`/at/${agent.sub}`} />
-                      </Show>
-                    </a>
-                  }
-                />
-              </Show>
-            </div>
-          </form>
-          <Show when={submission.error}>
-            {(err) => <div class="mt-3">{err().message}</div>}
-          </Show>
+          <Search />
         </Show>
         <Show when={params.pds}>
           <NavBar params={params} />
