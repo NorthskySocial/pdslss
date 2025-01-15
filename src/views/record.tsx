@@ -39,6 +39,7 @@ const RecordView = () => {
   onMount(async () => {
     window.addEventListener("click", clickEvent);
     window.addEventListener("keydown", keyEvent);
+    setCID(undefined);
     setValidRecord(undefined);
     const did =
       params.repo.startsWith("did:") ?
