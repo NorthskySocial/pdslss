@@ -45,7 +45,7 @@ const NavBar = (props: { params: Params }) => {
             <div class="flex flex-col">
               <Show when={props.params.repo}>
                 <button
-                  class="p-0.75 flex items-center bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-600"
+                  class="p-0.75 flex items-center rounded bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-600"
                   onclick={() =>
                     navigator.clipboard.writeText(props.params.repo)
                   }
@@ -53,7 +53,7 @@ const NavBar = (props: { params: Params }) => {
                   Copy DID
                 </button>
                 <button
-                  class="p-0.75 flex items-center bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-600"
+                  class="p-0.75 flex items-center rounded bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-600"
                   onclick={() =>
                     navigator.clipboard.writeText(
                       `at://${props.params.repo}${props.params.collection ? `/${props.params.collection}` : ""}${props.params.rkey ? `/${props.params.rkey}` : ""}`,
@@ -66,7 +66,7 @@ const NavBar = (props: { params: Params }) => {
               <Show when={pds()}>
                 {(pds) => (
                   <button
-                    class="p-0.75 flex items-center bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-600"
+                    class="p-0.75 flex items-center rounded bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-600"
                     onclick={() => navigator.clipboard.writeText(pds())}
                   >
                     Copy PDS URL
