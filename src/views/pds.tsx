@@ -8,6 +8,7 @@ import Tooltip from "../components/tooltip";
 const PdsView = () => {
   const params = useParams();
   if (params.pds.startsWith("web%2Bat%3A%2F%2F")) return;
+  const [version, setVersion] = createSignal<string>();
   const [cursor, setCursor] = createSignal<string>();
   setPDS(params.pds);
   const pds =
@@ -21,10 +22,17 @@ const PdsView = () => {
       params: { limit: 1000, cursor: cursor },
     });
 
+  const getVersion = async () => {
+    // @ts-expect-error: undocumented endpoint
+    const res = await rpc.get("_health", {});
+    setVersion((res.data as any).version);
+  };
+
   const fetchRepos = async (): Promise<ComAtprotoSyncListRepos.Repo[]> => {
     const res = await listRepos(cursor());
     setCursor(res.data.repos.length < 1000 ? undefined : res.data.cursor);
     setRepos(repos()?.concat(res.data.repos) ?? res.data.repos);
+    await getVersion();
     return res.data.repos;
   };
 
@@ -34,6 +42,12 @@ const PdsView = () => {
   return (
     <Show when={repos() || response()}>
       <div class="mt-3 flex flex-col items-center">
+        <div class="flex w-full gap-1">
+          <span class="font-semibold text-stone-600 dark:text-stone-400">
+            Version
+          </span>
+          <span>{version()}</span>
+        </div>
         <p class="w-full font-semibold text-stone-600 dark:text-stone-400">
           Repositories
         </p>
