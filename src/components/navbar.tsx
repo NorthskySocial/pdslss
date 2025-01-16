@@ -11,13 +11,22 @@ export const [validRecord, setValidRecord] = createSignal<boolean | undefined>(
 const NavBar = (props: { params: Params }) => {
   const [openMenu, setOpenMenu] = createSignal(false);
   const [dropdown, setDropdown] = createSignal<HTMLDivElement>();
+  const [viewportWidth, setViewportWidth] = createSignal(window.innerWidth);
 
   const clickEvent = (event: MouseEvent) => {
     if (openMenu() && event.target !== dropdown()) setOpenMenu(false);
   };
 
-  onMount(() => window.addEventListener("click", clickEvent));
-  onCleanup(() => window.removeEventListener("click", clickEvent));
+  const resizeEvent = () => setViewportWidth(window.innerWidth);
+
+  onMount(() => {
+    window.addEventListener("click", clickEvent);
+    window.addEventListener("resize", resizeEvent);
+  });
+  onCleanup(() => {
+    window.removeEventListener("click", clickEvent);
+    window.removeEventListener("resize", resizeEvent);
+  });
 
   return (
     <div class="break-anywhere mt-4 flex min-w-[21rem] max-w-full flex-col font-mono">
@@ -97,7 +106,7 @@ const NavBar = (props: { params: Params }) => {
         <Show when={props.params.repo}>
           <div>
             <div class="mt-1 flex items-center md:mt-0">
-              <Tooltip text={window.innerWidth > 768 ? "AT URI" : "Repository"}>
+              <Tooltip text={viewportWidth() > 768 ? "AT URI" : "Repository"}>
                 <div class="i-atproto-logo mr-1 text-sm" />
               </Tooltip>
               <A
