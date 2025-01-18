@@ -23,8 +23,7 @@ const RepoView = () => {
     const pds = await resolvePDS(did);
     rpc = new XRPC({ handler: new CredentialManager({ service: pds }) });
     const res = await describeRepo(did);
-    const didDocument = res.data.didDoc as DidDoc;
-    setDidDoc(didDocument.id ? didDocument : didDocCache[did]);
+    setDidDoc(didDocCache[did]);
     return res.data;
   };
 

@@ -10,15 +10,15 @@
   },
   "devDependencies": {
     "prettier": "^3.4.2",
-    "prettier-plugin-tailwindcss": "^0.6.9",
+    "prettier-plugin-tailwindcss": "^0.6.10",
     "typescript": "^5.7.3",
-    "unocss": "^65.4.0",
+    "unocss": "^65.4.2",
     "vite": "^6.0.7",
     "vite-plugin-solid": "^2.11.0",
     "vite-plugin-wasm": "^3.4.1"
   },
   "dependencies": {
-    "@atcute/client": "^2.0.6",
+    "@atcute/client": "^2.0.7",
     "@atcute/oauth-browser-client": "^1.0.9",
     "@atcute/tid": "^1.0.2",
     "@solidjs/router": "^0.15.3",
