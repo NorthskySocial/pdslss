@@ -24,8 +24,7 @@ const Home = () => {
       <p>Search inputs allowed:</p>
       <div class="ml-2">
         <div>
-          <span class="font-semibold text-orange-400">PDS URL</span> (https://
-          required):
+          <span class="font-semibold text-orange-400">PDS URL</span>:
           <div>
             <a href="/pds.bsky.mom" class="text-lightblue-500 hover:underline">
               https://pds.bsky.mom

@@ -24,7 +24,12 @@ const processInput = action(async (formData: FormData) => {
     .replace("/post/", "/app.bsky.feed.post/");
   const uriParts = uri.split("/");
   const actor = uriParts[0];
-  const did = uri.startsWith("did:") ? actor : await resolveHandle(actor);
+  let did: string;
+  try {
+    did = uri.startsWith("did:") ? actor : await resolveHandle(actor);
+  } catch {
+    throw redirect(`/${actor}`);
+  }
   throw redirect(
     `/at/${did}${uriParts.length > 1 ? `/${uriParts.slice(1).join("/")}` : ""}`,
   );
