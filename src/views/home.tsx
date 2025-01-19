@@ -14,11 +14,7 @@ const Home = () => {
           .
         </p>
         <p>
-          You can optionally{" "}
-          <a href="/login" class="text-lightblue-500 hover:underline">
-            login
-          </a>{" "}
-          to manage the records in your repository.
+          You can optionally login to manage the records in your repository.
         </p>
       </div>
       <p>Search inputs allowed:</p>
