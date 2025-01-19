@@ -90,7 +90,7 @@ const AccountManager = () => {
                         "bg-transparent basis-full text-left font-mono max-w-[32ch] text-sm truncate group-hover/select:bg-slate-300 dark:group-hover/select:bg-neutral-700":
                           true,
                         "text-green-500 dark:text-green-400":
-                          session === agent.sub,
+                          session === agent?.sub,
                       }}
                       onclick={() => resumeSession(session)}
                     >
