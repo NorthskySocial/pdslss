@@ -4,7 +4,7 @@ import { ComAtprotoRepoGetRecord } from "@atcute/client/lexicons";
 import { action, query, redirect, useParams } from "@solidjs/router";
 import { JSONValue } from "../components/json.jsx";
 import { authenticate_post_with_doc } from "public-transport";
-import { agent, loginState } from "../views/login.jsx";
+import { agent, loginState } from "../components/login.jsx";
 import { Editor } from "../components/editor.jsx";
 import { editor } from "monaco-editor";
 import { setCID, setValidRecord, validRecord } from "../components/navbar.jsx";

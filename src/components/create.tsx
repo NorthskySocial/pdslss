@@ -1,6 +1,6 @@
 import { createSignal, onMount, Show, onCleanup, createEffect } from "solid-js";
 import { XRPC, XRPCResponse } from "@atcute/client";
-import { agent } from "../views/login.jsx";
+import { agent } from "../components/login.jsx";
 import { Editor } from "../components/editor.jsx";
 import { editor } from "monaco-editor";
 import { theme } from "../layout.jsx";

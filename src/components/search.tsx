@@ -2,7 +2,7 @@ import { resolveHandle } from "../utils/api.js";
 import { action, Navigate, redirect, useSubmission } from "@solidjs/router";
 import Tooltip from "./tooltip.jsx";
 import { Show } from "solid-js";
-import { agent, loginState } from "../views/login.jsx";
+import { agent, loginState } from "../components/login.jsx";
 
 const processInput = action(async (formData: FormData) => {
   const input = formData.get("input")?.toString();

@@ -19,7 +19,7 @@ import { resolvePDS } from "../utils/api.js";
 import * as TID from "@atcute/tid";
 import { resolveHandle } from "@atcute/oauth-browser-client";
 import { JSONType, JSONValue } from "../components/json.jsx";
-import { agent, loginState } from "./login.jsx";
+import { agent, loginState } from "../components/login.jsx";
 import { createStore } from "solid-js/store";
 import Tooltip from "../components/tooltip.jsx";
 

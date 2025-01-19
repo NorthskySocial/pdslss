@@ -1,0 +1,123 @@
+import {
+  createSignal,
+  onMount,
+  Show,
+  onCleanup,
+  createEffect,
+  For,
+} from "solid-js";
+import Tooltip from "./tooltip.jsx";
+import {
+  deleteStoredSession,
+  getSession,
+  OAuthUserAgent,
+} from "@atcute/oauth-browser-client";
+import { agent, Login, setLoginState } from "./login.jsx";
+import { At } from "@atcute/client/lexicons";
+
+const AccountManager = () => {
+  const [modal, setModal] = createSignal<HTMLDialogElement>();
+  const [openManager, setOpenManager] = createSignal(false);
+  const [sessions, setSessions] = createSignal<At.DID[]>([]);
+
+  const clickEvent = (event: MouseEvent) => {
+    if (modal() && event.target == modal()) setOpenManager(false);
+  };
+  const keyEvent = (event: KeyboardEvent) => {
+    if (modal() && event.key == "Escape") setOpenManager(false);
+  };
+
+  onMount(() => {
+    window.addEventListener("keydown", keyEvent);
+    window.addEventListener("click", clickEvent);
+  });
+
+  onCleanup(() => {
+    window.removeEventListener("keydown", keyEvent);
+    window.removeEventListener("click", clickEvent);
+  });
+
+  createEffect(() => {
+    if (openManager()) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "auto";
+  });
+
+  createEffect(() => {
+    if (openManager()) {
+      const storedSessions = localStorage.getItem("atcute-oauth:sessions");
+      if (storedSessions) {
+        setSessions(Object.keys(JSON.parse(storedSessions)) as At.DID[]);
+      }
+    }
+  });
+
+  const resumeSession = async (did: `did:${string}`) => {
+    localStorage.setItem("lastSignedIn", did);
+    window.location.href = "/";
+  };
+
+  const removeSession = async (did: At.DID) => {
+    const currentSession = agent.sub;
+    try {
+      const session = await getSession(did, { allowStale: true });
+      const agent = new OAuthUserAgent(session);
+      await agent.signOut();
+    } catch (err) {
+      deleteStoredSession(did);
+    }
+    setSessions(sessions().filter((session) => session !== did));
+    if (currentSession === did) {
+      setLoginState(false);
+      window.location.reload;
+    }
+  };
+
+  return (
+    <>
+      <Show when={openManager()}>
+        <dialog
+          ref={setModal}
+          class="backdrop-brightness-60 fixed left-0 top-0 z-20 flex h-screen w-screen items-center justify-center bg-transparent"
+        >
+          <div class="dark:bg-dark-400 rounded-md border border-slate-900 bg-slate-100 p-4 text-slate-900 dark:border-slate-100 dark:text-slate-100">
+            <h3 class="mb-2 text-lg font-bold">Manage accounts</h3>
+            <For each={sessions()}>
+              {(session) => (
+                <div class="flex items-center gap-x-2">
+                  <button
+                    classList={{
+                      "bg-transparent hover:bg-neutral-500": true,
+                      "text-green-500": session === agent.sub,
+                    }}
+                    onclick={() => resumeSession(session)}
+                  >
+                    {session}
+                  </button>
+                  <button
+                    class="bg-transparent text-red-500 hover:bg-neutral-500"
+                    onclick={() => removeSession(session)}
+                  >
+                    Sign out
+                  </button>
+                </div>
+              )}
+            </For>
+            <div class="my-2">Add new account</div>
+            <Login />
+          </div>
+        </dialog>
+      </Show>
+      <Tooltip
+        text="Manage accounts"
+        children={
+          <button
+            class="i-mingcute-user-4-fill cursor-pointer text-xl"
+            onclick={() => setOpenManager(true)}
+          />
+        }
+      />
+    </>
+  );
+};
+
+export { AccountManager };

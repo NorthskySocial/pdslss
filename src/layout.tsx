@@ -1,15 +1,16 @@
-import { createSignal, ErrorBoundary, Show, Suspense } from "solid-js";
+import { createSignal, ErrorBoundary, onMount, Show, Suspense } from "solid-js";
 import {
   RouteSectionProps,
   useLocation,
   useNavigate,
   useParams,
 } from "@solidjs/router";
-import { loginState, LoginStatus } from "./views/login.jsx";
+import { loginState, retrieveSession } from "./components/login.jsx";
 import { CreateRecord } from "./components/create.jsx";
 import Tooltip from "./components/tooltip.jsx";
 import { NavBar } from "./components/navbar.jsx";
 import { Search } from "./components/search.jsx";
+import { AccountManager } from "./components/account.jsx";
 
 export const [theme, setTheme] = createSignal(
   (
@@ -33,6 +34,7 @@ const Layout = (props: RouteSectionProps<unknown>) => {
     console.log(err);
   }
   const params = useParams();
+  onMount(async () => await retrieveSession());
 
   return (
     <div
@@ -57,7 +59,7 @@ const Layout = (props: RouteSectionProps<unknown>) => {
               : <div class="i-tabler-sun text-xl" />}
             </Tooltip>
           </div>
-          <LoginStatus />
+          <AccountManager />
           <Show when={loginState()}>
             <CreateRecord />
           </Show>
