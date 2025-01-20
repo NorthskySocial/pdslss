@@ -23,6 +23,7 @@ const Editor = (props: {
       theme: props.theme === "dark" ? "vs-dark" : "vs",
       model: props.model,
       readOnly: props.readOnly ?? false,
+      lineNumbers: props.readOnly ? "off" : "on",
       wordWrap: "on",
       automaticLayout: true,
       scrollBeyondLastLine: !props.readOnly,
@@ -33,9 +34,9 @@ const Editor = (props: {
     <div
       ref={editorDiv}
       classList={{
-        "w-xs sm:w-xl lg:w-[60rem]": true,
-        "h-sm sm:h-lg": !props.readOnly,
-        "h-[42rem]": props.readOnly,
+        "w-xs sm:w-xl": true,
+        "h-sm sm:h-lg lg:w-[60rem]": !props.readOnly,
+        "h-[42rem] lg:w-[50rem]": props.readOnly,
       }}
     ></div>
   );
