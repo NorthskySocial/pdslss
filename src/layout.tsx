@@ -83,6 +83,11 @@ const Layout = (props: RouteSectionProps<unknown>) => {
               <div class="i-bi-github text-xl" />
             </Tooltip>
           </a>
+          <a href="https://ko-fi.com/notjuliet" target="_blank">
+            <Tooltip text="Donate">
+              <div class="i-simple-icons-kofi text-xl" />
+            </Tooltip>
+          </a>
         </div>
       </div>
       <div class="mb-5 flex max-w-full flex-col items-center text-pretty lg:max-w-screen-lg">
