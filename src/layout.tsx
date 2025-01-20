@@ -90,7 +90,7 @@ const Layout = (props: RouteSectionProps<unknown>) => {
           </a>
         </div>
       </div>
-      <div class="mb-5 flex max-w-full flex-col items-center text-pretty lg:max-w-screen-lg">
+      <div class="mb-5 flex max-w-full flex-col items-center text-pretty md:max-w-screen-md">
         <Show when={useLocation().pathname !== "/login"}>
           <Search />
         </Show>
