@@ -57,7 +57,7 @@ const AccountManager = () => {
   };
 
   const removeSession = async (did: At.DID) => {
-    const currentSession = agent.sub;
+    const currentSession = agent?.sub;
     try {
       const session = await getSession(did, { allowStale: true });
       const agent = new OAuthUserAgent(session);
