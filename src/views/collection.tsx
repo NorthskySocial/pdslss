@@ -51,7 +51,7 @@ const RecordLink = (props: { record: AtprotoRecord; index: number }) => {
   return (
     <span
       id={`rkey-${props.index}`}
-      class="relative cursor-pointer select-none hover:bg-neutral-300 dark:hover:bg-neutral-700"
+      class="relative cursor-pointer hover:bg-neutral-300 dark:hover:bg-neutral-700"
       onmouseover={(e) => setHoverRk(e.currentTarget)}
       onmouseleave={() => setHoverRk(undefined)}
     >
@@ -325,7 +325,7 @@ const CollectionView = () => {
             <>
               <Show when={batchDelete()}>
                 <label
-                  class="flex items-center gap-1"
+                  class="flex select-none items-center gap-1"
                   onclick={(e) => handleSelectionClick(e, index())}
                 >
                   <input
