@@ -73,18 +73,20 @@ const PdsView = () => {
             </a>
           )}
         </For>
-        <Show when={cursor() && !response.loading}>
-          <button
-            type="button"
-            onclick={() => refetch()}
-            class="dark:bg-dark-700 dark:hover:bg-dark-800 mt-1 rounded-lg border border-gray-400 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-300"
-          >
-            Load More
-          </button>
-        </Show>
-        <Show when={response.loading}>
-          <div class="i-line-md-loading-twotone-loop mt-2 text-xl"></div>
-        </Show>
+        <div class="flex w-full justify-center">
+          <Show when={cursor() && !response.loading}>
+            <button
+              type="button"
+              onclick={() => refetch()}
+              class="dark:bg-dark-700 dark:hover:bg-dark-800 mt-1 rounded-lg border border-gray-400 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-300"
+            >
+              Load More
+            </button>
+          </Show>
+          <Show when={response.loading}>
+            <div class="i-line-md-loading-twotone-loop mt-2 text-xl"></div>
+          </Show>
+        </div>
       </div>
     </Show>
   );

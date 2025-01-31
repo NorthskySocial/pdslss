@@ -205,110 +205,138 @@ const CollectionView = () => {
 
   return (
     <Show when={records.length || response()}>
-      <div
-        classList={{
-          "flex w-full sticky top-0 py-3 z-5 bg-slate-100 dark:bg-dark-700 items-center justify-center gap-2":
-            true,
-          "flex-col md:flex-row": batchDelete(),
-        }}
-      >
-        <Show when={loginState() && agent.sub === did}>
-          <div
-            classList={{
-              "flex items-center gap-x-2": true,
-              "border p-1 rounded-md border-neutral-500": batchDelete(),
-            }}
-          >
-            <Tooltip
-              text={batchDelete() ? "Cancel" : "Delete"}
-              children={
-                <button
-                  classList={{
-                    "flex items-center text-xl": true,
-                    "i-ic-round-delete-sweep text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300":
-                      !batchDelete(),
-                    "i-fluent-dismiss-circle-12-regular text-neutral-500 hover:text-neutral-600 dark:text-neutral-400 dark:hover:text-neutral-300":
-                      batchDelete(),
-                  }}
-                  onclick={() => {
-                    setRecords(
-                      { from: 0, to: untrack(() => records.length) - 1 },
-                      "toDelete",
-                      false,
-                    );
-                    setLastSelected(undefined);
-                    setBatchDelete(!batchDelete());
-                  }}
+      <div class="z-5 dark:bg-dark-700 sticky top-0 flex w-full flex-col items-center justify-center gap-2 bg-slate-100 py-3">
+        <div
+          classList={{
+            "flex items-center gap-2": true,
+            "flex-col md:flex-row": batchDelete(),
+          }}
+        >
+          <Show when={loginState() && agent.sub === did}>
+            <div
+              classList={{
+                "flex items-center gap-x-2": true,
+                "border p-1 rounded-md border-neutral-500": batchDelete(),
+              }}
+            >
+              <Tooltip
+                text={batchDelete() ? "Cancel" : "Delete"}
+                children={
+                  <button
+                    classList={{
+                      "flex items-center text-xl": true,
+                      "i-ic-round-delete-sweep text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300":
+                        !batchDelete(),
+                      "i-fluent-dismiss-circle-12-regular text-neutral-500 hover:text-neutral-600 dark:text-neutral-400 dark:hover:text-neutral-300":
+                        batchDelete(),
+                    }}
+                    onclick={() => {
+                      setRecords(
+                        { from: 0, to: untrack(() => records.length) - 1 },
+                        "toDelete",
+                        false,
+                      );
+                      setLastSelected(undefined);
+                      setBatchDelete(!batchDelete());
+                    }}
+                  />
+                }
+              />
+              <Show when={batchDelete()}>
+                <Tooltip
+                  text="Select All"
+                  children={
+                    <button
+                      class="i-mdi-checkbox-multiple-marked text-xl text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
+                      onclick={() => selectAll()}
+                    />
+                  }
                 />
-              }
-            />
-            <Show when={batchDelete()}>
-              <Tooltip
-                text="Select All"
-                children={
-                  <button
-                    class="i-mdi-checkbox-multiple-marked text-xl text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
-                    onclick={() => selectAll()}
-                  />
-                }
-              />
-              <Tooltip
-                text="Unselect All"
-                children={
-                  <button
-                    class="i-mdi-checkbox-multiple-blank-outline text-xl text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
-                    onclick={() => unselectAll()}
-                  />
-                }
-              />
-              <Tooltip
-                text="Confirm"
-                children={
-                  <button
-                    class="i-ic-round-delete-sweep text-xl text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300"
-                    onclick={() => setOpenDelete(true)}
-                  />
-                }
-              />
-              <Show when={openDelete()}>
-                <dialog
-                  ref={setModal}
-                  class="z-2 backdrop-brightness-60 fixed left-0 top-0 flex h-screen w-screen items-center justify-center bg-transparent"
-                >
-                  <div class="dark:bg-dark-400 rounded-md border border-neutral-500 bg-slate-100 p-3 text-slate-900 dark:text-slate-100">
-                    <h3 class="text-lg font-bold">
-                      Delete {records.filter((rec) => rec.toDelete).length}{" "}
-                      records?
-                    </h3>
-                    <form action={deleteRecords} method="post">
-                      <div class="mt-2 inline-flex gap-2">
-                        <button
-                          onclick={() => setOpenDelete(false)}
-                          class="dark:bg-dark-900 dark:hover:bg-dark-800 rounded-lg border border-neutral-500 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:focus:ring-slate-300"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          type="submit"
-                          class="rounded-lg bg-red-500 px-2.5 py-1.5 text-sm font-bold text-slate-100 hover:bg-red-400 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:bg-red-600 dark:hover:bg-red-500 dark:focus:ring-slate-300"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </dialog>
+                <Tooltip
+                  text="Unselect All"
+                  children={
+                    <button
+                      class="i-mdi-checkbox-multiple-blank-outline text-xl text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
+                      onclick={() => unselectAll()}
+                    />
+                  }
+                />
+                <Tooltip
+                  text="Confirm"
+                  children={
+                    <button
+                      class="i-ic-round-delete-sweep text-xl text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300"
+                      onclick={() => setOpenDelete(true)}
+                    />
+                  }
+                />
+                <Show when={openDelete()}>
+                  <dialog
+                    ref={setModal}
+                    class="z-2 backdrop-brightness-60 fixed left-0 top-0 flex h-screen w-screen items-center justify-center bg-transparent"
+                  >
+                    <div class="dark:bg-dark-400 rounded-md border border-neutral-500 bg-slate-100 p-3 text-slate-900 dark:text-slate-100">
+                      <h3 class="text-lg font-bold">
+                        Delete {records.filter((rec) => rec.toDelete).length}{" "}
+                        records?
+                      </h3>
+                      <form action={deleteRecords} method="post">
+                        <div class="mt-2 inline-flex gap-2">
+                          <button
+                            onclick={() => setOpenDelete(false)}
+                            class="dark:bg-dark-900 dark:hover:bg-dark-800 rounded-lg border border-neutral-500 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:focus:ring-slate-300"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            type="submit"
+                            class="rounded-lg bg-red-500 px-2.5 py-1.5 text-sm font-bold text-slate-100 hover:bg-red-400 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:bg-red-600 dark:hover:bg-red-500 dark:focus:ring-slate-300"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </dialog>
+                </Show>
               </Show>
+            </div>
+          </Show>
+          <input
+            type="text"
+            spellcheck={false}
+            placeholder="Filter by substring"
+            class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
+            onInput={(e) => setFilter(e.currentTarget.value)}
+          />
+        </div>
+        <div class="flex items-center gap-x-2">
+          <div>
+            <Show when={records.length > 1}>
+              <Show when={batchDelete()}>
+                <span>{records.filter((rec) => rec.toDelete).length}</span>
+                <span>/</span>
+              </Show>
+              <span>{records.length} records</span>
             </Show>
           </div>
-        </Show>
-        <input
-          type="text"
-          spellcheck={false}
-          placeholder="Filter by substring"
-          class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
-          onInput={(e) => setFilter(e.currentTarget.value)}
-        />
+          <Show when={cursor()}>
+            <div class="flex h-[2rem] w-[5.5rem] items-center justify-center">
+              <Show when={!response.loading}>
+                <button
+                  type="button"
+                  onclick={() => refetch()}
+                  class="dark:bg-dark-700 dark:hover:bg-dark-800 rounded-lg border border-gray-400 bg-white px-2 py-1.5 text-sm font-bold hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-300"
+                >
+                  Load More
+                </button>
+              </Show>
+              <Show when={response.loading}>
+                <div class="i-line-md-loading-twotone-loop text-xl"></div>
+              </Show>
+            </div>
+          </Show>
+        </div>
       </div>
       <div class="flex flex-col font-mono">
         <p class="font-sans font-semibold text-stone-600 dark:text-stone-400">
@@ -347,18 +375,6 @@ const CollectionView = () => {
           )}
         </For>
       </div>
-      <Show when={cursor() && !response.loading}>
-        <button
-          type="button"
-          onclick={() => refetch()}
-          class="dark:bg-dark-700 dark:hover:bg-dark-800 mt-1 rounded-lg border border-gray-400 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-300"
-        >
-          Load More
-        </button>
-      </Show>
-      <Show when={response.loading}>
-        <div class="i-line-md-loading-twotone-loop mt-2 text-xl"></div>
-      </Show>
     </Show>
   );
 };

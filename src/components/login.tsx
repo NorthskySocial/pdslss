@@ -41,7 +41,7 @@ const Login = () => {
 
       location.assign(authUrl);
     } catch (e) {
-      console.log(e);
+      console.error(e);
       setNotice("Error during OAuth login");
     }
   };

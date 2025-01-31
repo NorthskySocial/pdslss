@@ -31,7 +31,7 @@ const Layout = (props: RouteSectionProps<unknown>) => {
       navigate(pathname.replace("web+at://", "at/"));
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
   const params = useParams();
   onMount(async () => await retrieveSession());
