@@ -321,7 +321,7 @@ const CollectionView = () => {
             </Show>
           </div>
           <Show when={cursor()}>
-            <div class="flex h-[2rem] w-[5.5rem] items-center justify-center">
+            <div class="flex h-[2rem] w-[5.5rem] text-nowrap items-center justify-center">
               <Show when={!response.loading}>
                 <button
                   type="button"
