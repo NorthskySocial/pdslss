@@ -30,7 +30,7 @@ const NavBar = (props: { params: Params }) => {
             <A
               end
               href={pds()!}
-              inactiveClass="text-lightblue-500 hover:underline"
+              inactiveClass="text-lightblue-500 w-full hover:underline"
             >
               {pds()}
             </A>
@@ -98,7 +98,7 @@ const NavBar = (props: { params: Params }) => {
               <A
                 end
                 href={`at/${props.params.repo}`}
-                inactiveClass="text-lightblue-500 hover:underline"
+                inactiveClass="text-lightblue-500 w-full hover:underline"
               >
                 {props.params.repo}
               </A>
@@ -109,7 +109,7 @@ const NavBar = (props: { params: Params }) => {
                 <A
                   end
                   href={`at/${props.params.repo}/blobs`}
-                  inactiveClass="text-lightblue-500 hover:underline"
+                  inactiveClass="text-lightblue-500 w-full hover:underline"
                 >
                   blobs
                 </A>
@@ -125,7 +125,7 @@ const NavBar = (props: { params: Params }) => {
             <A
               end
               href={`at/${props.params.repo}/${props.params.collection}`}
-              inactiveClass="text-lightblue-500 hover:underline"
+              inactiveClass="text-lightblue-500 w-full hover:underline"
             >
               {props.params.collection}
             </A>
