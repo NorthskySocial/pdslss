@@ -1,6 +1,6 @@
 const Home = () => {
   return (
-    <div class="mt-4 flex flex-col break-words">
+    <div class="mt-4 flex w-full flex-col break-words">
       <div class="mb-2">
         <p>
           Browse the public data on{" "}
