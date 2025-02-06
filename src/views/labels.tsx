@@ -35,6 +35,13 @@ const LabelView = () => {
 
   const [response, { refetch }] = createResource(uriPatterns, fetchLabels);
 
+  const queryLabels = async () => {
+    setLabels([]);
+    setUriPatterns(
+      (document.getElementById("patterns") as HTMLInputElement).value,
+    );
+  };
+
   return (
     <>
       <div class="z-5 dark:bg-dark-700 sticky top-0 flex w-full flex-col items-center justify-center gap-2 bg-slate-100 py-4">
@@ -56,18 +63,20 @@ const LabelView = () => {
               cols={25}
               class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
             />
-            <button
-              onclick={() =>
-                setUriPatterns(
-                  (document.getElementById("patterns") as HTMLInputElement)
-                    .value,
-                )
-              }
-              type="submit"
-              class="dark:bg-dark-700 dark:hover:bg-dark-800 rounded-lg border border-gray-400 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-300"
-            >
-              Get
-            </button>
+            <div class="flex min-w-[3rem] justify-center">
+              <Show when={!response.loading}>
+                <button
+                  onclick={() => queryLabels()}
+                  type="submit"
+                  class="dark:bg-dark-700 dark:hover:bg-dark-800 rounded-lg border border-gray-400 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-300"
+                >
+                  Get
+                </button>
+              </Show>
+              <Show when={response.loading}>
+                <div class="i-line-md-loading-twotone-loop text-xl"></div>
+              </Show>
+            </div>
           </div>
         </form>
         <div class="flex items-center gap-x-2">
