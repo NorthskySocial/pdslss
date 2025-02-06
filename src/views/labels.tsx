@@ -125,7 +125,7 @@ const LabelView = () => {
                   <div class="min-w-[5rem] font-semibold text-stone-600 dark:text-stone-400">
                     Negated
                   </div>
-                  {label.neg}
+                  {label.neg ? "true" : "false"}
                 </div>
               </Show>
               <div class="flex gap-x-2">
