@@ -1,6 +1,7 @@
 import { A, Params } from "@solidjs/router";
 import Tooltip from "./tooltip";
 import { createSignal, onCleanup, onMount, Show } from "solid-js";
+import { labelerCache } from "../utils/api";
 
 export const [pds, setPDS] = createSignal<string>();
 export const [cid, setCID] = createSignal<string>();
@@ -120,7 +121,9 @@ const NavBar = (props: { params: Params }) => {
             </Show>
             <Show
               when={
-                isLabeler() && !props.params.collection && !props.params.rkey
+                props.params.repo in labelerCache &&
+                !props.params.collection &&
+                !props.params.rkey
               }
             >
               <div class="mt-1 flex items-center">

@@ -1,10 +1,11 @@
 import { CredentialManager, XRPC } from "@atcute/client";
 import { query } from "@solidjs/router";
-import { setIsLabeler, setPDS } from "../components/navbar";
+import { setPDS } from "../components/navbar";
 import { DidDocument } from "@atcute/client/utils/did";
+import { createStore } from "solid-js/store";
 
 const didPDSCache: Record<string, string> = {};
-const labelerCache: Record<string, string> = {};
+const [labelerCache, setLabelerCache] = createStore<Record<string, string>>({});
 const didDocCache: Record<string, DidDocument> = {};
 const getPDS = query(async (did: string) => {
   if (did in didPDSCache) return didPDSCache[did];
@@ -21,10 +22,8 @@ const getPDS = query(async (did: string) => {
         didPDSCache[did] = service.serviceEndpoint.toString();
         didDocCache[did] = doc;
       }
-      if (service.id === "#atproto_labeler") {
-        labelerCache[did] = service.serviceEndpoint.toString();
-        setIsLabeler(true);
-      }
+      if (service.id === "#atproto_labeler")
+        setLabelerCache(did, service.serviceEndpoint.toString());
     }
     return didPDSCache[did];
   });
