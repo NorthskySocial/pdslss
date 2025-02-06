@@ -3,7 +3,7 @@ import { CredentialManager, XRPC } from "@atcute/client";
 import { useParams } from "@solidjs/router";
 import { labelerCache, resolvePDS } from "../utils/api.js";
 import { ComAtprotoLabelDefs } from "@atcute/client/lexicons";
-import { getDateFromTimestamp } from "../utils/date.js";
+import { localDateFromTimestamp } from "../utils/date.js";
 
 const LabelView = () => {
   const params = useParams();
@@ -147,7 +147,7 @@ const LabelView = () => {
                 <div class="min-w-[5rem] font-semibold text-stone-600 dark:text-stone-400">
                   Created
                 </div>
-                {getDateFromTimestamp(new Date(label.cts).getTime())}
+                {localDateFromTimestamp(new Date(label.cts).getTime())}
               </div>
               <Show when={label.exp}>
                 {(exp) => (
@@ -155,7 +155,7 @@ const LabelView = () => {
                     <div class="min-w-[5rem] font-semibold text-stone-600 dark:text-stone-400">
                       Expires
                     </div>
-                    {getDateFromTimestamp(new Date(exp()).getTime())}
+                    {localDateFromTimestamp(new Date(exp()).getTime())}
                   </div>
                 )}
               </Show>

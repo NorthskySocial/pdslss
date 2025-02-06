@@ -21,7 +21,7 @@ import { JSONType, JSONValue } from "../components/json.jsx";
 import { agent, loginState } from "../components/login.jsx";
 import { createStore } from "solid-js/store";
 import Tooltip from "../components/tooltip.jsx";
-import { getDateFromTimestamp } from "../utils/date.js";
+import { localDateFromTimestamp } from "../utils/date.js";
 
 interface AtprotoRecord {
   rkey: string;
@@ -54,7 +54,7 @@ const RecordLink = (props: { record: AtprotoRecord; index: number }) => {
         when={props.record.timestamp && props.record.timestamp <= Date.now()}
       >
         <span class="ml-2 text-xs text-neutral-500 dark:text-neutral-400">
-          {getDateFromTimestamp(props.record.timestamp!)}
+          {localDateFromTimestamp(props.record.timestamp!)}
         </span>
       </Show>
       <Show when={hoverRk()?.id === `rkey-${props.index}`}>
