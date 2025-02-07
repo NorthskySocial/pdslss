@@ -71,7 +71,7 @@ const LabelView = () => {
             URI Patterns (comma-separated)
           </label>
         </div>
-        <div class="flex items-center gap-x-2">
+        <div class="relative flex items-center gap-x-2">
           <textarea
             id="patterns"
             name="patterns"
@@ -81,7 +81,7 @@ const LabelView = () => {
             value={searchParams.uriPatterns ?? ""}
             class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
           />
-          <div class="flex min-w-[3rem] justify-center">
+          <div class="absolute -right-14 flex min-w-[3rem] justify-center">
             <Show when={!response.loading}>
               <button
                 onclick={() => queryLabels()}
