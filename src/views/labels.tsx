@@ -132,7 +132,7 @@ const LabelView = () => {
         </div>
       </div>
       <Show when={labels().length}>
-        <div class="break-anywhere flex flex-col gap-2 divide-y divide-neutral-500 whitespace-pre-wrap font-mono">
+        <div class="break-anywhere flex flex-col gap-2 divide-y divide-neutral-400 whitespace-pre-wrap font-mono dark:divide-neutral-600">
           <For each={filterLabels()}>
             {(label) => (
               <div class="flex justify-between gap-2 pt-2">
