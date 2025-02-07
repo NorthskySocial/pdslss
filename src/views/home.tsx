@@ -16,6 +16,21 @@ const Home = () => {
         <p>
           You can optionally login to manage the records in your repository.
         </p>
+        <p>
+          A{" "}
+          <a
+            href="https://github.com/bluesky-social/jetstream"
+            class="text-lightblue-500 hover:underline"
+            target="_blank"
+          >
+            Jetstream
+          </a>{" "}
+          viewer is also available{" "}
+          <a href="/jetstream" class="text-lightblue-500 hover:underline">
+            here
+          </a>
+          .
+        </p>
       </div>
       <p>Search inputs allowed:</p>
       <div class="ml-2">

@@ -89,6 +89,7 @@ const JetstreamView = () => {
 
   return (
     <div class="mt-4 flex flex-col items-center gap-y-3">
+      <h1 class="text-lg font-bold">Jetstream Viewer</h1>
       <form method="post" action={connectSocket} class="flex flex-col gap-y-3">
         <Show when={!connected()}>
           <label class="flex items-center justify-end gap-x-2">
@@ -173,7 +174,7 @@ const JetstreamView = () => {
           </button>
         </div>
       </form>
-      <div class="break-anywhere flex flex-col gap-2 divide-y divide-neutral-500 whitespace-pre-wrap font-mono text-sm">
+      <div class="break-anywhere md:w-screen-md flex w-full flex-col gap-2 divide-y divide-neutral-500 whitespace-pre-wrap font-mono text-sm">
         <For each={records().toReversed()}>
           {(rec) => (
             <div class="pt-2">

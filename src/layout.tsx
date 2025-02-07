@@ -92,7 +92,7 @@ const Layout = (props: RouteSectionProps<unknown>) => {
         </div>
       </div>
       <div class="mb-5 flex max-w-full flex-col items-center text-pretty md:max-w-screen-md">
-        <Show when={location.pathname !== "/login"}>
+        <Show when={location.pathname !== "/jetstream"}>
           <Search />
         </Show>
         <Show when={params.pds}>
