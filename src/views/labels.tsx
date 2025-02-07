@@ -1,15 +1,15 @@
 import { createResource, createSignal, For, onMount, Show } from "solid-js";
 import { CredentialManager, XRPC } from "@atcute/client";
-import { useParams } from "@solidjs/router";
+import { useParams, useSearchParams } from "@solidjs/router";
 import { labelerCache, resolvePDS } from "../utils/api.js";
 import { ComAtprotoLabelDefs } from "@atcute/client/lexicons";
 import { localDateFromTimestamp } from "../utils/date.js";
 
 const LabelView = () => {
   const params = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [cursor, setCursor] = createSignal<string>();
   const [labels, setLabels] = createSignal<ComAtprotoLabelDefs.Label[]>([]);
-  const [uriPatterns, setUriPatterns] = createSignal<string>();
   const did = params.repo;
   let rpc: XRPC;
 
@@ -18,12 +18,15 @@ const LabelView = () => {
     rpc = new XRPC({
       handler: new CredentialManager({ service: labelerCache[did] }),
     });
+    if (searchParams.uriPatterns) refetch();
   });
 
   const fetchLabels = async () => {
+    const uriPatterns = searchParams.uriPatterns;
+    if (!uriPatterns) return;
     const res = await rpc.get("com.atproto.label.queryLabels", {
       params: {
-        uriPatterns: uriPatterns()!.trim().split(","),
+        uriPatterns: uriPatterns.toString().trim().split(","),
         sources: [did as `did:${string}`],
         cursor: cursor(),
       },
@@ -33,13 +36,15 @@ const LabelView = () => {
     return res.data.labels;
   };
 
-  const [response, { refetch }] = createResource(uriPatterns, fetchLabels);
+  const [response, { refetch }] = createResource(fetchLabels);
 
   const queryLabels = async () => {
     setLabels([]);
-    setUriPatterns(
-      (document.getElementById("patterns") as HTMLInputElement).value,
-    );
+    setSearchParams({
+      uriPatterns: (document.getElementById("patterns") as HTMLInputElement)
+        .value,
+    });
+    refetch();
   };
 
   return (
@@ -61,6 +66,7 @@ const LabelView = () => {
               spellcheck={false}
               rows={3}
               cols={25}
+              value={searchParams.uriPatterns ?? ""}
               class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
             />
             <div class="flex min-w-[3rem] justify-center">
@@ -108,56 +114,56 @@ const LabelView = () => {
       <div class="break-anywhere flex flex-col gap-2 divide-y divide-neutral-500 whitespace-pre-wrap font-mono">
         <For each={labels()}>
           {(label) => (
-            <div class="flex flex-col gap-x-2 pt-2">
-              <div class="flex gap-x-2">
-                <div class="min-w-[5rem] font-semibold text-stone-600 dark:text-stone-400">
-                  URI
-                </div>
-                <a
-                  href={`/at/${label.uri.replace("at://", "")}`}
-                  target="_blank"
-                  class="underline"
-                >
-                  {label.uri}
-                </a>
-              </div>
-              <Show when={label.cid}>
-                <div class="flex gap-x-2">
+            <div class="flex gap-2 pt-2">
+              <div class="flex flex-col gap-x-2">
+                <div class="flex items-center gap-x-2">
                   <div class="min-w-[5rem] font-semibold text-stone-600 dark:text-stone-400">
-                    CID
+                    URI
                   </div>
-                  {label.cid}
+                  <a
+                    href={`/at/${label.uri.replace("at://", "")}`}
+                    target="_blank"
+                    class="underline"
+                  >
+                    {label.uri}
+                  </a>
                 </div>
-              </Show>
-              <div class="flex gap-x-2">
-                <div class="min-w-[5rem] font-semibold text-stone-600 dark:text-stone-400">
-                  Label
-                </div>
-                {label.val}
-              </div>
-              <Show when={label.neg}>
-                <div class="flex gap-x-2">
-                  <div class="min-w-[5rem] font-semibold text-stone-600 dark:text-stone-400">
-                    Negated
-                  </div>
-                  {label.neg ? "true" : "false"}
-                </div>
-              </Show>
-              <div class="flex gap-x-2">
-                <div class="min-w-[5rem] font-semibold text-stone-600 dark:text-stone-400">
-                  Created
-                </div>
-                {localDateFromTimestamp(new Date(label.cts).getTime())}
-              </div>
-              <Show when={label.exp}>
-                {(exp) => (
+                <Show when={label.cid}>
                   <div class="flex gap-x-2">
                     <div class="min-w-[5rem] font-semibold text-stone-600 dark:text-stone-400">
-                      Expires
+                      CID
                     </div>
-                    {localDateFromTimestamp(new Date(exp()).getTime())}
+                    {label.cid}
                   </div>
-                )}
+                </Show>
+                <div class="flex gap-x-2">
+                  <div class="min-w-[5rem] font-semibold text-stone-600 dark:text-stone-400">
+                    Label
+                  </div>
+                  {label.val}
+                </div>
+                <div class="flex gap-x-2">
+                  <div class="min-w-[5rem] font-semibold text-stone-600 dark:text-stone-400">
+                    Created
+                  </div>
+                  {localDateFromTimestamp(new Date(label.cts).getTime())}
+                </div>
+                <Show when={label.exp}>
+                  {(exp) => (
+                    <div class="flex gap-x-2">
+                      <div class="min-w-[5rem] font-semibold text-stone-600 dark:text-stone-400">
+                        Expires
+                      </div>
+                      {localDateFromTimestamp(new Date(exp()).getTime())}
+                    </div>
+                  )}
+                </Show>
+              </div>
+              <Show when={label.neg}>
+                <div class="i-lucide-minus text-lg text-xl text-red-500 dark:text-red-400" />
+              </Show>
+              <Show when={!label.neg}>
+                <div class="i-lucide-plus text-lg text-green-500 dark:text-green-400" />
               </Show>
             </div>
           )}
