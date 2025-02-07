@@ -42,7 +42,7 @@ const LabelView = () => {
 
   const [response, { refetch }] = createResource(fetchLabels);
 
-  const queryLabels = async () => {
+  const initQuery = async () => {
     setLabels([]);
     setCursor("");
     setSearchParams({
@@ -85,7 +85,7 @@ const LabelView = () => {
           <div class="absolute -right-14 flex min-w-[3rem] justify-center">
             <Show when={!response.loading}>
               <button
-                onclick={() => queryLabels()}
+                onclick={() => initQuery()}
                 type="submit"
                 class="dark:bg-dark-700 dark:hover:bg-dark-800 rounded-lg border border-gray-400 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-300"
               >
