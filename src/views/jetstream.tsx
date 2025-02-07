@@ -2,6 +2,7 @@ import { createSignal, For, Show, onCleanup, onMount } from "solid-js";
 import { JSONValue } from "../components/json";
 import { action, useAction, useSearchParams } from "@solidjs/router";
 
+const LIMIT = 25;
 type Parameter = { name: string; param: string | string[] | undefined };
 
 const JetstreamView = () => {
@@ -64,7 +65,7 @@ const JetstreamView = () => {
     socket.addEventListener("message", (event) => {
       const rec = JSON.parse(event.data);
       if (allEvents() || (rec.kind !== "account" && rec.kind !== "identity"))
-        setRecords(records().concat(rec).slice(-25));
+        setRecords(records().concat(rec).slice(-LIMIT));
     });
   });
 
