@@ -39,13 +39,26 @@ const SubscribeReposView = () => {
       relay: url,
       cursor: cursor,
     });
-    firehose.on("error", (commit) => {
-      console.log(commit);
+    firehose.on("error", (err) => {
+      console.error(err);
     });
     firehose.on("commit", (commit) => {
       for (const op of commit.ops) {
-        setRecords(records().concat(op).slice(-LIMIT));
+        const record = {
+          $type: commit.$type,
+          repo: commit.repo,
+          seq: commit.seq,
+          time: commit.time,
+          rev: commit.rev,
+          since: commit.since,
+          tooBig: commit.tooBig,
+          op: op,
+        };
+        setRecords(records().concat(record).slice(-LIMIT));
       }
+    });
+    firehose.on("identity", (identity) => {
+      setRecords(records().concat(identity).slice(-LIMIT));
     });
     firehose.start();
   });
@@ -119,7 +132,7 @@ const SubscribeReposView = () => {
         <For each={records().toReversed()}>
           {(rec) => (
             <div class="pt-2">
-              <JSONValue data={rec} repo={rec.did} />
+              <JSONValue data={rec} repo={rec.did ?? rec.repo} />
             </div>
           )}
         </For>
