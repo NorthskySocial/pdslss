@@ -31,6 +31,20 @@ const Home = () => {
           </a>
           .
         </p>
+        <p>
+          <a
+            href="https://atproto.com/specs/sync#firehose"
+            class="text-lightblue-500 hover:underline"
+            target="_blank"
+          >
+            Firehose
+          </a>{" "}
+          support can be found{" "}
+          <a href="/firehose" class="text-lightblue-500 hover:underline">
+            here
+          </a>
+          .
+        </p>
       </div>
       <p>Search inputs allowed:</p>
       <div class="ml-2">
