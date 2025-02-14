@@ -63,7 +63,7 @@ const Home = () => {
           optional, DID or handle alone also works):
           <div>
             <A
-              href="/at/did:plc:oisofpd7lj26yvgiivf3lxsi/app.bsky.feed.post/3l2zpbbhuvw2h"
+              href="/at://did:plc:oisofpd7lj26yvgiivf3lxsi/app.bsky.feed.post/3l2zpbbhuvw2h"
               class="text-lightblue-500 hover:underline"
             >
               at://did:plc:oisofpd7lj26yvgiivf3lxsi/app.bsky.feed.post/3l2zpbbhuvw2h
@@ -75,7 +75,7 @@ const Home = () => {
           and profiles):
           <div>
             <A
-              href="/at/did:plc:vwzwgnygau7ed7b7wt5ux7y2/app.bsky.feed.post/3khpasmu4ou2l"
+              href="/at://did:plc:vwzwgnygau7ed7b7wt5ux7y2/app.bsky.feed.post/3khpasmu4ou2l"
               class="text-lightblue-500 hover:underline"
             >
               https://bsky.app/profile/retr0.id/post/3khpasmu4ou2l

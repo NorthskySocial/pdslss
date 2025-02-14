@@ -37,7 +37,7 @@ const RepoView = () => {
           <For each={repo()?.collections}>
             {(collection) => (
               <A
-                href={`${collection}`}
+                href={`/at://${did}/${collection}`}
                 class="text-lightblue-500 break-anywhere w-full hover:underline"
               >
                 {collection}

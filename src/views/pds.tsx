@@ -56,7 +56,7 @@ const PdsView = () => {
         <For each={repos()}>
           {(repo) => (
             <A
-              href={`/at/${repo.did}`}
+              href={`/at://${repo.did}`}
               classList={{
                 "w-full flex font-mono relative": true,
                 "text-lightblue-500": repo.active,

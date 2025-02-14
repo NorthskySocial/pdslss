@@ -134,7 +134,7 @@ const RecordView = () => {
         rkey: params.rkey,
       },
     });
-    throw redirect(`/at/${params.repo}/${params.collection}`);
+    throw redirect(`/at://${params.repo}/${params.collection}`);
   });
 
   createEffect(() => {

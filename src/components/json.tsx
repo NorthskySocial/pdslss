@@ -26,7 +26,7 @@ const JSONString = ({ data }: { data: string }) => {
         {(part) => (
           <>
             {part.startsWith("at://") && part.split(" ").length === 1 ?
-              <A class="underline" href={part.replace("at://", "/at/")}>
+              <A class="underline" href={`/${part}`}>
                 {part}
               </A>
             : (
@@ -34,7 +34,7 @@ const JSONString = ({ data }: { data: string }) => {
               part.split(" ").length === 1 &&
               part.split(":").length === 3
             ) ?
-              <A class="underline" href={`/at/${part}`}>
+              <A class="underline" href={`/at://${part}`}>
                 {part}
               </A>
             : (

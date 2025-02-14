@@ -31,7 +31,7 @@ const processInput = action(async (formData: FormData) => {
     throw redirect(`/${actor}`);
   }
   throw redirect(
-    `/at/${did}${uriParts.length > 1 ? `/${uriParts.slice(1).join("/")}` : ""}`,
+    `/at://${did}${uriParts.length > 1 ? `/${uriParts.slice(1).join("/")}` : ""}`,
   );
 });
 
@@ -69,7 +69,7 @@ const Search = () => {
             <Tooltip
               text="Repository"
               children={
-                <A href={`/at/${agent.sub}`} class="flex items-center">
+                <A href={`/at://${agent.sub}`} class="flex items-center">
                   <button class="i-tabler-binary-tree text-xl" />
                 </A>
               }

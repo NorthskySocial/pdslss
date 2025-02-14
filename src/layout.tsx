@@ -23,7 +23,7 @@ const Layout = (props: RouteSectionProps<unknown>) => {
     navigator.registerProtocolHandler("web+at", "/%s");
     const pathname = decodeURIComponent(useLocation().pathname);
     if (pathname.startsWith("/web+at://")) {
-      window.location.href = pathname.replace("web+at://", "at/");
+      window.location.href = pathname.replace("web+at://", "at://");
     }
   } catch (err) {
     console.error(err);
@@ -37,7 +37,7 @@ const Layout = (props: RouteSectionProps<unknown>) => {
     }
     await retrieveSession();
     if (loginState() && location.pathname === "/")
-      window.location.href = `/at/${agent.sub}`;
+      window.location.href = `/at://${agent.sub}`;
   });
 
   return (
