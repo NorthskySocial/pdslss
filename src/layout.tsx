@@ -7,6 +7,7 @@ import { NavBar } from "./components/navbar.jsx";
 import { Search } from "./components/search.jsx";
 import { AccountManager } from "./components/account.jsx";
 import { resolveHandle } from "./utils/api.js";
+import { Meta, MetaProvider } from "@solidjs/meta";
 
 export const [theme, setTheme] = createSignal(
   (
@@ -45,6 +46,11 @@ const Layout = (props: RouteSectionProps<unknown>) => {
       id="main"
       class="m-5 flex flex-col items-center text-slate-900 dark:text-slate-100"
     >
+      <Show when={location.pathname !== "/"}>
+        <MetaProvider>
+          <Meta name="robots" content="noindex, nofollow" />
+        </MetaProvider>
+      </Show>
       <div class="mb-2 flex w-[21rem] items-center">
         <div class="flex basis-1/3 gap-x-2">
           <A href="/jetstream">
