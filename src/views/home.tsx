@@ -2,7 +2,7 @@ import { A } from "@solidjs/router";
 
 const Home = () => {
   return (
-    <div class="mt-4 flex w-full flex-col break-words">
+    <div class="w-21rem mt-4 flex flex-col break-words">
       <div class="mb-2">
         <p>
           Browse the public data on{" "}
@@ -15,11 +15,8 @@ const Home = () => {
           </a>
           .
         </p>
+        <p>Login to manage records in your repository.</p>
         <p>
-          You can optionally login to manage the records in your repository.
-        </p>
-        <p>
-          A{" "}
           <a
             href="https://github.com/bluesky-social/jetstream"
             class="text-lightblue-500 hover:underline"
@@ -27,7 +24,7 @@ const Home = () => {
           >
             Jetstream
           </a>{" "}
-          viewer is also available{" "}
+          viewer is available{" "}
           <A href="/jetstream" class="text-lightblue-500 hover:underline">
             here
           </A>
@@ -41,17 +38,17 @@ const Home = () => {
           >
             Firehose
           </A>{" "}
-          support can be found{" "}
+          streaming can be found{" "}
           <A href="/firehose" class="text-lightblue-500 hover:underline">
             here
           </A>
           .
         </p>
       </div>
-      <p>Search inputs allowed:</p>
+      <p>Examples:</p>
       <div class="ml-2">
         <div>
-          <span class="font-semibold text-orange-400">PDS URL</span>:
+          <span class="font-semibold text-orange-400">PDS</span>
           <div>
             <A href="/pds.moe" class="text-lightblue-500 hover:underline">
               https://pds.moe
@@ -59,26 +56,24 @@ const Home = () => {
           </div>
         </div>
         <div>
-          <span class="font-semibold text-orange-400">AT URI</span> (at://
-          optional, DID or handle alone also works):
+          <span class="font-semibold text-orange-400">Repository</span>
+          <div>
+            <A
+              href="/at://did:plc:vwzwgnygau7ed7b7wt5ux7y2"
+              class="text-lightblue-500 hover:underline"
+            >
+              at://did:plc:vwzwgnygau7ed7b7wt5ux7y2
+            </A>
+          </div>
+        </div>
+        <div>
+          <span class="font-semibold text-orange-400">Record</span>
           <div>
             <A
               href="/at://did:plc:oisofpd7lj26yvgiivf3lxsi/app.bsky.feed.post/3l2zpbbhuvw2h"
               class="text-lightblue-500 hover:underline"
             >
               at://did:plc:oisofpd7lj26yvgiivf3lxsi/app.bsky.feed.post/3l2zpbbhuvw2h
-            </A>
-          </div>
-        </div>
-        <div>
-          <span class="font-semibold text-orange-400">Bluesky Link</span> (posts
-          and profiles):
-          <div>
-            <A
-              href="/at://did:plc:vwzwgnygau7ed7b7wt5ux7y2/app.bsky.feed.post/3khpasmu4ou2l"
-              class="text-lightblue-500 hover:underline"
-            >
-              https://bsky.app/profile/retr0.id/post/3khpasmu4ou2l
             </A>
           </div>
         </div>
