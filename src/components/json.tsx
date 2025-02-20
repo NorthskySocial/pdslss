@@ -144,6 +144,7 @@ const JSONObject = ({
             <a
               href={`https://${pds()}/xrpc/com.atproto.sync.getBlob?did=${repo}&cid=${blob.ref.$link}`}
               target="_blank"
+              class="size-fit"
             >
               <Tooltip text="Blob link">
                 <div class="i-tabler-external-link" />
