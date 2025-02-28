@@ -22,12 +22,12 @@ const NavBar = (props: { params: Params }) => {
   onCleanup(() => window.removeEventListener("click", clickEvent));
 
   return (
-    <div class="break-anywhere xs:w-sm mt-4 flex w-[21rem] flex-col font-mono">
+    <div class="break-anywhere mt-4 flex w-[21rem] flex-col font-mono text-sm">
       <div class="relative flex items-center justify-between">
         <div class="flex basis-full items-center">
           <Show when={pds() && props.params.pds}>
             <Tooltip text="PDS">
-              <div class="i-tabler-server mr-1 shrink-0 text-sm" />
+              <div class="i-tabler-server mr-1 shrink-0" />
             </Tooltip>
             <A
               end
@@ -44,7 +44,7 @@ const NavBar = (props: { params: Params }) => {
           onclick={() => setOpenMenu(!openMenu())}
         />
         <Show when={openMenu()}>
-          <div class="text-dark-700 absolute right-0 top-full z-10 w-max rounded-md border border-neutral-500 bg-white p-1 font-sans text-sm text-slate-900 dark:bg-neutral-800 dark:text-slate-100">
+          <div class="text-dark-700 absolute right-0 top-full z-10 w-max rounded-md border border-neutral-500 bg-white p-1 font-sans text-slate-900 dark:bg-neutral-800 dark:text-slate-100">
             <div class="flex flex-col">
               <Show when={props.params.repo}>
                 <button
@@ -95,7 +95,7 @@ const NavBar = (props: { params: Params }) => {
           <div>
             <div class="mt-1 flex items-center">
               <Tooltip text="Repository">
-                <div class="i-atproto-logo mr-1 text-sm" />
+                <div class="i-atproto-logo mr-1" />
               </Tooltip>
               <A
                 end
@@ -108,7 +108,7 @@ const NavBar = (props: { params: Params }) => {
             <Show when={!props.params.collection && !props.params.rkey}>
               <div class="mt-1 flex items-center">
                 <Tooltip text="Blobs">
-                  <div class="i-ph-binary-bold mr-1 text-sm" />
+                  <div class="i-ph-binary-bold mr-1" />
                 </Tooltip>
                 <A
                   end
@@ -128,7 +128,7 @@ const NavBar = (props: { params: Params }) => {
             >
               <div class="mt-1 flex items-center">
                 <Tooltip text="Labels">
-                  <div class="i-mdi-tag-outline mr-1 text-sm" />
+                  <div class="i-mdi-tag-outline mr-1" />
                 </Tooltip>
                 <A
                   end
@@ -144,7 +144,7 @@ const NavBar = (props: { params: Params }) => {
         <Show when={props.params.collection}>
           <div class="mt-1 flex items-center">
             <Tooltip text="Collection">
-              <div class="i-uil-list-ul mr-1 text-sm" />
+              <div class="i-uil-list-ul mr-1" />
             </Tooltip>
             <A
               end
@@ -158,7 +158,7 @@ const NavBar = (props: { params: Params }) => {
         <Show when={props.params.rkey}>
           <div class="mt-1 flex items-center">
             <Tooltip text="Record">
-              <div class="i-mdi-code-json mr-1 text-sm" />
+              <div class="i-mdi-code-json mr-1" />
             </Tooltip>
             <span class="mr-1 cursor-pointer">{props.params.rkey}</span>
             <Show when={validRecord()}>
@@ -188,7 +188,7 @@ const NavBar = (props: { params: Params }) => {
         {(cid) => (
           <div class="mt-1 flex items-center">
             <Tooltip text="CID">
-              <div class="i-meteor-icons-cube mr-1 text-sm" />
+              <div class="i-meteor-icons-cube mr-1" />
             </Tooltip>
             <span dir="rtl" class="truncate">
               {cid()}
