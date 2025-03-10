@@ -87,7 +87,7 @@ const AccountManager = () => {
                   <div class="group/select flex w-full items-center justify-between gap-x-2">
                     <button
                       classList={{
-                        "bg-transparent basis-full text-left font-mono max-w-[32ch] text-sm truncate group-hover/select:bg-slate-300 dark:group-hover/select:bg-neutral-700":
+                        "basis-full text-left font-mono max-w-[32ch] text-sm truncate group-hover/select:bg-slate-300 dark:group-hover/select:bg-neutral-700":
                           true,
                         "text-green-500 dark:text-green-400":
                           session === agent?.sub,
@@ -97,7 +97,7 @@ const AccountManager = () => {
                       {session}
                     </button>
                     <button
-                      class="i-basil-cross-solid bg-transparent text-xl text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-500"
+                      class="i-basil-cross-solid text-xl text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-500"
                       onclick={() => removeSession(session)}
                     />
                   </div>

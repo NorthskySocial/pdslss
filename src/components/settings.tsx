@@ -72,7 +72,7 @@ const Settings = () => {
               <button
                 classList={{
                   "basis-1/3 p-2": true,
-                  "bg-transparent hover:bg-slate-200 dark:hover:bg-dark-200":
+                  "hover:bg-slate-200 dark:hover:bg-dark-200":
                     !theme().system,
                   "bg-neutral-500 text-slate-100": theme().system,
                 }}
@@ -94,7 +94,7 @@ const Settings = () => {
               <button
                 classList={{
                   "basis-1/3 p-2": true,
-                  "bg-transparent hover:bg-slate-200 dark:hover:bg-dark-200":
+                  "hover:bg-slate-200 dark:hover:bg-dark-200":
                     theme().color !== "light" || theme().system,
                   "bg-neutral-500 text-slate-100":
                     theme().color === "light" && !theme().system,
@@ -106,7 +106,7 @@ const Settings = () => {
               <button
                 classList={{
                   "basis-1/3 p-2": true,
-                  "bg-transparent hover:bg-slate-200 dark:hover:bg-dark-200":
+                  "hover:bg-slate-200 dark:hover:bg-dark-200":
                     theme().color !== "dark" || theme().system,
                   "bg-neutral-500": theme().color === "dark" && !theme().system,
                 }}

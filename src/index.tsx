@@ -1,7 +1,7 @@
 /* @refresh reload */
 import { render } from "solid-js/web";
 import "virtual:uno.css";
-import "./styles/tailwind-compat.css";
+import "./styles/tailwind.css";
 import "./styles/index.css";
 import "./styles/icons.css";
 import { Route, Router } from "@solidjs/router";
