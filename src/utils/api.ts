@@ -1,48 +1,79 @@
-import { CredentialManager, XRPC } from "@atcute/client";
 import { query } from "@solidjs/router";
+
+import {
+  type DidDocument,
+  getLabelerEndpoint,
+  getPdsEndpoint,
+  isAtprotoDid,
+  isHandle,
+} from "@atcute/identity";
+import {
+  AtprotoWebDidDocumentResolver,
+  CompositeDidDocumentResolver,
+  PlcDidDocumentResolver,
+  XrpcHandleResolver,
+} from "@atcute/identity-resolver";
+
 import { setPDS } from "../components/navbar";
-import { DidDocument } from "@atcute/client/utils/did";
-import { createStore } from "solid-js/store";
 
-const didPDSCache: Record<string, string> = {};
-const [labelerCache, setLabelerCache] = createStore<Record<string, string>>({});
+export const didDocumentResolver = new CompositeDidDocumentResolver({
+  methods: {
+    plc: new PlcDidDocumentResolver(),
+    web: new AtprotoWebDidDocumentResolver(),
+  },
+});
+
+export const handleResolver = new XrpcHandleResolver({
+  serviceUrl: "https://public.api.bsky.app",
+});
+
 const didDocCache: Record<string, DidDocument> = {};
-const getPDS = query(async (did: string) => {
-  if (did in didPDSCache) return didPDSCache[did];
-  const res = await fetch(
-    did.startsWith("did:web") ?
-      `https://${did.split(":")[2]}/.well-known/did.json`
-    : "https://plc.directory/" + did,
-  );
 
-  return res.json().then((doc: DidDocument) => {
-    if (!doc.service) throw new Error("No PDS found");
-    for (const service of doc.service) {
-      if (service.id === "#atproto_pds") {
-        didPDSCache[did] = service.serviceEndpoint.toString();
-        didDocCache[did] = doc;
-      }
-      if (service.id === "#atproto_labeler")
-        setLabelerCache(did, service.serviceEndpoint.toString());
-    }
-    return didPDSCache[did];
-  });
+const resolveHandle = query(async (handle: string) => {
+  if (!isHandle(handle)) {
+    throw new Error(`Invalid handle`);
+  }
+
+  const did = await handleResolver.resolve(handle);
+
+  return did;
+}, "resolveHandle");
+
+const resolveDidDocument = query(async (did: string) => {
+  if (!isAtprotoDid(did)) {
+    throw new Error(`Invalid DID identifier`);
+  }
+
+  const didDoc = await didDocumentResolver.resolve(did);
+
+  return didDoc;
+}, "resolveDidDocument");
+
+const getPDS = query(async (did: string) => {
+  const doc = await resolveDidDocument(did);
+
+  const endpoint = getPdsEndpoint(doc);
+  if (!endpoint) {
+    throw new Error(`No PDS found`);
+  }
+
+  return endpoint;
 }, "getPDS");
 
-const resolveHandle = async (handle: string) => {
-  const rpc = new XRPC({
-    handler: new CredentialManager({ service: "https://public.api.bsky.app" }),
-  });
-  const res = await rpc.get("com.atproto.identity.resolveHandle", {
-    params: { handle: handle },
-  });
-  return res.data.did;
-};
+const getLabeler = query(async (did: string) => {
+  const doc = await resolveDidDocument(did);
+
+  const endpoint = getLabelerEndpoint(doc);
+  if (!endpoint) {
+    throw new Error(`No labeler found`);
+  }
+
+  return endpoint;
+}, "getLabeler");
 
 const resolvePDS = async (did: string) => {
   setPDS(undefined);
   const pds = await getPDS(did);
-  if (!pds) throw new Error("No PDS found");
   setPDS(pds.replace("https://", "").replace("http://", ""));
   return pds;
 };
@@ -115,12 +146,13 @@ const getDidBacklinks = (
   );
 
 export {
-  getPDS,
-  getAllBacklinks,
-  getRecordBacklinks,
-  getDidBacklinks,
-  labelerCache,
   didDocCache,
+  getAllBacklinks,
+  getDidBacklinks,
+  getLabeler,
+  getPDS,
+  getRecordBacklinks,
+  resolveDidDocument,
   resolveHandle,
   resolvePDS,
   type LinkData,

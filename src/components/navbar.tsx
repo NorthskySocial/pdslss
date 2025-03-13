@@ -1,7 +1,9 @@
-import { A, Params } from "@solidjs/router";
-import Tooltip from "./tooltip";
+import { A, createAsync, Params } from "@solidjs/router";
 import { createSignal, onCleanup, onMount, Show } from "solid-js";
-import { labelerCache } from "../utils/api";
+
+import { getLabeler } from "../utils/api";
+
+import Tooltip from "./tooltip";
 
 export const [pds, setPDS] = createSignal<string>();
 export const [cid, setCID] = createSignal<string>();
@@ -17,6 +19,17 @@ const NavBar = (props: { params: Params }) => {
   const clickEvent = (event: MouseEvent) => {
     if (openMenu() && event.target !== dropdown()) setOpenMenu(false);
   };
+
+  const isLabeler = createAsync((): Promise<boolean> => {
+    if (props.params.collection || props.params.rkey) {
+      return Promise.resolve(false);
+    }
+
+    return getLabeler(props.params.repo).then(
+      () => true,
+      () => false,
+    );
+  });
 
   onMount(() => window.addEventListener("click", clickEvent));
   onCleanup(() => window.removeEventListener("click", clickEvent));
@@ -119,13 +132,7 @@ const NavBar = (props: { params: Params }) => {
                 </A>
               </div>
             </Show>
-            <Show
-              when={
-                props.params.repo in labelerCache &&
-                !props.params.collection &&
-                !props.params.rkey
-              }
-            >
+            <Show when={isLabeler()}>
               <div class="mt-1 flex items-center">
                 <Tooltip text="Labels">
                   <div class="i-mdi-tag-outline mr-1" />

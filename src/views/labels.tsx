@@ -1,8 +1,10 @@
-import { createResource, createSignal, For, onMount, Show } from "solid-js";
-import { CredentialManager, XRPC } from "@atcute/client";
 import { A, useParams, useSearchParams } from "@solidjs/router";
-import { labelerCache, resolvePDS } from "../utils/api.js";
+import { createResource, createSignal, For, onMount, Show } from "solid-js";
+
+import { simpleFetchHandler, XRPC } from "@atcute/client";
 import { ComAtprotoLabelDefs } from "@atcute/client/lexicons";
+
+import { getLabeler } from "../utils/api.js";
 import { localDateFromTimestamp } from "../utils/date.js";
 
 const LabelView = () => {
@@ -13,21 +15,18 @@ const LabelView = () => {
   const [filter, setFilter] = createSignal<string>();
   const [labelCount, setLabelCount] = createSignal(0);
   const did = params.repo;
-  let rpc: XRPC;
-
-  onMount(async () => {
-    await resolvePDS(did);
-    rpc = new XRPC({
-      handler: new CredentialManager({ service: labelerCache[did] }),
-    });
-    if (searchParams.uriPatterns) refetch();
-  });
 
   const fetchLabels = async () => {
     const uriPatterns = (
       document.getElementById("patterns") as HTMLInputElement
     ).value;
     if (!uriPatterns) return;
+
+    const endpoint = await getLabeler(did);
+    const rpc = new XRPC({
+      handler: simpleFetchHandler({ service: endpoint }),
+    });
+
     const res = await rpc.get("com.atproto.label.queryLabels", {
       params: {
         uriPatterns: uriPatterns.toString().trim().split(","),
@@ -41,6 +40,10 @@ const LabelView = () => {
   };
 
   const [response, { refetch }] = createResource(fetchLabels);
+
+  onMount(() => {
+    if (searchParams.uriPatterns) refetch();
+  });
 
   const initQuery = async () => {
     setLabels([]);

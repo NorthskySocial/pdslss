@@ -1,15 +1,16 @@
-import { createSignal, For, Show, createResource } from "solid-js";
-import { CredentialManager, XRPC } from "@atcute/client";
 import { A, query, useParams } from "@solidjs/router";
+import { createResource, createSignal, For, Show } from "solid-js";
+
+import { simpleFetchHandler, XRPC } from "@atcute/client";
+import { defs, type DidDocument } from "@atcute/identity";
+
+import { Backlinks } from "../components/backlinks.jsx";
 import {
-  didDocCache,
   getAllBacklinks,
   LinkData,
   resolveHandle,
   resolvePDS,
 } from "../utils/api.js";
-import { DidDocument } from "@atcute/client/utils/did";
-import { Backlinks } from "../components/backlinks.jsx";
 
 const RepoView = () => {
   const params = useParams();
@@ -30,9 +31,12 @@ const RepoView = () => {
   const fetchRepo = async () => {
     if (!did.startsWith("did:")) did = await resolveHandle(params.repo);
     const pds = await resolvePDS(did);
-    rpc = new XRPC({ handler: new CredentialManager({ service: pds }) });
+    rpc = new XRPC({ handler: simpleFetchHandler({ service: pds }) });
     const res = await describeRepo(did);
-    setDidDoc(didDocCache[did]);
+
+    const didDocument = defs.didDocument.parse(res.data.didDoc);
+    setDidDoc(didDocument);
+
     if (localStorage.backlinks === "true") {
       try {
         const backlinks = await getAllBacklinks(did);
@@ -91,7 +95,17 @@ const RepoView = () => {
                   <For each={didDocument().service}>
                     {(service) => (
                       <li class="flex flex-col">
-                        <span>{service.id}</span>
+                        <span>
+                          {(() => {
+                            const id = service.id;
+                            const [controller, key] = id.split("#");
+                            if (controller === didDocument().id) {
+                              return `#${key}`;
+                            }
+
+                            return id;
+                          })()}
+                        </span>
                         <a
                           class="text-lightblue-500 w-fit hover:underline"
                           href={service.serviceEndpoint.toString()}
@@ -112,7 +126,17 @@ const RepoView = () => {
                   <For each={didDocument().verificationMethod}>
                     {(verif) => (
                       <li class="flex flex-col">
-                        <span>#{verif.id.split("#")[1]}</span>
+                        <span>
+                          {(() => {
+                            const id = verif.id;
+                            const [controller, key] = id.split("#");
+                            if (controller === didDocument().id) {
+                              return `#${key}`;
+                            }
+
+                            return id;
+                          })()}
+                        </span>
                         <span>{verif.publicKeyMultibase}</span>
                       </li>
                     )}
