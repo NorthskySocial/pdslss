@@ -168,8 +168,8 @@ export const verifyRecord = async (
 
   // verify the commit is a valid commit
   try {
-    const found = await dfs(blockmap, commit.data.$link, opts.cid);
-    if (!found.found) {
+    const result = await dfs(blockmap, commit.data.$link, opts.cid);
+    if (!result.found) {
       errors.push({ message: `could not find record in car` });
     }
   } catch (err) {
