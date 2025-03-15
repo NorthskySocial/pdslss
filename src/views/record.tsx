@@ -1,18 +1,22 @@
-import { simpleFetchHandler, XRPC } from "@atcute/client";
+import { CredentialManager, XRPC } from "@atcute/client";
 import { ComAtprotoRepoGetRecord } from "@atcute/client/lexicons";
+
 import { action, query, redirect, useParams } from "@solidjs/router";
-import { editor } from "monaco-editor";
 import { createEffect, createSignal, onCleanup, onMount, Show } from "solid-js";
+
+import { editor } from "monaco-editor";
+
 import { Backlinks } from "../components/backlinks.jsx";
 import { Editor } from "../components/editor.jsx";
 import { JSONValue, syntaxHighlight } from "../components/json.jsx";
 import { agent, loginState } from "../components/login.jsx";
 import { setCID, setValidRecord, validRecord } from "../components/navbar.jsx";
 import { theme } from "../components/settings.jsx";
+
 import {
+  didDocCache,
   getAllBacklinks,
   LinkData,
-  resolveDidDocument,
   resolveHandle,
   resolvePDS,
 } from "../utils/api.js";
@@ -56,7 +60,7 @@ export default () => {
     setValidRecord(undefined);
     if (!did.startsWith("did:")) did = await resolveHandle(params.repo);
     const pds = await resolvePDS(did);
-    rpc = new XRPC({ handler: simpleFetchHandler({ service: pds }) });
+    rpc = new XRPC({ handler: new CredentialManager({ service: pds }) });
     try {
       const res = await getRecord(did, params.collection, params.rkey);
       setRecord(res.data);
@@ -69,18 +73,19 @@ export default () => {
           uri: res.data.uri,
           cid: res.data.cid!,
           record: res.data.value,
-          didDoc: await resolveDidDocument(did),
+          didDoc: didDocCache[res.data.uri.split("/")[2]],
         });
 
         setValidRecord(errors.length === 0);
-      } catch {
+      } catch (err) {
+        console.error(err);
         setValidRecord(false);
       }
     } catch (err: any) {
       if (err.message) setNotice(err.message);
       else setNotice(`Invalid record: ${err}`);
+      setValidRecord(false);
     }
-
     if (localStorage.backlinks === "true") {
       try {
         const backlinkTarget = `at://${did}/${params.collection}/${params.rkey}`;

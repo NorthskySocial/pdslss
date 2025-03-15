@@ -1,4 +1,5 @@
 import { query } from "@solidjs/router";
+import { createStore } from "solid-js/store";
 
 import {
   type DidDocument,
@@ -16,64 +17,55 @@ import {
 
 import { setPDS } from "../components/navbar";
 
-export const didDocumentResolver = new CompositeDidDocumentResolver({
+const didDocumentResolver = new CompositeDidDocumentResolver({
   methods: {
     plc: new PlcDidDocumentResolver(),
     web: new AtprotoWebDidDocumentResolver(),
   },
 });
 
-export const handleResolver = new XrpcHandleResolver({
+const handleResolver = new XrpcHandleResolver({
   serviceUrl: "https://public.api.bsky.app",
 });
 
+const didPDSCache: Record<string, string> = {};
+const [labelerCache, setLabelerCache] = createStore<Record<string, string>>({});
 const didDocCache: Record<string, DidDocument> = {};
-
-const resolveHandle = query(async (handle: string) => {
-  if (!isHandle(handle)) {
-    throw new Error(`Invalid handle`);
-  }
-
-  const did = await handleResolver.resolve(handle);
-
-  return did;
-}, "resolveHandle");
-
-const resolveDidDocument = query(async (did: string) => {
-  if (!isAtprotoDid(did)) {
-    throw new Error(`Invalid DID identifier`);
-  }
-
-  const didDoc = await didDocumentResolver.resolve(did);
-
-  return didDoc;
-}, "resolveDidDocument");
-
 const getPDS = query(async (did: string) => {
-  const doc = await resolveDidDocument(did);
+  if (did in didPDSCache) return didPDSCache[did];
 
-  const endpoint = getPdsEndpoint(doc);
-  if (!endpoint) {
-    throw new Error(`No PDS found`);
+  if (!isAtprotoDid(did)) {
+    throw new Error("Not a valid DID identifier");
   }
 
-  return endpoint;
+  const doc = await didDocumentResolver.resolve(did);
+
+  const pds = getPdsEndpoint(doc);
+  const labeler = getLabelerEndpoint(doc);
+
+  if (labeler) {
+    setLabelerCache(did, labeler);
+  }
+
+  if (!pds) {
+    throw new Error("No PDS found");
+  }
+
+  return (didPDSCache[did] = pds);
 }, "getPDS");
 
-const getLabeler = query(async (did: string) => {
-  const doc = await resolveDidDocument(did);
-
-  const endpoint = getLabelerEndpoint(doc);
-  if (!endpoint) {
-    throw new Error(`No labeler found`);
+const resolveHandle = async (handle: string) => {
+  if (!isHandle(handle)) {
+    throw new Error("Not a valid handle");
   }
 
-  return endpoint;
-}, "getLabeler");
+  return await handleResolver.resolve(handle);
+};
 
 const resolvePDS = async (did: string) => {
   setPDS(undefined);
   const pds = await getPDS(did);
+  if (!pds) throw new Error("No PDS found");
   setPDS(pds.replace("https://", "").replace("http://", ""));
   return pds;
 };
@@ -149,10 +141,9 @@ export {
   didDocCache,
   getAllBacklinks,
   getDidBacklinks,
-  getLabeler,
   getPDS,
   getRecordBacklinks,
-  resolveDidDocument,
+  labelerCache,
   resolveHandle,
   resolvePDS,
   type LinkData,
