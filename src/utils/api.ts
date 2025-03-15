@@ -39,6 +39,7 @@ const getPDS = query(async (did: string) => {
   }
 
   const doc = await didDocumentResolver.resolve(did);
+  didDocCache[did] = doc;
 
   const pds = getPdsEndpoint(doc);
   const labeler = getLabelerEndpoint(doc);
