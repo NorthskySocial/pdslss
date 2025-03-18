@@ -91,7 +91,7 @@ const RepoView = () => {
                   <For each={didDocument().service}>
                     {(service) => (
                       <li class="flex flex-col">
-                        <span>{service.id}</span>
+                        <span>#{service.id.split("#")[1]}</span>
                         <a
                           class="text-lightblue-500 w-fit hover:underline"
                           href={service.serviceEndpoint.toString()}
