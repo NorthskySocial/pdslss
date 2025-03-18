@@ -76,7 +76,7 @@ export default () => {
           didDoc: didDocCache[res.data.uri.split("/")[2]],
         });
 
-        console.warn(errors);
+        if (errors.length > 0) console.warn(errors);
         setValidRecord(errors.length === 0);
       } catch (err) {
         console.error(err);

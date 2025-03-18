@@ -1,6 +1,6 @@
 // courtesy of the best 🐇, my lovely sister mary
 import Hls from "hls.js";
-import { createEffect, createSignal, onCleanup } from "solid-js";
+import { createEffect, createSignal, onCleanup, Show } from "solid-js";
 
 export interface VideoPlayerProps {
   /** Expected to be static */
@@ -10,6 +10,7 @@ export interface VideoPlayerProps {
 
 const VideoPlayer = ({ did, cid }: VideoPlayerProps) => {
   const [playing, setPlaying] = createSignal(false);
+  const [error, setError] = createSignal(false);
 
   const hls = new Hls({
     capLevelToPlayerSize: true,
@@ -27,53 +28,56 @@ const VideoPlayer = ({ did, cid }: VideoPlayerProps) => {
   onCleanup(() => hls.destroy());
 
   hls.loadSource(`https://video.cdn.bsky.app/hls/${did}/${cid}/playlist.m3u8`);
+  hls.on(Hls.Events.ERROR, () => setError(true));
 
   return (
     <div>
-      <video
-        ref={(node) => {
-          hls.attachMedia(node);
+      <Show when={!error()}>
+        <video
+          ref={(node) => {
+            hls.attachMedia(node);
 
-          createEffect(() => {
-            if (!playing()) {
-              return;
-            }
+            createEffect(() => {
+              if (!playing()) {
+                return;
+              }
 
-            const observer = new IntersectionObserver(
-              (entries) => {
-                const entry = entries[0];
-                if (!entry.isIntersecting) {
-                  node.pause();
-                }
-              },
-              { threshold: 0.5 },
-            );
+              const observer = new IntersectionObserver(
+                (entries) => {
+                  const entry = entries[0];
+                  if (!entry.isIntersecting) {
+                    node.pause();
+                  }
+                },
+                { threshold: 0.5 },
+              );
 
-            onCleanup(() => observer.disconnect());
+              onCleanup(() => observer.disconnect());
 
-            observer.observe(node);
-          });
-        }}
-        controls
-        autoplay
-        muted
-        playsinline
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-        onLoadedMetadata={(ev) => {
-          const video = ev.currentTarget;
+              observer.observe(node);
+            });
+          }}
+          controls
+          autoplay
+          muted
+          playsinline
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
+          onLoadedMetadata={(ev) => {
+            const video = ev.currentTarget;
 
-          const hasAudio =
-            // @ts-expect-error: Mozilla-specific
-            video.mozHasAudio ||
-            // @ts-expect-error: WebKit/Blink-specific
-            !!video.webkitAudioDecodedByteCount ||
-            // @ts-expect-error: WebKit-specific
-            !!(video.audioTracks && video.audioTracks.length);
+            const hasAudio =
+              // @ts-expect-error: Mozilla-specific
+              video.mozHasAudio ||
+              // @ts-expect-error: WebKit/Blink-specific
+              !!video.webkitAudioDecodedByteCount ||
+              // @ts-expect-error: WebKit-specific
+              !!(video.audioTracks && video.audioTracks.length);
 
-          video.loop = !hasAudio || video.duration <= 6;
-        }}
-      />
+            video.loop = !hasAudio || video.duration <= 6;
+          }}
+        />
+      </Show>
     </div>
   );
 };
