@@ -60,6 +60,9 @@ const SubscribeReposView = () => {
     firehose.on("identity", (identity) => {
       setRecords(records().concat(identity).slice(-LIMIT));
     });
+    firehose.on("account", (account) => {
+      setRecords(records().concat(account).slice(-LIMIT));
+    });
     firehose.start();
   });
 

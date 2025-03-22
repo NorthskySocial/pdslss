@@ -108,6 +108,9 @@ export class Firehose extends EventEmitter {
           case "com.atproto.sync.subscribeRepos#identity":
             this.emit("identity", message);
             break;
+          case "com.atproto.sync.subscribeRepos#account":
+            this.emit("account", message);
+            break;
           case "com.atproto.sync.subscribeRepos#info":
             this.emit("info", message);
             break;
@@ -200,6 +203,14 @@ export class Firehose extends EventEmitter {
     listener: (
       message: ComAtprotoSyncSubscribeRepos.Identity & {
         $type: "com.atproto.sync.subscribeRepos#identity";
+      },
+    ) => void,
+  ): this;
+  override on(
+    event: "account",
+    listener: (
+      message: ComAtprotoSyncSubscribeRepos.Account & {
+        $type: "com.atproto.sync.subscribeRepos#account";
       },
     ) => void,
   ): this;
