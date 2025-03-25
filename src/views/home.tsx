@@ -60,8 +60,11 @@ const Home = () => {
         <div>
           <span class="font-semibold text-orange-400">PDS</span>
           <div>
-            <A href="/pds.moe" class="text-lightblue-500 hover:underline">
-              https://pds.moe
+            <A
+              href="/pyramid-activation.today"
+              class="text-lightblue-500 hover:underline"
+            >
+              https://pyramid-activation.today
             </A>
           </div>
         </div>
