@@ -1,7 +1,7 @@
 import { CredentialManager, XRPC } from "@atcute/client";
 import { ComAtprotoRepoGetRecord } from "@atcute/client/lexicons";
 
-import { action, query, redirect, useParams } from "@solidjs/router";
+import { query, useParams } from "@solidjs/router";
 import { createEffect, createSignal, onCleanup, onMount, Show } from "solid-js";
 
 import { editor } from "monaco-editor";
@@ -42,6 +42,7 @@ export default () => {
   let model: editor.IModel;
   let did = params.repo;
   let rpc: XRPC;
+  let formRef!: HTMLFormElement;
 
   const clickEvent = (event: MouseEvent) => {
     if (modal() && event.target == modal()) setOpenDelete(false);
@@ -111,7 +112,7 @@ export default () => {
     "getRecord",
   );
 
-  const editRecord = action(async (formData: FormData) => {
+  const editRecord = async (formData: FormData) => {
     const record = model.getValue();
     const validate =
       formData.get("validate")?.toString() === "true" ? true
@@ -157,9 +158,9 @@ export default () => {
     } catch (err: any) {
       setEditNotice(err.message);
     }
-  });
+  };
 
-  const deleteRecord = action(async () => {
+  const deleteRecord = async () => {
     rpc = new XRPC({ handler: agent });
     await rpc.call("com.atproto.repo.deleteRecord", {
       data: {
@@ -168,8 +169,8 @@ export default () => {
         rkey: params.rkey,
       },
     });
-    throw redirect(`/at://${params.repo}/${params.collection}`);
-  });
+    window.location.href = `/at://${params.repo}/${params.collection}`;
+  };
 
   createEffect(() => {
     if (openDelete() || openEdit()) document.body.style.overflow = "hidden";
@@ -227,7 +228,7 @@ export default () => {
               >
                 <div class="dark:bg-dark-400 rounded-md border border-slate-900 bg-slate-100 p-4 text-slate-900 dark:border-slate-100 dark:text-slate-100">
                   <h3 class="mb-2 text-lg font-bold">Editing record</h3>
-                  <form action={editRecord} method="post">
+                  <form ref={formRef}>
                     <div class="mb-2 flex items-center gap-x-2">
                       <label for="validate" class="min-w-20 select-none">
                         Validate
@@ -266,7 +267,8 @@ export default () => {
                           Cancel
                         </button>
                         <button
-                          type="submit"
+                          type="button"
+                          onclick={() => editRecord(new FormData(formRef))}
                           class="rounded-lg bg-green-500 px-2.5 py-1.5 text-sm font-bold text-slate-100 hover:bg-green-400 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-slate-300"
                         >
                           Edit
@@ -296,7 +298,7 @@ export default () => {
               >
                 <div class="dark:bg-dark-400 rounded-md border border-slate-900 bg-slate-100 p-4 text-slate-900 dark:border-slate-100 dark:text-slate-100">
                   <h3 class="text-lg font-bold">Delete this record?</h3>
-                  <form action={deleteRecord} method="post">
+                  <form>
                     <div class="mt-2 inline-flex gap-2">
                       <button
                         onclick={() => setOpenDelete(false)}
@@ -305,7 +307,8 @@ export default () => {
                         Cancel
                       </button>
                       <button
-                        type="submit"
+                        type="button"
+                        onclick={deleteRecord}
                         class="rounded-lg bg-red-500 px-2.5 py-1.5 text-sm font-bold text-slate-100 hover:bg-red-400 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:bg-red-600 dark:hover:bg-red-500 dark:focus:ring-slate-300"
                       >
                         Delete
