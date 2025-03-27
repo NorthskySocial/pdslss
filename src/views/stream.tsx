@@ -115,6 +115,16 @@ const StreamView = () => {
       firehose.on("account", (account) => {
         setRecords(records().concat(account).slice(-LIMIT));
       });
+      firehose.on("sync", (sync) => {
+        const event = {
+          $type: sync.$type,
+          did: sync.did,
+          rev: sync.rev,
+          seq: sync.seq,
+          time: sync.time,
+        };
+        setRecords(records().concat(event).slice(-LIMIT));
+      });
       firehose.start();
     }
   };

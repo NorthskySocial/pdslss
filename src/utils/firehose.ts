@@ -108,6 +108,9 @@ export class Firehose extends EventEmitter {
           case "com.atproto.sync.subscribeRepos#commit":
             this.emit("commit", message);
             break;
+          case "com.atproto.sync.subscribeRepos#sync":
+            this.emit("sync", message);
+            break;
           default:
             this.emit("unknown", message);
             break;
@@ -166,6 +169,14 @@ export class Firehose extends EventEmitter {
     listener: (
       message: ComAtprotoSyncSubscribeRepos.Account & {
         $type: "com.atproto.sync.subscribeRepos#account";
+      },
+    ) => void,
+  ): this;
+  override on(
+    event: "sync",
+    listener: (
+      message: ComAtprotoSyncSubscribeRepos.Sync & {
+        $type: "com.atproto.sync.subscribeRepos#sync";
       },
     ) => void,
   ): this;
