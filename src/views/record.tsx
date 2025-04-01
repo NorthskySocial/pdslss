@@ -77,7 +77,12 @@ export default () => {
           didDoc: didDocCache[res.data.uri.split("/")[2]],
         });
 
-        if (errors.length > 0) console.warn(errors);
+        if (errors.length > 0) {
+          console.warn(errors);
+          setNotice(
+            `Invalid record: ${errors.map((e) => e.message).join("\n")}`,
+          );
+        }
         setValidRecord(errors.length === 0);
       } catch (err) {
         console.error(err);
@@ -198,7 +203,9 @@ export default () => {
         <div class="i-line-md-loading-twotone-loop mt-3 text-xl" />
       </Show>
       <Show when={validRecord() === false}>
-        <div class="w-20rem mb-2 mt-3 break-words">{notice()}</div>
+        <div class="w-20rem mb-2 mt-3 break-words text-red-500 dark:text-red-400">
+          {notice()}
+        </div>
       </Show>
       <Show when={record()}>
         <div class="my-4 flex w-full justify-center gap-x-2">
