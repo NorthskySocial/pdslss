@@ -13,7 +13,7 @@
     "prettier-plugin-tailwindcss": "^0.6.11",
     "typescript": "^5.8.2",
     "unocss": "66.1.0-beta.3",
-    "vite": "^6.2.3",
+    "vite": "^6.2.4",
     "vite-plugin-solid": "^2.11.6"
   },
   "dependencies": {
@@ -29,7 +29,7 @@
     "@atcute/uint8array": "^1.0.1",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.3",
-    "hls.js": "^1.5.20",
+    "hls.js": "^1.6.0",
     "monaco-editor": "^0.52.2",
     "solid-js": "^1.9.5"
   },
