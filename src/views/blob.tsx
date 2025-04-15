@@ -27,6 +27,7 @@ const BlobView = () => {
     if (!pds) pds = await resolvePDS(did);
     if (!rpc) rpc = new XRPC({ handler: new CredentialManager({ service: pds }) });
     const res = await listBlobs(did, cursor());
+    if (!res.data.cids) return [];
     setCursor(res.data.cids.length < 1000 ? undefined : res.data.cursor);
     setBlobs(blobs()?.concat(res.data.cids) ?? res.data.cids);
     return res.data.cids;
