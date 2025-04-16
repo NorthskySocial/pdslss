@@ -20,7 +20,7 @@ const LabelView = () => {
     rpc = new XRPC({
       handler: new CredentialManager({ service: labelerCache[did] }),
     });
-    if (searchParams.uriPatterns) refetch();
+    refetch();
   });
 
   const fetchLabels = async () => {
@@ -70,7 +70,7 @@ const LabelView = () => {
             spellcheck={false}
             rows={3}
             cols={25}
-            value={searchParams.uriPatterns ?? ""}
+            value={searchParams.uriPatterns ?? "*"}
             class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
           />
           <div class="absolute -right-14 flex min-w-[3rem] justify-center">
