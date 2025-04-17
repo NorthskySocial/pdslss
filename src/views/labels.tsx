@@ -173,10 +173,10 @@ const LabelView = () => {
                   </Show>
                 </div>
                 <Show when={label.neg}>
-                  <div class="i-lucide-minus text-lg text-xl text-red-500 dark:text-red-400" />
+                  <div class="i-lucide-minus shrink-0 text-lg text-red-500 dark:text-red-400" />
                 </Show>
                 <Show when={!label.neg}>
-                  <div class="i-lucide-plus text-lg text-green-500 dark:text-green-400" />
+                  <div class="i-lucide-plus shrink-0 text-lg text-green-500 dark:text-green-400" />
                 </Show>
               </div>
             )}
