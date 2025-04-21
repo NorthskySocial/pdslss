@@ -142,20 +142,20 @@ const LabelView = () => {
                     </A>
                   </div>
                   <Show when={label.cid}>
-                    <div class="flex gap-x-2">
+                    <div class="flex items-center gap-x-2">
                       <div class="min-w-[5rem] font-semibold text-stone-600 dark:text-stone-400">
                         CID
                       </div>
                       {label.cid}
                     </div>
                   </Show>
-                  <div class="flex gap-x-2">
+                  <div class="flex items-center gap-x-2">
                     <div class="min-w-[5rem] font-semibold text-stone-600 dark:text-stone-400">
                       Label
                     </div>
                     {label.val}
                   </div>
-                  <div class="flex gap-x-2">
+                  <div class="flex items-center gap-x-2">
                     <div class="min-w-[5rem] font-semibold text-stone-600 dark:text-stone-400">
                       Created
                     </div>
@@ -163,7 +163,7 @@ const LabelView = () => {
                   </div>
                   <Show when={label.exp}>
                     {(exp) => (
-                      <div class="flex gap-x-2">
+                      <div class="flex items-center gap-x-2">
                         <div class="min-w-[5rem] font-semibold text-stone-600 dark:text-stone-400">
                           Expires
                         </div>
