@@ -11,12 +11,14 @@ const processInput = action(async (formData: FormData) => {
   if (
     !input.startsWith("https://bsky.app/") &&
     !input.startsWith("https://main.bsky.dev/") &&
+    !input.startsWith("https://deer.social/") &&
     (input.startsWith("https://") || input.startsWith("http://"))
   )
     throw redirect(`/${input.replace("https://", "").replace("http://", "").replace("/", "")}`);
 
   const uri = input
     .replace("at://", "")
+    .replace("https://deer.social/", "https://bsky.app/")
     .replace("https://bsky.app/profile/", "")
     .replace("https://main.bsky.dev/profile/", "")
     .replace("/post/", "/app.bsky.feed.post/");
