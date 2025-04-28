@@ -5,7 +5,7 @@ import { Show } from "solid-js";
 import { agent, loginState } from "../components/login.jsx";
 
 const processInput = action(async (formData: FormData) => {
-  const input = formData.get("input")?.toString();
+  const input = formData.get("input")?.toString().trim();
   (document.getElementById("uriForm") as HTMLFormElement).reset();
   if (!input) return new Error("Empty input");
   if (
