@@ -100,8 +100,7 @@ const RepoView = () => {
 
     const updatedNsids = { ...nsids() };
     Object.keys(updatedNsids).forEach((authority) => {
-      const updatedNsid = updatedNsids[authority];
-      updatedNsid.nsids.length > 1 ? (updatedNsid.hidden = newState) : (updatedNsid.hidden = false);
+      updatedNsids[authority].hidden = newState;
     });
 
     setNsids(updatedNsids);
@@ -125,26 +124,24 @@ const RepoView = () => {
             <For each={Object.keys(nsids() ?? {})}>
               {(authority) => (
                 <>
-                  <Show when={(nsids()?.[authority].nsids ?? []).length > 1}>
-                    <Show when={nsids()?.[authority].hidden}>
-                      <button
-                        class="i-fluent-add-square-20-regular mr-1"
-                        onclick={() => toggleCollection(authority)}
-                      />
-                    </Show>
-                    <Show when={!nsids()?.[authority].hidden}>
-                      <button
-                        class="i-fluent-subtract-square-20-regular mr-1"
-                        onclick={() => toggleCollection(authority)}
-                      />
-                    </Show>
+                  <Show when={nsids()?.[authority].hidden}>
                     <button
-                      class="break-anywhere bg-transparent text-left"
+                      class="i-fluent-add-square-20-regular mr-1"
                       onclick={() => toggleCollection(authority)}
-                    >
-                      {authority}
-                    </button>
+                    />
                   </Show>
+                  <Show when={!nsids()?.[authority].hidden}>
+                    <button
+                      class="i-fluent-subtract-square-20-regular mr-1"
+                      onclick={() => toggleCollection(authority)}
+                    />
+                  </Show>
+                  <button
+                    class="break-anywhere bg-transparent text-left"
+                    onclick={() => toggleCollection(authority)}
+                  >
+                    {authority}
+                  </button>
                   <Show when={!nsids()?.[authority].hidden}>
                     <div></div>
                     <div class="flex flex-col">
