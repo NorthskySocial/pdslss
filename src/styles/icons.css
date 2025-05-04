@@ -413,3 +413,15 @@
   width: 1.2em;
   height: 1.2em;
 }
+
+.i-lucide-rabbit {
+  --un-icon: url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 24 24' width='1.2em' height='1.2em' xmlns='http://www.w3.org/2000/svg' %3E%3Cg fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'%3E%3Cpath d='M13 16a3 3 0 0 1 2.24 5M18 12h.01'/%3E%3Cpath d='M18 21h-8a4 4 0 0 1-4-4a7 7 0 0 1 7-7h.2L9.6 6.4a1 1 0 1 1 2.8-2.8L15.8 7h.2c3.3 0 6 2.7 6 6v1a2 2 0 0 1-2 2h-1a3 3 0 0 0-3 3'/%3E%3Cpath d='M20 8.54V4a2 2 0 1 0-4 0v3m-8.388 5.524a3 3 0 1 0-1.6 4.3'/%3E%3C/g%3E%3C/svg%3E");
+  -webkit-mask: var(--un-icon) no-repeat;
+  mask: var(--un-icon) no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  background-color: currentColor;
+  color: inherit;
+  width: 1.2em;
+  height: 1.2em;
+}

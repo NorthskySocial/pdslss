@@ -12,6 +12,7 @@ const swapIcons = (repo: string) => {
   if (repo === "did:plc:vwzwgnygau7ed7b7wt5ux7y2") return "i-hugeicons-nintendo-switch";
   if (repo === "did:plc:tndeaffsojahb3tzjut27gi5") return "i-lucide-bone";
   if (repo === "did:plc:uu5axsmbm2or2dngy4gwchec") return "i-keycap";
+  if (repo === "did:plc:7x6rtuenkuvxq3zsvffp2ide") return "i-lucide-rabbit";
   return "i-lucide-arrow-right-left";
 };
 
