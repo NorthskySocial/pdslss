@@ -116,7 +116,7 @@ const NavBar = (props: { params: Params }) => {
                     "ml-1 shrink-0 text-lg": true,
                     "i-hugeicons-nintendo-switch":
                       props.params.repo === "did:plc:vwzwgnygau7ed7b7wt5ux7y2",
-                    "i-stash-arrows-switch-solid":
+                    "i-fluent-arrow-swap-16-filled":
                       props.params.repo !== "did:plc:vwzwgnygau7ed7b7wt5ux7y2",
                   }}
                   onclick={() => setShowHandle(!showHandle())}
