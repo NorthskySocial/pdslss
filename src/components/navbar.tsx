@@ -8,13 +8,12 @@ export const [cid, setCID] = createSignal<string>();
 export const [isLabeler, setIsLabeler] = createSignal(false);
 export const [validRecord, setValidRecord] = createSignal<boolean | undefined>(undefined);
 
-const swapIcons = (repo: string) => {
-  if (repo === "did:plc:vwzwgnygau7ed7b7wt5ux7y2") return "i-hugeicons-nintendo-switch";
-  if (repo === "did:plc:tndeaffsojahb3tzjut27gi5") return "i-lucide-bone";
-  if (repo === "did:plc:uu5axsmbm2or2dngy4gwchec") return "i-keycap";
-  if (repo === "did:plc:7x6rtuenkuvxq3zsvffp2ide" || repo === "did:plc:ia76kvnndjutgedggx2ibrem")
-    return "i-lucide-rabbit";
-  return "i-lucide-arrow-right-left";
+const swapIcons: Record<string, string> = {
+  "did:plc:vwzwgnygau7ed7b7wt5ux7y2": "i-hugeicons-nintendo-switch",
+  "did:plc:tndeaffsojahb3tzjut27gi5": "i-lucide-bone",
+  "did:plc:uu5axsmbm2or2dngy4gwchec": "i-keycap",
+  "did:plc:7x6rtuenkuvxq3zsvffp2ide": "i-lucide-rabbit",
+  "did:plc:ia76kvnndjutgedggx2ibrem": "i-lucide-rabbit",
 };
 
 const NavBar = (props: { params: Params }) => {
@@ -121,7 +120,10 @@ const NavBar = (props: { params: Params }) => {
               </div>
               <Tooltip text={showHandle() ? "Show DID" : "Show Handle"}>
                 <button
-                  class={"ml-1 shrink-0 text-lg " + swapIcons(props.params.repo)}
+                  class={
+                    "ml-1 shrink-0 text-lg " +
+                    (swapIcons[props.params.repo] ?? "i-lucide-arrow-right-left")
+                  }
                   onclick={() => setShowHandle(!showHandle())}
                 />
               </Tooltip>
