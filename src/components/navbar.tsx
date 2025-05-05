@@ -1,7 +1,7 @@
 import { A, Params } from "@solidjs/router";
 import Tooltip from "./tooltip";
 import { createEffect, createSignal, onCleanup, onMount, Show } from "solid-js";
-import { didDocCache, labelerCache } from "../utils/api";
+import { didDocCache, labelerCache, validateHandle } from "../utils/api";
 import { setShowHandle, showHandle } from "./settings";
 
 export const [pds, setPDS] = createSignal<string>();
@@ -21,6 +21,7 @@ const NavBar = (props: { params: Params }) => {
   const [openMenu, setOpenMenu] = createSignal(false);
   const [dropdown, setDropdown] = createSignal<HTMLDivElement>();
   const [handle, setHandle] = createSignal(props.params.repo);
+  const [validHandle, setValidHandle] = createSignal<boolean | undefined>(undefined);
 
   const clickEvent = (event: MouseEvent) => {
     if (openMenu() && event.target !== dropdown()) setOpenMenu(false);
@@ -29,13 +30,15 @@ const NavBar = (props: { params: Params }) => {
   onMount(() => window.addEventListener("click", clickEvent));
   onCleanup(() => window.removeEventListener("click", clickEvent));
 
-  createEffect(() => {
+  createEffect(async () => {
     if (pds() !== undefined) {
+      setValidHandle(undefined);
       setHandle(
         didDocCache[props.params.repo]?.alsoKnownAs
           ?.filter((alias) => alias.startsWith("at://"))[0]
           .split("at://")[1] ?? props.params.repo,
       );
+      setValidHandle(await validateHandle(handle(), props.params.repo));
     }
   });
 
@@ -113,10 +116,30 @@ const NavBar = (props: { params: Params }) => {
                 <A
                   end
                   href={`/at://${props.params.repo}`}
-                  inactiveClass="text-lightblue-500 w-full hover:underline"
+                  class="mr-1"
+                  inactiveClass="text-lightblue-500 hover:underline"
                 >
                   {showHandle() ? handle() : props.params.repo}
                 </A>
+                <Show when={showHandle()}>
+                  <Show when={validHandle()}>
+                    <Tooltip text="Valid handle" children={<div class="i-lucide-check-circle" />} />
+                  </Show>
+                  <Show when={validHandle() === false}>
+                    <Tooltip
+                      text="Invalid handle"
+                      children={
+                        <div class="i-lucide-dismiss-circle text-red-500 dark:text-red-400" />
+                      }
+                    />
+                  </Show>
+                  <Show when={validHandle() === undefined}>
+                    <Tooltip
+                      text="Validating"
+                      children={<div class="i-line-md-loading-twotone-loop" />}
+                    />
+                  </Show>
+                </Show>
               </div>
               <Tooltip text={showHandle() ? "Show DID" : "Show Handle"}>
                 <button

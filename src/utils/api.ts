@@ -11,7 +11,10 @@ import {
 import {
   AtprotoWebDidDocumentResolver,
   CompositeDidDocumentResolver,
+  CompositeHandleResolver,
+  DohJsonHandleResolver,
   PlcDidDocumentResolver,
+  WellKnownHandleResolver,
   XrpcHandleResolver,
 } from "@atcute/identity-resolver";
 
@@ -61,6 +64,26 @@ const resolveHandle = async (handle: string) => {
   }
 
   return await handleResolver.resolve(handle);
+};
+
+const validateHandle = async (handle: string, did: string) => {
+  if (!isHandle(handle)) return false;
+
+  const handleResolver = new CompositeHandleResolver({
+    methods: {
+      dns: new DohJsonHandleResolver({ dohUrl: "https://mozilla.cloudflare-dns.com/dns-query" }),
+      http: new WellKnownHandleResolver(),
+    },
+  });
+
+  let resolvedDid: string;
+  try {
+    resolvedDid = await handleResolver.resolve(handle);
+  } catch {
+    return false;
+  }
+  if (resolvedDid !== did) return false;
+  return true;
 };
 
 const resolvePDS = async (did: string) => {
@@ -133,6 +156,7 @@ export {
   getRecordBacklinks,
   labelerCache,
   resolveHandle,
+  validateHandle,
   resolvePDS,
   type LinkData,
 };
