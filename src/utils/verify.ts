@@ -1,4 +1,4 @@
-import { XRPC } from "@atcute/client";
+import { Client } from "@atcute/client";
 import { At } from "@atcute/client/lexicons";
 
 import * as CAR from "@atcute/car";
@@ -20,7 +20,7 @@ export interface VerifyResult {
 }
 
 export interface VerifyOptions {
-  rpc: XRPC;
+  rpc: Client;
   uri: string;
   cid: string;
   record: unknown;
@@ -85,19 +85,19 @@ export const verifyRecord = async (opts: VerifyOptions): Promise<VerifyResult> =
 
   // grab the raw record blocks from the pds
   let car: Uint8Array;
-  try {
-    const { data } = await opts.rpc.get("com.atproto.sync.getRecord", {
-      params: {
-        did: opts.didDoc.id as At.Did,
-        collection: uri.collection,
-        rkey: uri.rkey,
-      },
-    });
-
-    car = data;
-  } catch (e) {
-    errors.push({ message: `failed to fetch car from pds`, detail: e });
+  const { ok, data } = await opts.rpc.get("com.atproto.sync.getRecord", {
+    params: {
+      did: opts.didDoc.id as At.Did,
+      collection: uri.collection,
+      rkey: uri.rkey,
+    },
+    as: "bytes",
+  });
+  if (!ok) {
+    errors.push({ message: `failed to fetch car from pds`, detail: data.error });
     return { errors };
+  } else {
+    car = data;
   }
 
   // read the car

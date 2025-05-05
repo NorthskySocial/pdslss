@@ -1,5 +1,5 @@
 import { createResource, createSignal, For, Show } from "solid-js";
-import { CredentialManager, XRPC } from "@atcute/client";
+import { Client, CredentialManager } from "@atcute/client";
 import { query, useParams } from "@solidjs/router";
 import { resolveHandle, resolvePDS } from "../utils/api.js";
 
@@ -8,7 +8,7 @@ const BlobView = () => {
   const [cursor, setCursor] = createSignal<string>();
   let did = params.repo;
   let pds: string;
-  let rpc: XRPC;
+  let rpc: Client;
 
   const listBlobs = query(
     (did: string, cursor: string | undefined) =>
@@ -25,8 +25,9 @@ const BlobView = () => {
   const fetchBlobs = async (): Promise<string[]> => {
     if (!did.startsWith("did:")) did = await resolveHandle(params.repo);
     if (!pds) pds = await resolvePDS(did);
-    if (!rpc) rpc = new XRPC({ handler: new CredentialManager({ service: pds }) });
+    if (!rpc) rpc = new Client({ handler: new CredentialManager({ service: pds }) });
     const res = await listBlobs(did, cursor());
+    if (!res.ok) throw new Error(res.data.error);
     if (!res.data.cids) return [];
     setCursor(res.data.cids.length < 1000 ? undefined : res.data.cursor);
     setBlobs(blobs()?.concat(res.data.cids) ?? res.data.cids);

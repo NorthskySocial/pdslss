@@ -1,5 +1,5 @@
 import { createSignal, For, Show, createResource } from "solid-js";
-import { CredentialManager, XRPC } from "@atcute/client";
+import { Client, CredentialManager } from "@atcute/client";
 import { A, query, useParams } from "@solidjs/router";
 import { didDocCache, getAllBacklinks, LinkData, resolveHandle, resolvePDS } from "../utils/api.js";
 import { DidDocument } from "@atcute/client/utils/did";
@@ -17,7 +17,7 @@ const RepoView = () => {
   }>();
   const [nsids, setNsids] = createSignal<Record<string, { hidden: boolean; nsids: string[] }>>();
   const [allCollapsed, setAllCollapsed] = createSignal(false);
-  let rpc: XRPC;
+  let rpc: Client;
   let pds: string;
   let did = params.repo;
 
@@ -30,8 +30,10 @@ const RepoView = () => {
   const fetchRepo = async () => {
     if (!did.startsWith("did:")) did = await resolveHandle(params.repo);
     pds = await resolvePDS(did);
-    rpc = new XRPC({ handler: new CredentialManager({ service: pds }) });
+    rpc = new Client({ handler: new CredentialManager({ service: pds }) });
     const res = await describeRepo(did);
+    if (!res.ok) throw new Error(res.data.error);
+    if (!res.data.collections) throw new Error(`Failed to fetch collections`);
     const collections: Record<string, { hidden: boolean; nsids: string[] }> = {};
     res.data.collections.forEach((c) => {
       const nsid = c.split(".");

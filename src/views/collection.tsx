@@ -8,7 +8,7 @@ import {
   Show,
   untrack,
 } from "solid-js";
-import { CredentialManager, XRPC } from "@atcute/client";
+import { CredentialManager, Client } from "@atcute/client";
 import {
   At,
   Brand,
@@ -85,7 +85,7 @@ const CollectionView = () => {
   const [openDelete, setOpenDelete] = createSignal(false);
   let did = params.repo;
   let pds: string;
-  let rpc: XRPC;
+  let rpc: Client;
 
   const clickEvent = (event: MouseEvent) => {
     if (modal() && event.target === modal()) setOpenDelete(false);
@@ -120,8 +120,9 @@ const CollectionView = () => {
   const fetchRecords = async () => {
     if (!did.startsWith("did:")) did = await resolveHandle(params.repo);
     if (!pds) pds = await resolvePDS(did);
-    if (!rpc) rpc = new XRPC({ handler: new CredentialManager({ service: pds }) });
+    if (!rpc) rpc = new Client({ handler: new CredentialManager({ service: pds }) });
     const res = await listRecords(did, params.collection, cursor());
+    if (!res.ok) throw new Error(res.data.error);
     setCursor(res.data.records.length < 100 ? undefined : res.data.cursor);
     const tmpRecords: AtprotoRecord[] = [];
     res.data.records.forEach((record) => {
@@ -151,10 +152,10 @@ const CollectionView = () => {
       });
 
     const BATCHSIZE = 200;
-    rpc = new XRPC({ handler: agent });
+    rpc = new Client({ handler: agent });
     for (let i = 0; i < writes.length; i += BATCHSIZE) {
-      await rpc.call("com.atproto.repo.applyWrites", {
-        data: {
+      await rpc.post("com.atproto.repo.applyWrites", {
+        input: {
           repo: agent.sub,
           writes: writes.slice(i, i + BATCHSIZE),
         },

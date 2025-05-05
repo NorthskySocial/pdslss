@@ -1,10 +1,9 @@
 import { createSignal, onMount, Show, onCleanup, createEffect } from "solid-js";
-import { XRPC, XRPCResponse } from "@atcute/client";
+import { Client } from "@atcute/client";
 import { agent } from "../components/login.jsx";
 import { Editor } from "../components/editor.jsx";
 import { editor } from "monaco-editor";
 import { theme } from "../components/settings.jsx";
-import { ComAtprotoRepoCreateRecord } from "@atcute/client/lexicons";
 import Tooltip from "./tooltip.jsx";
 
 const CreateRecord = () => {
@@ -40,27 +39,25 @@ const CreateRecord = () => {
   onCleanup(() => window.removeEventListener("keydown", keyEvent));
 
   const createRecord = async (formData: FormData) => {
-    const rpc = new XRPC({ handler: agent });
+    const rpc = new Client({ handler: agent });
     const collection = formData.get("collection");
     const rkey = formData.get("rkey");
     const validate = formData.get("validate")?.toString();
-    let res: XRPCResponse<ComAtprotoRepoCreateRecord.Output>;
-    try {
-      const record = JSON.parse(model.getValue());
-      res = await rpc.call("com.atproto.repo.createRecord", {
-        data: {
-          repo: agent.sub,
-          collection: collection ? collection.toString() : record.$type,
-          rkey: rkey?.toString().length ? rkey?.toString() : undefined,
-          record: record,
-          validate:
-            validate === "true" ? true
-            : validate === "false" ? false
-            : undefined,
-        },
-      });
-    } catch (err: any) {
-      setCreateNotice(err.message);
+    const record = JSON.parse(model.getValue());
+    const res = await rpc.post("com.atproto.repo.createRecord", {
+      input: {
+        repo: agent.sub,
+        collection: collection ? collection.toString() : record.$type,
+        rkey: rkey?.toString().length ? rkey?.toString() : undefined,
+        record: record,
+        validate:
+          validate === "true" ? true
+          : validate === "false" ? false
+          : undefined,
+      },
+    });
+    if (!res.ok) {
+      setCreateNotice(res.data.error);
       return;
     }
     setOpenCreate(false);

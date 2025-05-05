@@ -1,5 +1,5 @@
 import { createSignal, For, Show, createResource } from "solid-js";
-import { CredentialManager, XRPC } from "@atcute/client";
+import { Client, CredentialManager } from "@atcute/client";
 import { ComAtprotoSyncListRepos } from "@atcute/client/lexicons";
 import { A, useParams } from "@solidjs/router";
 import { setPDS } from "../components/navbar";
@@ -12,7 +12,7 @@ const PdsView = () => {
   const [cursor, setCursor] = createSignal<string>();
   setPDS(params.pds);
   const pds = params.pds.startsWith("localhost") ? `http://${params.pds}` : `https://${params.pds}`;
-  const rpc = new XRPC({ handler: new CredentialManager({ service: pds }) });
+  const rpc = new Client({ handler: new CredentialManager({ service: pds }) });
 
   const listRepos = async (cursor: string | undefined) =>
     await rpc.get("com.atproto.sync.listRepos", {
@@ -27,6 +27,7 @@ const PdsView = () => {
 
   const fetchRepos = async (): Promise<ComAtprotoSyncListRepos.Repo[]> => {
     const res = await listRepos(cursor());
+    if (!res.ok) throw new Error(res.data.error);
     setCursor(res.data.repos.length < 1000 ? undefined : res.data.cursor);
     setRepos(repos()?.concat(res.data.repos) ?? res.data.repos);
     await getVersion();

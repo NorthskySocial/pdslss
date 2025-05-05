@@ -1,4 +1,4 @@
-import { CredentialManager, XRPC } from "@atcute/client";
+import { CredentialManager, Client } from "@atcute/client";
 import { At, ComAtprotoRepoGetRecord } from "@atcute/client/lexicons";
 
 import { query, useParams } from "@solidjs/router";
@@ -35,7 +35,7 @@ export default () => {
   >();
   let model: editor.IModel;
   let did = params.repo;
-  let rpc: XRPC;
+  let rpc: Client;
   let formRef!: HTMLFormElement;
 
   const clickEvent = (event: MouseEvent) => {
@@ -55,34 +55,32 @@ export default () => {
     setValidRecord(undefined);
     if (!did.startsWith("did:")) did = await resolveHandle(params.repo);
     const pds = await resolvePDS(did);
-    rpc = new XRPC({ handler: new CredentialManager({ service: pds }) });
+    rpc = new Client({ handler: new CredentialManager({ service: pds }) });
+    const res = await getRecord(did, params.collection, params.rkey);
+    if (!res.ok) {
+      setValidRecord(false);
+      throw new Error(res.data.error);
+    }
+    setRecord(res.data);
+    setCID(res.data.cid);
+    setExternalLink(checkUri(res.data.uri));
+
     try {
-      const res = await getRecord(did, params.collection, params.rkey);
-      setRecord(res.data);
-      setCID(res.data.cid);
-      setExternalLink(checkUri(res.data.uri));
+      const { errors } = await verifyRecord({
+        rpc: rpc,
+        uri: res.data.uri,
+        cid: res.data.cid!,
+        record: res.data.value,
+        didDoc: didDocCache[res.data.uri.split("/")[2]],
+      });
 
-      try {
-        const { errors } = await verifyRecord({
-          rpc: rpc,
-          uri: res.data.uri,
-          cid: res.data.cid!,
-          record: res.data.value,
-          didDoc: didDocCache[res.data.uri.split("/")[2]],
-        });
-
-        if (errors.length > 0) {
-          console.warn(errors);
-          setNotice(`Invalid record: ${errors.map((e) => e.message).join("\n")}`);
-        }
-        setValidRecord(errors.length === 0);
-      } catch (err) {
-        console.error(err);
-        setValidRecord(false);
+      if (errors.length > 0) {
+        console.warn(errors);
+        setNotice(`Invalid record: ${errors.map((e) => e.message).join("\n")}`);
       }
-    } catch (err: any) {
-      if (err.message) setNotice(err.message);
-      else setNotice(`Invalid record: ${err}`);
+      setValidRecord(errors.length === 0);
+    } catch (err) {
+      console.error(err);
       setValidRecord(false);
     }
     if (localStorage.backlinks === "true") {
@@ -120,12 +118,12 @@ export default () => {
       : formData.get("validate")?.toString() === "false" ? false
       : undefined;
     if (!record) return;
-    rpc = new XRPC({ handler: agent });
+    rpc = new Client({ handler: agent });
     try {
       const editedRecord = JSON.parse(record.toString());
       if (formData.get("recreate")) {
-        await rpc.call("com.atproto.repo.applyWrites", {
-          data: {
+        await rpc.post("com.atproto.repo.applyWrites", {
+          input: {
             repo: params.repo as At.Identifier,
             validate: validate,
             writes: [
@@ -144,8 +142,8 @@ export default () => {
           },
         });
       } else {
-        await rpc.call("com.atproto.repo.putRecord", {
-          data: {
+        await rpc.post("com.atproto.repo.putRecord", {
+          input: {
             repo: params.repo as At.Identifier,
             collection: params.collection as `${string}.${string}.${string}`,
             rkey: params.rkey,
@@ -162,9 +160,9 @@ export default () => {
   };
 
   const deleteRecord = async () => {
-    rpc = new XRPC({ handler: agent });
-    await rpc.call("com.atproto.repo.deleteRecord", {
-      data: {
+    rpc = new Client({ handler: agent });
+    await rpc.post("com.atproto.repo.deleteRecord", {
+      input: {
         repo: params.repo as At.Identifier,
         collection: params.collection as `${string}.${string}.${string}`,
         rkey: params.rkey,

@@ -1,5 +1,5 @@
 import { createResource, createSignal, For, onMount, Show } from "solid-js";
-import { CredentialManager, XRPC } from "@atcute/client";
+import { Client, CredentialManager } from "@atcute/client";
 import { A, useParams, useSearchParams } from "@solidjs/router";
 import { labelerCache, resolvePDS } from "../utils/api.js";
 import { ComAtprotoLabelDefs } from "@atcute/client/lexicons";
@@ -13,11 +13,11 @@ const LabelView = () => {
   const [filter, setFilter] = createSignal<string>();
   const [labelCount, setLabelCount] = createSignal(0);
   const did = params.repo;
-  let rpc: XRPC;
+  let rpc: Client;
 
   onMount(async () => {
     await resolvePDS(did);
-    rpc = new XRPC({
+    rpc = new Client({
       handler: new CredentialManager({ service: labelerCache[did] }),
     });
     refetch();
@@ -33,6 +33,7 @@ const LabelView = () => {
         cursor: cursor(),
       },
     });
+    if (!res.ok) throw new Error(res.data.error);
     setCursor(res.data.labels.length < 50 ? undefined : res.data.cursor);
     setLabels(labels().concat(res.data.labels) ?? res.data.labels);
     return res.data.labels;
