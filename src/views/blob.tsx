@@ -38,8 +38,11 @@ const BlobView = () => {
   const [blobs, setBlobs] = createSignal<string[]>();
 
   return (
-    <div class="mt-3 flex flex-col items-center">
+    <div class="mt-3 flex flex-col items-center gap-2">
       <Show when={blobs() || response()}>
+        <p>
+          {blobs()?.length} blob{(blobs()?.length ?? 0 > 1) ? "s" : ""}
+        </p>
         <div class="break-anywhere flex flex-col font-mono">
           <For each={blobs()}>
             {(cid) => (
