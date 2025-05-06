@@ -17,6 +17,7 @@ const swapIcons: Record<string, string> = {
   "did:plc:ia76kvnndjutgedggx2ibrem": "i-lucide-rabbit",
   "did:plc:hdhoaan3xa3jiuq4fg4mefid": "i-lucide-lab-shark",
   "did:plc:hvakvedv6byxhufjl23mfmsd": "i-lucide-rat",
+  "did:plc:ezhjhbzqt32bqprrn6qjlkri": "i-trogi",
 };
 
 const NavBar = (props: { params: Params }) => {
