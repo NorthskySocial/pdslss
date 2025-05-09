@@ -59,6 +59,7 @@ export default () => {
     const res = await getRecord(did, params.collection, params.rkey);
     if (!res.ok) {
       setValidRecord(false);
+      setNotice(res.data.error);
       throw new Error(res.data.error);
     }
     setRecord(res.data);
