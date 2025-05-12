@@ -31,6 +31,8 @@ interface AtprotoRecord {
   toDelete: boolean;
 }
 
+const LIMIT = 100;
+
 const RecordLink = (props: { record: AtprotoRecord; index: number }) => {
   const [hoverRk, setHoverRk] = createSignal<HTMLSpanElement>();
   const [previewHeight, setPreviewHeight] = createSignal(0);
@@ -110,7 +112,7 @@ const CollectionView = () => {
         params: {
           repo: did as At.Identifier,
           collection: collection as `${string}.${string}.${string}`,
-          limit: 100,
+          limit: LIMIT,
           cursor: cursor,
         },
       }),
@@ -123,7 +125,7 @@ const CollectionView = () => {
     if (!rpc) rpc = new Client({ handler: new CredentialManager({ service: pds }) });
     const res = await listRecords(did, params.collection, cursor());
     if (!res.ok) throw new Error(res.data.error);
-    setCursor(res.data.records.length < 100 ? undefined : res.data.cursor);
+    setCursor(res.data.records.length < LIMIT ? undefined : res.data.cursor);
     const tmpRecords: AtprotoRecord[] = [];
     res.data.records.forEach((record) => {
       const rkey = record.uri.split("/").pop()!;

@@ -46,7 +46,7 @@ const NavBar = (props: { params: Params }) => {
   });
 
   createEffect(async () => {
-    if (pds() !== undefined) {
+    if (pds() !== undefined && props.params.repo) {
       const hdl =
         didDocCache[props.params.repo]?.alsoKnownAs
           ?.filter((alias) => alias.startsWith("at://"))[0]
@@ -252,7 +252,7 @@ const NavBar = (props: { params: Params }) => {
             </Tooltip>
             <button
               dir="rtl"
-              classList={{ "bg-transparent static": true, truncate: !fullCid() }}
+              classList={{ "bg-transparent": true, truncate: !fullCid() }}
               onclick={() => setFullCid(!fullCid())}
             >
               {cid()}

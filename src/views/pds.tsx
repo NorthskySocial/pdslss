@@ -1,14 +1,49 @@
-import { createSignal, For, Show, createResource } from "solid-js";
+import { createSignal, For, Show, createResource, onMount } from "solid-js";
 import { Client, CredentialManager } from "@atcute/client";
-import { ComAtprotoSyncListRepos } from "@atcute/client/lexicons";
+import { ComAtprotoServerDescribeServer, ComAtprotoSyncListRepos } from "@atcute/client/lexicons";
 import { A, useParams } from "@solidjs/router";
 import { setPDS } from "../components/navbar";
 import Tooltip from "../components/tooltip";
+
+const LIMIT = 1000;
+
+// TODO: move this somewhere else
+const Field = ({
+  label,
+  value,
+  truncate,
+  inline = true,
+}: {
+  label: string;
+  value: string;
+  truncate?: boolean;
+  inline?: boolean;
+}) => {
+  const [fullField, setFullField] = createSignal(false);
+
+  return (
+    <div classList={{ "flex gap-x-1": true, "flex-col": !inline }}>
+      <span class="font-semibold text-stone-600 dark:text-stone-400">{label}</span>
+      <Show when={truncate}>
+        <button
+          classList={{ "bg-transparent break-anywhere text-left": true, truncate: !fullField() }}
+          onclick={() => setFullField(!fullField())}
+        >
+          {value}
+        </button>
+      </Show>
+      <Show when={!truncate}>
+        <span class="break-anywhere">{value}</span>
+      </Show>
+    </div>
+  );
+};
 
 const PdsView = () => {
   const params = useParams();
   if (params.pds.startsWith("web%2Bat%3A%2F%2F")) return;
   const [version, setVersion] = createSignal<string>();
+  const [serverInfos, setServerInfos] = createSignal<ComAtprotoServerDescribeServer.Output>();
   const [cursor, setCursor] = createSignal<string>();
   setPDS(params.pds);
   const pds = params.pds.startsWith("localhost") ? `http://${params.pds}` : `https://${params.pds}`;
@@ -16,8 +51,10 @@ const PdsView = () => {
 
   const listRepos = async (cursor: string | undefined) =>
     await rpc.get("com.atproto.sync.listRepos", {
-      params: { limit: 1000, cursor: cursor },
+      params: { limit: LIMIT, cursor: cursor },
     });
+
+  const describeServer = async () => await rpc.get("com.atproto.server.describeServer");
 
   const getVersion = async () => {
     // @ts-expect-error: undocumented endpoint
@@ -28,23 +65,56 @@ const PdsView = () => {
   const fetchRepos = async (): Promise<ComAtprotoSyncListRepos.Repo[]> => {
     const res = await listRepos(cursor());
     if (!res.ok) throw new Error(res.data.error);
-    setCursor(res.data.repos.length < 1000 ? undefined : res.data.cursor);
+    setCursor(res.data.repos.length < LIMIT ? undefined : res.data.cursor);
     setRepos(repos()?.concat(res.data.repos) ?? res.data.repos);
     await getVersion();
     return res.data.repos;
   };
+
+  onMount(async () => {
+    await getVersion();
+    const res = await describeServer();
+    if (!res.ok) console.error(res.data.error);
+    else setServerInfos(res.data);
+  });
 
   const [response, { refetch }] = createResource(fetchRepos);
   const [repos, setRepos] = createSignal<ComAtprotoSyncListRepos.Repo[]>();
 
   return (
     <Show when={repos() || response()}>
-      <div class="mt-3 flex flex-col">
+      <div class="mt-3 flex max-w-[21rem] flex-col">
         <Show when={version()}>
-          <div class="flex max-w-[21rem] gap-1">
-            <span class="font-semibold text-stone-600 dark:text-stone-400">Version</span>
-            <span class="break-anywhere">{version()}</span>
-          </div>
+          {(version) => <Field label="Version" value={version()} truncate />}
+        </Show>
+        <Show when={serverInfos()}>
+          {(server) => (
+            <>
+              <Field label="DID" value={server().did} truncate />
+              <Show when={server().inviteCodeRequired}>
+                <Field
+                  label="Invite Code Required"
+                  value={server().inviteCodeRequired ? "Yes" : "No"}
+                />
+              </Show>
+              <Show when={server().phoneVerificationRequired}>
+                <Field
+                  label="Phone Verification Required"
+                  value={server().phoneVerificationRequired ? "Yes" : "No"}
+                />
+              </Show>
+              <Show when={server().availableUserDomains.length}>
+                <div class="flex flex-col">
+                  <span class="font-semibold text-stone-600 dark:text-stone-400">
+                    Available User Domains
+                  </span>
+                  <For each={server().availableUserDomains}>
+                    {(domain) => <span class="break-anywhere">{domain}</span>}
+                  </For>
+                </div>
+              </Show>
+            </>
+          )}
         </Show>
         <p class="w-full font-semibold text-stone-600 dark:text-stone-400">Repositories</p>
         <For each={repos()}>

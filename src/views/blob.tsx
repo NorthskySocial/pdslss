@@ -3,6 +3,8 @@ import { Client, CredentialManager } from "@atcute/client";
 import { query, useParams } from "@solidjs/router";
 import { resolveHandle, resolvePDS } from "../utils/api.js";
 
+const LIMIT = 1000;
+
 const BlobView = () => {
   const params = useParams();
   const [cursor, setCursor] = createSignal<string>();
@@ -15,7 +17,7 @@ const BlobView = () => {
       rpc.get("com.atproto.sync.listBlobs", {
         params: {
           did: did as `did:${string}:${string}`,
-          limit: 1000,
+          limit: LIMIT,
           cursor: cursor,
         },
       }),
@@ -29,7 +31,7 @@ const BlobView = () => {
     const res = await listBlobs(did, cursor());
     if (!res.ok) throw new Error(res.data.error);
     if (!res.data.cids) return [];
-    setCursor(res.data.cids.length < 1000 ? undefined : res.data.cursor);
+    setCursor(res.data.cids.length < LIMIT ? undefined : res.data.cursor);
     setBlobs(blobs()?.concat(res.data.cids) ?? res.data.cids);
     return res.data.cids;
   };
