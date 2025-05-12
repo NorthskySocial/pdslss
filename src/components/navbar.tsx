@@ -222,7 +222,7 @@ const NavBar = (props: { params: Params }) => {
             <Tooltip text="Record">
               <div class="i-lucide-braces mr-1" />
             </Tooltip>
-            <span class="mr-1 cursor-pointer">{props.params.rkey}</span>
+            <span class="mr-1">{props.params.rkey}</span>
             <Show when={validRecord()}>
               <Tooltip text="Valid record" children={<div class="i-lucide-check-circle" />} />
             </Show>
