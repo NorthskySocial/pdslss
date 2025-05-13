@@ -1,4 +1,4 @@
-import { createSignal, For, Show, createResource, onMount } from "solid-js";
+import { createSignal, For, Show, createResource } from "solid-js";
 import { Client, CredentialManager } from "@atcute/client";
 import { ComAtprotoServerDescribeServer, ComAtprotoSyncListRepos } from "@atcute/client/lexicons";
 import { A, useParams } from "@solidjs/router";
@@ -63,6 +63,10 @@ const PdsView = () => {
   };
 
   const fetchRepos = async (): Promise<ComAtprotoSyncListRepos.Repo[]> => {
+    await getVersion();
+    const describeRes = await describeServer();
+    if (!describeRes.ok) console.error(describeRes.data.error);
+    else setServerInfos(describeRes.data);
     const res = await listRepos(cursor());
     if (!res.ok) throw new Error(res.data.error);
     setCursor(res.data.repos.length < LIMIT ? undefined : res.data.cursor);
@@ -70,13 +74,6 @@ const PdsView = () => {
     await getVersion();
     return res.data.repos;
   };
-
-  onMount(async () => {
-    await getVersion();
-    const res = await describeServer();
-    if (!res.ok) console.error(res.data.error);
-    else setServerInfos(res.data);
-  });
 
   const [response, { refetch }] = createResource(fetchRepos);
   const [repos, setRepos] = createSignal<ComAtprotoSyncListRepos.Repo[]>();
