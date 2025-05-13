@@ -126,7 +126,7 @@ const getConstellation = async (
   }
   if (limit) url.searchParams.set("limit", `${limit}`);
   if (cursor) url.searchParams.set("cursor", `${cursor}`);
-  const res = await fetch(url);
+  const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
   if (!res.ok) throw new Error("failed to fetch from constellation");
   return await res.json();
 };

@@ -1,4 +1,4 @@
-import { ErrorBoundary, onMount, Show, Suspense } from "solid-js";
+import { createEffect, ErrorBoundary, onMount, Show, Suspense } from "solid-js";
 import { A, RouteSectionProps, useLocation, useParams } from "@solidjs/router";
 import { agent, loginState, retrieveSession } from "./components/login.jsx";
 import { CreateRecord } from "./components/create.jsx";
@@ -23,12 +23,15 @@ const Layout = (props: RouteSectionProps<unknown>) => {
   const params = useParams();
   const location = useLocation();
   onMount(async () => {
-    if (params.repo && !params.repo.startsWith("did:")) {
-      const did = await resolveHandle(params.repo);
-      window.location.href = location.pathname.replace(params.repo, did);
-    }
     await retrieveSession();
     if (loginState() && location.pathname === "/") window.location.href = `/at://${agent.sub}`;
+  });
+
+  createEffect(async () => {
+    if (params.repo && !params.repo.startsWith("did:")) {
+      const did = await resolveHandle(params.repo);
+      window.location.replace(location.pathname.replace(params.repo, did));
+    }
   });
 
   return (

@@ -1,7 +1,7 @@
 import { createSignal, For, Show, createResource } from "solid-js";
 import { Client, CredentialManager } from "@atcute/client";
 import { A, query, useParams } from "@solidjs/router";
-import { didDocCache, getAllBacklinks, LinkData, resolveHandle, resolvePDS } from "../utils/api.js";
+import { didDocCache, getAllBacklinks, LinkData, resolvePDS } from "../utils/api.js";
 import { DidDocument } from "@atcute/client/utils/did";
 import { Backlinks } from "../components/backlinks.jsx";
 import { At } from "@atcute/client/lexicons";
@@ -20,7 +20,7 @@ const RepoView = () => {
   const [allCollapsed, setAllCollapsed] = createSignal(false);
   let rpc: Client;
   let pds: string;
-  let did = params.repo;
+  const did = params.repo;
 
   const describeRepo = query(
     (repo: string) =>
@@ -29,7 +29,6 @@ const RepoView = () => {
   );
 
   const fetchRepo = async () => {
-    if (!did.startsWith("did:")) did = await resolveHandle(params.repo);
     pds = await resolvePDS(did);
     setDidDoc(didDocCache[did] as DidDocument);
 

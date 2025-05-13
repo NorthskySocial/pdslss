@@ -1,14 +1,14 @@
 import { createResource, createSignal, For, Show } from "solid-js";
 import { Client, CredentialManager } from "@atcute/client";
 import { query, useParams } from "@solidjs/router";
-import { resolveHandle, resolvePDS } from "../utils/api.js";
+import { resolvePDS } from "../utils/api.js";
 
 const LIMIT = 1000;
 
 const BlobView = () => {
   const params = useParams();
   const [cursor, setCursor] = createSignal<string>();
-  let did = params.repo;
+  const did = params.repo;
   let pds: string;
   let rpc: Client;
 
@@ -24,8 +24,7 @@ const BlobView = () => {
     "listBlobs",
   );
 
-  const fetchBlobs = async (): Promise<string[]> => {
-    if (!did.startsWith("did:")) did = await resolveHandle(params.repo);
+  const fetchBlobs = async () => {
     if (!pds) pds = await resolvePDS(did);
     if (!rpc) rpc = new Client({ handler: new CredentialManager({ service: pds }) });
     const res = await listBlobs(did, cursor());

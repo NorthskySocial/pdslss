@@ -13,7 +13,7 @@ import { agent, loginState } from "../components/login.jsx";
 import { setCID, setValidRecord, validRecord } from "../components/navbar.jsx";
 import { theme } from "../components/settings.jsx";
 
-import { didDocCache, getAllBacklinks, LinkData, resolveHandle, resolvePDS } from "../utils/api.js";
+import { didDocCache, getAllBacklinks, LinkData, resolvePDS } from "../utils/api.js";
 import { AtUri, uriTemplates } from "../utils/templates.js";
 import { verifyRecord } from "../utils/verify.js";
 
@@ -34,7 +34,7 @@ export default () => {
     { label: string; link: string } | undefined
   >();
   let model: editor.IModel;
-  let did = params.repo;
+  const did = params.repo;
   let rpc: Client;
   let formRef!: HTMLFormElement;
 
@@ -53,7 +53,6 @@ export default () => {
     window.addEventListener("keydown", keyEvent);
     setCID(undefined);
     setValidRecord(undefined);
-    if (!did.startsWith("did:")) did = await resolveHandle(params.repo);
     const pds = await resolvePDS(did);
     rpc = new Client({ handler: new CredentialManager({ service: pds }) });
     const res = await getRecord(did, params.collection, params.rkey);
