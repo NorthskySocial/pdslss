@@ -1,7 +1,7 @@
 import { resolveHandle } from "../utils/api.js";
 import { A } from "@solidjs/router";
 import Tooltip from "./tooltip.jsx";
-import { createSignal, Show } from "solid-js";
+import { createSignal, onCleanup, onMount, Show } from "solid-js";
 import { agent, loginState } from "../components/login.jsx";
 
 const Search = () => {
@@ -39,6 +39,20 @@ const Search = () => {
     window.location.href = `/at://${did}${uriParts.length > 1 ? `/${uriParts.slice(1).join("/")}` : ""}`;
   };
 
+  onMount(() => window.addEventListener("keydown", keyEvent));
+  onCleanup(() => window.removeEventListener("keydown", keyEvent));
+
+  const keyEvent = (event: KeyboardEvent) => {
+    if (event.key == "/" && document.activeElement !== searchInput) {
+      event.preventDefault();
+      searchInput.focus();
+    }
+    if (event.key == "Escape" && document.activeElement === searchInput) {
+      event.preventDefault();
+      searchInput.blur();
+    }
+  };
+
   return (
     <>
       <form
@@ -57,6 +71,7 @@ const Search = () => {
             id="input"
             ref={searchInput}
             spellcheck={false}
+            placeholder="Type / to search"
             class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
           />
           <div class="flex min-w-[2rem] justify-center">
