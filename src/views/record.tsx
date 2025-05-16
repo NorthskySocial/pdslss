@@ -7,7 +7,7 @@ import { editor } from "monaco-editor";
 
 import { Backlinks } from "../components/backlinks.jsx";
 import { Editor } from "../components/editor.jsx";
-import { JSONValue, syntaxHighlight } from "../components/json.jsx";
+import { JSONValue } from "../components/json.jsx";
 import { agent, loginState } from "../components/login.jsx";
 import { setCID, setValidRecord, validRecord } from "../components/navbar.jsx";
 import { theme } from "../components/settings.jsx";
@@ -31,7 +31,6 @@ export default () => {
   const [openEdit, setOpenEdit] = createSignal(false);
   const [notice, setNotice] = createSignal("");
   const [editNotice, setEditNotice] = createSignal("");
-  const [JSONSyntax, setJSONSyntax] = createSignal(false);
   const [externalLink, setExternalLink] = createSignal<
     { label: string; link: string } | undefined
   >();
@@ -203,12 +202,6 @@ export default () => {
       </Show>
       <Show when={record()}>
         <div class="my-4 flex w-full justify-center gap-x-1">
-          <button
-            onclick={() => setJSONSyntax(!JSONSyntax())}
-            class="dark:bg-dark-700 dark:hover:bg-dark-800 rounded-lg border border-slate-400 bg-white px-2 py-1.5 text-xs font-bold hover:bg-slate-100 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:focus:ring-slate-300"
-          >
-            {JSONSyntax() ? "Markup" : "JSON"}
-          </button>
           <Show when={externalLink()}>
             <a
               class="dark:bg-dark-700 dark:hover:bg-dark-800 block flex items-center gap-x-1 rounded-lg border border-slate-400 bg-white px-2 py-1.5 text-xs font-bold hover:bg-slate-100 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:focus:ring-slate-300"
@@ -320,19 +313,7 @@ export default () => {
             "border-b border-neutral-500": !!backlinks(),
           }}
         >
-          <Show when={!JSONSyntax()}>
-            <JSONValue data={record()?.value as any} repo={record()!.uri.split("/")[2]} />
-          </Show>
-          <Show when={JSONSyntax()}>
-            <span
-              innerHTML={syntaxHighlight(
-                JSON.stringify(record()?.value, null, 2).replace(
-                  /[\u007F-\uFFFF]/g,
-                  (chr) => "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).slice(-4),
-                ),
-              )}
-            ></span>
-          </Show>
+          <JSONValue data={record()?.value as any} repo={record()!.uri.split("/")[2]} />
         </div>
         <Show when={backlinks()}>
           {(backlinks) => <Backlinks links={backlinks().links} target={backlinks().target} />}

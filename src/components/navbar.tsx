@@ -224,6 +224,15 @@ const NavBar = (props: { params: Params }) => {
               <div class="i-lucide-braces mr-1" />
             </Tooltip>
             <span class="mr-1">{props.params.rkey}</span>
+            <Tooltip text="Record on PDS">
+              <a
+                class="mr-1"
+                href={`https://${pds()}/xrpc/com.atproto.repo.getRecord?repo=${props.params.repo}&collection=${props.params.collection}&rkey=${props.params.rkey}`}
+                target="_blank"
+              >
+                <div class="i-lucide-external-link ml-0.5 text-[0.7rem]" />
+              </a>
+            </Tooltip>
             <Show when={validRecord()}>
               <Tooltip
                 text="Valid record"
