@@ -129,7 +129,7 @@ const NavBar = (props: { params: Params }) => {
             <div class="relative mt-1 flex items-center justify-between">
               <div class="flex basis-full items-center">
                 <Tooltip text="Repository">
-                  <div class="i-atproto-logo mr-1" />
+                  <div class="i-lucide-at-sign mr-1" />
                 </Tooltip>
                 <A
                   end
