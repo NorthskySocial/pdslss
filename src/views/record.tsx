@@ -307,12 +307,7 @@ export default () => {
             </button>
           </Show>
         </div>
-        <div
-          classList={{
-            "break-anywhere mb-2 whitespace-pre-wrap pb-3 font-mono text-sm sm:text-base": true,
-            "border-b border-neutral-500": !!backlinks(),
-          }}
-        >
+        <div class="break-anywhere mb-3 whitespace-pre-wrap font-mono text-sm sm:text-base">
           <JSONValue data={record()?.value as any} repo={record()!.uri.split("/")[2]} />
         </div>
         <Show when={backlinks()}>
