@@ -13,9 +13,7 @@ import { BlobView } from "./views/blob.tsx";
 import { CollectionView } from "./views/collection.tsx";
 import { LabelView } from "./views/labels.tsx";
 import { StreamView } from "./views/stream.tsx";
-import { lazy } from "solid-js";
-
-const RecordView = lazy(() => import("./views/record.tsx"));
+import { RecordView } from "./views/record.tsx";
 
 render(
   () => (

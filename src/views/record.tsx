@@ -18,7 +18,7 @@ import { verifyRecord } from "../utils/verify.js";
 import { ActorIdentifier, InferXRPCBodyOutput } from "@atcute/lexicons";
 import { ComAtprotoRepoGetRecord } from "@atcute/atproto";
 
-export default () => {
+export const RecordView = () => {
   const params = useParams();
   const [record, setRecord] =
     createSignal<InferXRPCBodyOutput<ComAtprotoRepoGetRecord.mainSchema["output"]>>();
