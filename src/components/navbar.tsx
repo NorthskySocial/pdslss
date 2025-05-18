@@ -99,7 +99,7 @@ const NavBar = (props: { params: Params }) => {
                   Copy AT URI
                 </button>
               </Show>
-              <Show when={cid()}>
+              <Show when={props.params.rkey && cid()}>
                 {(cid) => (
                   <button
                     class="p-0.75 flex items-center rounded bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-600"
