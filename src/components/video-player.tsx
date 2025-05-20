@@ -31,7 +31,7 @@ const VideoPlayer = ({ did, cid }: VideoPlayerProps) => {
   hls.on(Hls.Events.ERROR, () => setError(true));
 
   return (
-    <div>
+    <div class="max-w-md">
       <Show when={!error()}>
         <video
           ref={(node) => {
