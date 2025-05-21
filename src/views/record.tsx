@@ -211,6 +211,12 @@ export const RecordView = () => {
               {externalLink()?.label} <div class="i-lucide-external-link text-[0.65rem]" />
             </a>
           </Show>
+          <button
+            class="dark:bg-dark-700 dark:hover:bg-dark-800 rounded-lg border border-slate-400 bg-white px-2 py-1.5 text-xs font-bold hover:bg-slate-100 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:focus:ring-slate-300"
+            onclick={() => navigator.clipboard.writeText(JSON.stringify(record()?.value))}
+          >
+            Copy
+          </button>
           <Show when={loginState() && agent.sub === record()?.uri.split("/")[2]}>
             <Show when={openEdit()}>
               <dialog
