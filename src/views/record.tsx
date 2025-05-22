@@ -313,7 +313,7 @@ export const RecordView = () => {
             </button>
           </Show>
         </div>
-        <div class="break-anywhere mb-3 whitespace-pre-wrap font-mono text-sm sm:text-base">
+        <div class="break-anywhere mb-3 whitespace-pre-wrap font-mono text-xs sm:text-sm">
           <JSONValue data={record()?.value as any} repo={record()!.uri.split("/")[2]} />
         </div>
         <Show when={backlinks()}>
