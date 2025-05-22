@@ -9,6 +9,7 @@ import { AccountManager } from "./components/account.jsx";
 import { resolveHandle } from "./utils/api.js";
 import { Meta, MetaProvider } from "@solidjs/meta";
 import { Settings } from "./components/settings.jsx";
+import { Handle } from "@atcute/lexicons";
 
 const Layout = (props: RouteSectionProps<unknown>) => {
   try {
@@ -29,7 +30,7 @@ const Layout = (props: RouteSectionProps<unknown>) => {
 
   createEffect(async () => {
     if (params.repo && !params.repo.startsWith("did:")) {
-      const did = await resolveHandle(params.repo);
+      const did = await resolveHandle(params.repo as Handle);
       window.location.replace(location.pathname.replace(params.repo, did));
     }
   });
