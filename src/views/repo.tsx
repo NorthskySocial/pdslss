@@ -141,7 +141,7 @@ const RepoView = () => {
                 </button>
               </Tooltip>
             </div>
-            <div class="grid grid-cols-[min-content_1fr] items-center">
+            <div class="grid grid-cols-[min-content_1fr] items-center text-sm">
               <For each={Object.keys(nsids() ?? {})}>
                 {(authority) => (
                   <>
