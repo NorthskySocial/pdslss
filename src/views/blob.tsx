@@ -50,7 +50,7 @@ const BlobView = () => {
               <a
                 href={`${pds}/xrpc/com.atproto.sync.getBlob?did=${did}&cid=${cid}`}
                 target="_blank"
-                class="rounded px-0.5 hover:bg-neutral-300 dark:hover:bg-neutral-700"
+                class="rounded px-0.5 hover:bg-slate-300 dark:hover:bg-neutral-700"
               >
                 <span class="text-lightblue-500">{cid}</span>
               </a>
