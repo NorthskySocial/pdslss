@@ -43,7 +43,7 @@ const Backlinks = ({ links, target }: { links: LinkData; target: string }) => {
       </p>
       <For each={filteredLinks().links}>
         {({ collection, path, matchesFilter, counts }) => (
-          <div class="mt-2 font-mono text-xs sm:text-sm">
+          <div class="mt-2 font-mono text-sm">
             <p classList={{ "text-stone-400": matchesFilter }}>
               <span title="Collection containing linking records">{collection}</span>
               <span class="text-cyan-500">@</span>

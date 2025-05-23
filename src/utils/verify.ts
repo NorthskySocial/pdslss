@@ -1,6 +1,7 @@
 import { Client } from "@atcute/client";
 
 import * as CAR from "@atcute/car";
+import { CarReader } from "@atcute/car/v4";
 import * as CBOR from "@atcute/cbor";
 import * as CID from "@atcute/cid";
 import { type FoundPublicKey, getPublicKeyFromDidController, verifySig } from "@atcute/crypto";
@@ -105,14 +106,14 @@ export const verifyRecord = async (opts: VerifyOptions): Promise<VerifyResult> =
   let commit: CAR.Commit;
 
   try {
-    const reader = CAR.readCar(car);
+    const reader = CarReader.fromUint8Array(car);
     if (reader.header.data.roots.length !== 1) {
       errors.push({ message: `car must have exactly one root` });
       return { errors };
     }
 
     blockmap = new Map();
-    for (const entry of reader.iterate()) {
+    for (const entry of reader) {
       const cidString = CID.toString(entry.cid);
 
       // Verify that `bytes` matches its associated CID
