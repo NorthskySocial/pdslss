@@ -60,7 +60,7 @@ const Search = () => {
   return (
     <>
       <form
-        class="flex flex-col items-center gap-y-1"
+        class="flex w-full max-w-[21rem] flex-col items-center sm:max-w-[23rem]"
         id="uriForm"
         onsubmit={(e) => e.preventDefault()}
       >
@@ -69,14 +69,14 @@ const Search = () => {
             PDS URL or AT URI
           </label>
         </div>
-        <div class="flex items-center gap-1">
+        <div class="flex w-full items-center gap-1">
           <input
             type="text"
             id="input"
             ref={searchInput}
             spellcheck={false}
             placeholder={isTouchDevice ? "" : "Type / to search"}
-            class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
+            class="dark:bg-dark-100 grow rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
           />
           <div class="flex min-w-[2rem] justify-center">
             <Show when={loading()}>

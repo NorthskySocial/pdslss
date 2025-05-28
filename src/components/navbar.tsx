@@ -63,7 +63,7 @@ const NavBar = (props: { params: Params }) => {
   });
 
   return (
-    <div class="break-anywhere mt-4 flex w-[21rem] flex-col font-mono text-sm">
+    <div class="break-anywhere mt-4 flex w-[21rem] flex-col font-mono text-sm sm:w-[23rem]">
       <div class="relative flex items-center justify-between">
         <div class="flex basis-full items-center">
           <Show when={pds() && props.params.pds}>

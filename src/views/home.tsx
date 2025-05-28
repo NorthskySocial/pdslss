@@ -2,7 +2,7 @@ import { A } from "@solidjs/router";
 
 const Home = () => {
   return (
-    <div class="w-22rem mt-4 flex flex-col gap-2 break-words">
+    <div class="mt-4 flex flex-col gap-2 break-words">
       <div>
         <p>
           Browse the public data on{" "}

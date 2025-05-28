@@ -123,7 +123,7 @@ const RepoView = () => {
 
   return (
     <Show when={repo()}>
-      <div class="mt-3 flex w-[21rem] flex-col gap-2 break-words">
+      <div class="mt-3 flex w-[21rem] flex-col gap-2 break-words sm:w-[23rem]">
         <Show when={error()}>
           <div class="rounded-md bg-red-100 p-2 text-sm text-red-700 dark:bg-red-50 dark:text-red-600">
             {error()}
@@ -141,7 +141,7 @@ const RepoView = () => {
                 </button>
               </Tooltip>
             </div>
-            <div class="grid grid-cols-[min-content_1fr] items-center text-sm">
+            <div class="grid grid-cols-[min-content_1fr] items-center overflow-hidden text-sm">
               <For each={Object.keys(nsids() ?? {})}>
                 {(authority) => (
                   <>
@@ -170,7 +170,7 @@ const RepoView = () => {
                           {(nsid) => (
                             <A
                               href={`/at://${did}/${authority}.${nsid}`}
-                              class="text-lightblue-500 break-anywhere hover:underline"
+                              class="text-lightblue-500 hover:underline"
                             >
                               {authority}.{nsid}
                             </A>
