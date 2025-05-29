@@ -146,7 +146,11 @@ const Settings = () => {
                   value={localStorage.constellationHost || "https://constellation.microcosm.blue"}
                   disabled={!backlinksEnabled()}
                   class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300 disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/20"
-                  onInput={(e) => (localStorage.constellationHost = e.currentTarget.value)}
+                  onInput={(e) => {
+                    e.currentTarget.value.length ?
+                      (localStorage.constellationHost = e.currentTarget.value)
+                    : localStorage.removeItem("constellationHost");
+                  }}
                 />
               </div>
               <div class="mt-2 flex flex-col gap-1 border-t border-neutral-500 pt-2">
