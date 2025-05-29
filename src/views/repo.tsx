@@ -233,7 +233,7 @@ const RepoView = () => {
                 class="text-lightblue-500 flex w-fit items-center hover:underline"
                 href={
                   did.startsWith("did:plc") ?
-                    `https://plc.directory/${did}`
+                    `${localStorage.plcDirectory ?? "https://plc.directory"}/${did}`
                   : `https://${did.split("did:web:")[1]}/.well-known/did.json`
                 }
                 target="_blank"

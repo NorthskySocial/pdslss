@@ -24,7 +24,9 @@ import { setPDS } from "../components/navbar";
 
 const didDocumentResolver = new CompositeDidDocumentResolver({
   methods: {
-    plc: new PlcDidDocumentResolver(),
+    plc: new PlcDidDocumentResolver({
+      apiUrl: localStorage.plcDirectory ?? "https://plc.directory",
+    }),
     web: new AtprotoWebDidDocumentResolver(),
   },
 });
