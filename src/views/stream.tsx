@@ -241,7 +241,7 @@ const StreamView = () => {
           </button>
         </div>
       </form>
-      <div class="break-anywhere md:w-screen-md flex h-screen w-full flex-col gap-2 divide-y divide-neutral-500 overflow-auto whitespace-pre-wrap font-mono text-sm">
+      <div class="break-anywhere md:w-screen-md flex h-screen w-full flex-col gap-2 divide-y divide-neutral-500 overflow-auto whitespace-pre-wrap pl-4 font-mono text-sm">
         <For each={records().toReversed()}>
           {(rec) => (
             <div class="pt-2">
