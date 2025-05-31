@@ -97,7 +97,12 @@ const JSONObject = ({ data, repo }: { data: { [x: string]: JSONType }; repo: str
               {key}:
             </span>
           </span>
-          <span classList={{ "ml-[2ch]": value === Object(value) }}>
+          <span
+            classList={{
+              "self-center": value !== Object(value),
+              "ml-[2ch]": value === Object(value),
+            }}
+          >
             <JSONValue data={value} repo={repo} />
           </span>
         </span>
