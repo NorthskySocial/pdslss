@@ -36,8 +36,8 @@ const Home = () => {
       <div>
         <span class="font-semibold">Examples</span>
         <div>
-          <A href="/pyramid-activation.today" class="text-lightblue-500 hover:underline">
-            https://pyramid-activation.today
+          <A href="/pds.kelinci.net" class="text-lightblue-500 hover:underline">
+            https://pds.kelinci.net
           </A>
         </div>
         <div>
