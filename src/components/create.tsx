@@ -88,7 +88,7 @@ const CreateRecord = () => {
           <div class="dark:bg-dark-400 rounded-md border border-slate-900 bg-zinc-100 p-4 text-slate-900 dark:border-slate-100 dark:text-slate-100">
             <h3 class="mb-2 text-lg font-bold">Creating record</h3>
             <form ref={formRef} class="flex flex-col gap-y-3">
-              <div class="flex w-fit flex-col gap-y-3">
+              <div class="flex w-fit flex-col gap-y-2">
                 <div class="flex items-center gap-x-2">
                   <label for="collection" class="min-w-20 select-none">
                     Collection
