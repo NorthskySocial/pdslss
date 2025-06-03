@@ -78,7 +78,7 @@ const NavBar = (props: { params: Params }) => {
         </div>
         <button
           ref={setDropdown}
-          class="i-lucide-ellipsis ml-1 shrink-0 text-lg"
+          class="i-lucide-ellipsis ml-1 shrink-0"
           onclick={() => setOpenMenu(!openMenu())}
         />
         <Show when={openMenu()}>
@@ -166,8 +166,7 @@ const NavBar = (props: { params: Params }) => {
               <Tooltip text={showHandle() ? "Show DID" : "Show Handle"}>
                 <button
                   class={
-                    "ml-1 shrink-0 text-lg " +
-                    (swapIcons[props.params.repo] ?? "i-lucide-arrow-left-right")
+                    "ml-1 shrink-0 " + (swapIcons[props.params.repo] ?? "i-lucide-arrow-left-right")
                   }
                   onclick={() => setShowHandle(!showHandle())}
                 />
