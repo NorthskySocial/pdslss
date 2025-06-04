@@ -79,6 +79,14 @@ const Home = () => {
           </A>
         </p>
       </div>
+      <div>
+        <i>
+          Proudly powered by{" "}
+          <A href="https://github.com/mary-ext/atcute" target="_blank" class="hover:underline">
+            atcute
+          </A>
+        </i>
+      </div>
     </div>
   );
 };
