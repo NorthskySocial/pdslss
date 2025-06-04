@@ -179,10 +179,10 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
           ref={setModal}
           class="backdrop-brightness-60 fixed left-0 top-0 z-20 flex h-screen w-screen items-center justify-center bg-transparent"
         >
-          <div class="dark:bg-dark-400 rounded-md border border-slate-900 bg-zinc-100 p-4 text-slate-900 dark:border-slate-100 dark:text-slate-100">
-            <h3 class="mb-2 text-lg font-bold">{props.create ? "Creating" : "Editing"} record</h3>
-            <form ref={formRef} class="flex flex-col gap-y-3">
-              <div class="flex w-fit flex-col gap-y-2">
+          <div class="dark:bg-dark-400 rounded-md border border-slate-900 bg-zinc-100 p-2 text-slate-900 sm:p-4 dark:border-slate-100 dark:text-slate-100">
+            <h3 class="mb-2 font-bold">{props.create ? "Creating" : "Editing"} record</h3>
+            <form ref={formRef} class="flex flex-col gap-y-2">
+              <div class="flex w-fit flex-col gap-y-1 text-xs sm:text-sm">
                 <Show when={props.create}>
                   <div class="flex items-center gap-x-2">
                     <label for="collection" class="min-w-20 select-none">
@@ -251,7 +251,7 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
                       >
                         Upload
                       </button>
-                      <p class="text-sm">Metadata will be pasted after cursor</p>
+                      <p>Metadata will be pasted after cursor</p>
                     </Show>
                     <Show when={uploading()}>
                       <div class="i-line-md-loading-twotone-loop text-xl" />
@@ -275,7 +275,7 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
                   </Show>
                   <button
                     onclick={() => setOpenDialog(false)}
-                    class="dark:bg-dark-900 dark:hover:bg-dark-800 rounded-lg border border-slate-400 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-zinc-200 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:focus:ring-slate-300"
+                    class="dark:bg-dark-900 dark:hover:bg-dark-800 rounded-lg border border-slate-400 bg-white px-2 py-1.5 text-xs font-bold hover:bg-zinc-200 focus:outline-none focus:ring-1 focus:ring-slate-700 sm:text-sm dark:focus:ring-slate-300"
                   >
                     Close
                   </button>
@@ -286,7 +286,7 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
                         createRecord(new FormData(formRef))
                       : editRecord(new FormData(formRef))
                     }
-                    class="rounded-lg bg-green-500 px-2.5 py-1.5 text-sm font-bold text-slate-100 hover:bg-green-400 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-slate-300"
+                    class="rounded-lg bg-green-500 px-2 py-1.5 text-xs font-bold text-slate-100 hover:bg-green-400 focus:outline-none focus:ring-1 focus:ring-slate-700 sm:text-sm dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-slate-300"
                   >
                     Confirm
                   </button>
