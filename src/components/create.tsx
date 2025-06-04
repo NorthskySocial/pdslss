@@ -7,6 +7,7 @@ import { theme } from "../components/settings.jsx";
 import Tooltip from "./tooltip.jsx";
 import { ActorIdentifier } from "@atcute/lexicons";
 import { useParams } from "@solidjs/router";
+import { remove } from "@mary/exif-rm";
 
 export const RecordEditor = (props: { create: boolean; record?: any }) => {
   const params = useParams();
@@ -135,6 +136,11 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
     if (mimetype) blob = new Blob([file], { type: mimetype });
     else blob = file;
 
+    if ((document.getElementById("exif-rm") as HTMLInputElement).checked) {
+      const exifRemoved = remove(new Uint8Array(await blob.arrayBuffer()));
+      if (exifRemoved !== null) blob = new Blob([exifRemoved], { type: blob.type });
+    }
+
     const rpc = new Client({ handler: agent });
     setUploading(true);
     const res = await rpc.post("com.atproto.repo.uploadBlob", {
@@ -227,18 +233,26 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
                     <option value="false">False</option>
                   </select>
                 </div>
-                <div class="flex items-center gap-x-2">
-                  <label for="mimetype" class="min-w-20 select-none">
-                    MIME type
-                  </label>
-                  <input
-                    id="mimetype"
-                    type="text"
-                    spellcheck={false}
-                    placeholder="Optional"
-                    size={22}
-                    class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
-                  />
+                <div class="flex flex-col justify-between gap-1 sm:flex-row sm:items-center">
+                  <div class="flex items-center gap-x-2">
+                    <label for="mimetype" class="min-w-20 select-none">
+                      MIME type
+                    </label>
+                    <input
+                      id="mimetype"
+                      type="text"
+                      spellcheck={false}
+                      placeholder="Optional"
+                      size={22}
+                      class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
+                    />
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <input id="exif-rm" class="size-4" type="checkbox" checked />
+                    <label for="exif-rm" class="select-none">
+                      Remove EXIF data
+                    </label>
+                  </div>
                 </div>
                 <div class="flex flex-col gap-1 sm:flex-row sm:items-center">
                   <input type="file" id="blob" />

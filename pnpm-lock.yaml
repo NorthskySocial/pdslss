@@ -47,6 +47,9 @@ importers:
       '@atcute/uint8array':
         specifier: ^1.0.3
         version: 1.0.3
+      '@mary/exif-rm':
+        specifier: jsr:^0.2.2
+        version: '@jsr/mary__exif-rm@0.2.2'
       '@skyware/firehose':
         specifier: ^0.5.1
         version: 0.5.1
@@ -560,6 +563,9 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@jsr/mary__exif-rm@0.2.2':
+    resolution: {integrity: sha512-+ZpLaC+1CyqWhH608Sqd6/yTG0pOlokn2tCXha7s1SMQ+GLKo4Nn/PskTeeP9Pt+6gNYSu6ednoSlRvXb2ZGxg==, tarball: https://npm.jsr.io/~/11/@jsr/mary__exif-rm/0.2.2.tgz}
 
   '@noble/secp256k1@2.2.3':
     resolution: {integrity: sha512-l7r5oEQym9Us7EAigzg30/PQAvynhMt2uoYtT3t26eGDVm9Yii5mZ5jWSWmZ/oSIR2Et0xfc6DXrG0bZ787V3w==}
@@ -1742,6 +1748,8 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
+
+  '@jsr/mary__exif-rm@0.2.2': {}
 
   '@noble/secp256k1@2.2.3': {}
 

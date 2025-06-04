@@ -32,6 +32,7 @@
     "@atcute/oauth-browser-client": "^1.0.25",
     "@atcute/tid": "^1.0.2",
     "@atcute/uint8array": "^1.0.3",
+    "@mary/exif-rm": "jsr:^0.2.2",
     "@skyware/firehose": "^0.5.1",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.3",
@@ -40,7 +41,7 @@
     "monaco-editor": "^0.52.2",
     "solid-js": "^1.9.7"
   },
-  "packageManager": "pnpm@10.5.2+sha512.da9dc28cd3ff40d0592188235ab25d3202add8a207afbedc682220e4a0029ffbff4562102b9e6e46b4e3f9e8bd53e6d05de48544b0c57d4b0179e22c76d1199b",
+  "packageManager": "pnpm@10.11.1+sha512.e519b9f7639869dc8d5c3c5dfef73b3f091094b0a006d7317353c72b124e80e1afd429732e28705ad6bfa1ee879c1fce46c128ccebd3192101f43dd67c667912",
   "pnpm": {
     "ignoredBuiltDependencies": [
       "esbuild"
