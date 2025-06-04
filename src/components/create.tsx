@@ -5,11 +5,14 @@ import { editor, Editor } from "../components/editor.jsx";
 import * as monaco from "monaco-editor";
 import { theme } from "../components/settings.jsx";
 import Tooltip from "./tooltip.jsx";
+import { ActorIdentifier } from "@atcute/lexicons";
+import { useParams } from "@solidjs/router";
 
-const CreateRecord = () => {
+export const RecordEditor = (props: { create: boolean; record?: any }) => {
+  const params = useParams();
   const [modal, setModal] = createSignal<HTMLDialogElement>();
-  const [openCreate, setOpenCreate] = createSignal(false);
-  const [createNotice, setCreateNotice] = createSignal("");
+  const [openDialog, setOpenDialog] = createSignal(false);
+  const [notice, setNotice] = createSignal("");
   const [uploading, setUploading] = createSignal(false);
   let model: monaco.editor.IModel;
   let formRef!: HTMLFormElement;
@@ -32,7 +35,7 @@ const CreateRecord = () => {
   };
 
   const keyEvent = (event: KeyboardEvent) => {
-    if (modal() && event.key == "Escape") setOpenCreate(false);
+    if (modal() && event.key == "Escape") setOpenDialog(false);
   };
 
   onMount(() => window.addEventListener("keydown", keyEvent));
@@ -48,7 +51,7 @@ const CreateRecord = () => {
     try {
       record = JSON.parse(model.getValue());
     } catch (e: any) {
-      setCreateNotice(e.message);
+      setNotice(e.message);
       return;
     }
     const res = await rpc.post("com.atproto.repo.createRecord", {
@@ -64,15 +67,63 @@ const CreateRecord = () => {
       },
     });
     if (!res.ok) {
-      setCreateNotice(res.data.error);
+      setNotice(res.data.error);
       return;
     }
-    setOpenCreate(false);
+    setOpenDialog(false);
     window.location.href = `/${res.data.uri}`;
   };
 
+  const editRecord = async (formData: FormData) => {
+    const record = model.getValue();
+    const validate =
+      formData.get("validate")?.toString() === "true" ? true
+      : formData.get("validate")?.toString() === "false" ? false
+      : undefined;
+    if (!record) return;
+    const rpc = new Client({ handler: agent });
+    try {
+      const editedRecord = JSON.parse(record.toString());
+      if (formData.get("recreate")) {
+        await rpc.post("com.atproto.repo.applyWrites", {
+          input: {
+            repo: params.repo as ActorIdentifier,
+            validate: validate,
+            writes: [
+              {
+                collection: params.collection as `${string}.${string}.${string}`,
+                rkey: params.rkey,
+                $type: "com.atproto.repo.applyWrites#delete",
+              },
+              {
+                collection: params.collection as `${string}.${string}.${string}`,
+                rkey: params.rkey,
+                $type: "com.atproto.repo.applyWrites#create",
+                value: editedRecord,
+              },
+            ],
+          },
+        });
+      } else {
+        await rpc.post("com.atproto.repo.putRecord", {
+          input: {
+            repo: params.repo as ActorIdentifier,
+            collection: params.collection as `${string}.${string}.${string}`,
+            rkey: params.rkey,
+            record: editedRecord,
+            validate: validate,
+          },
+        });
+      }
+      setOpenDialog(false);
+      window.location.reload();
+    } catch (err: any) {
+      setNotice(err.message);
+    }
+  };
+
   const uploadBlob = async () => {
-    setCreateNotice("");
+    setNotice("");
     const file = (document.getElementById("blob") as HTMLInputElement)?.files?.[0];
     if (!file) return;
     (document.getElementById("blob") as HTMLInputElement).value = "";
@@ -83,7 +134,7 @@ const CreateRecord = () => {
     });
     setUploading(false);
     if (!res.ok) {
-      setCreateNotice(res.data.error);
+      setNotice(res.data.error);
       return;
     }
     editor.executeEdits("editor", [
@@ -96,58 +147,64 @@ const CreateRecord = () => {
   };
 
   createEffect(() => {
-    if (openCreate()) document.body.style.overflow = "hidden";
+    if (openDialog()) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "auto";
-    setCreateNotice("");
+    setNotice("");
   });
 
   const createModel = () => {
     if (!model)
       model = monaco.editor.createModel(
-        JSON.stringify(placeholder(new Date().toISOString()), null, 2),
+        JSON.stringify(
+          props.create ? placeholder(new Date().toISOString()) : props.record,
+          null,
+          2,
+        ),
         "json",
       );
   };
 
   return (
     <>
-      <Show when={openCreate()}>
+      <Show when={openDialog()}>
         <dialog
           ref={setModal}
           class="backdrop-brightness-60 fixed left-0 top-0 z-20 flex h-screen w-screen items-center justify-center bg-transparent"
         >
           <div class="dark:bg-dark-400 rounded-md border border-slate-900 bg-zinc-100 p-4 text-slate-900 dark:border-slate-100 dark:text-slate-100">
-            <h3 class="mb-2 text-lg font-bold">Creating record</h3>
+            <h3 class="mb-2 text-lg font-bold">{props.create ? "Creating" : "Editing"} record</h3>
             <form ref={formRef} class="flex flex-col gap-y-3">
               <div class="flex w-fit flex-col gap-y-2">
-                <div class="flex items-center gap-x-2">
-                  <label for="collection" class="min-w-20 select-none">
-                    Collection
-                  </label>
-                  <input
-                    id="collection"
-                    name="collection"
-                    type="text"
-                    spellcheck={false}
-                    placeholder="Optional (default: record type)"
-                    size={22}
-                    class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
-                  />
-                </div>
-                <div class="flex items-center gap-x-2">
-                  <label for="rkey" class="min-w-20 select-none">
-                    Record key
-                  </label>
-                  <input
-                    id="rkey"
-                    name="rkey"
-                    type="text"
-                    spellcheck={false}
-                    placeholder="Optional"
-                    size={22}
-                    class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
-                  />
-                </div>
+                <Show when={props.create}>
+                  <div class="flex items-center gap-x-2">
+                    <label for="collection" class="min-w-20 select-none">
+                      Collection
+                    </label>
+                    <input
+                      id="collection"
+                      name="collection"
+                      type="text"
+                      spellcheck={false}
+                      placeholder="Optional (default: record type)"
+                      size={22}
+                      class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
+                    />
+                  </div>
+                  <div class="flex items-center gap-x-2">
+                    <label for="rkey" class="min-w-20 select-none">
+                      Record key
+                    </label>
+                    <input
+                      id="rkey"
+                      name="rkey"
+                      type="text"
+                      spellcheck={false}
+                      placeholder="Optional"
+                      size={22}
+                      class="dark:bg-dark-100 rounded-lg border border-gray-400 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-300"
+                    />
+                  </div>
+                </Show>
                 <div class="flex items-center gap-x-2">
                   <label for="validate" class="min-w-20 select-none">
                     Validate
@@ -183,22 +240,34 @@ const CreateRecord = () => {
               </div>
               <Editor theme={theme().color} model={model!} />
               <div class="flex flex-col gap-2">
-                <Show when={createNotice()}>
-                  <div class="text-red-500 dark:text-red-400">{createNotice()}</div>
+                <Show when={notice()}>
+                  <div class="text-red-500 dark:text-red-400">{notice()}</div>
                 </Show>
                 <div class="flex items-center justify-end gap-2">
+                  <Show when={!props.create}>
+                    <div class="flex items-center gap-1">
+                      <input id="recreate" class="size-4" name="recreate" type="checkbox" />
+                      <label for="recreate" class="select-none">
+                        Recreate record
+                      </label>
+                    </div>
+                  </Show>
                   <button
-                    onclick={() => setOpenCreate(false)}
+                    onclick={() => setOpenDialog(false)}
                     class="dark:bg-dark-900 dark:hover:bg-dark-800 rounded-lg border border-slate-400 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-zinc-200 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:focus:ring-slate-300"
                   >
                     Close
                   </button>
                   <button
                     type="button"
-                    onclick={() => createRecord(new FormData(formRef))}
+                    onclick={() =>
+                      props.create ?
+                        createRecord(new FormData(formRef))
+                      : editRecord(new FormData(formRef))
+                    }
                     class="rounded-lg bg-green-500 px-2.5 py-1.5 text-sm font-bold text-slate-100 hover:bg-green-400 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-slate-300"
                   >
-                    Create
+                    Confirm
                   </button>
                 </div>
               </div>
@@ -206,20 +275,31 @@ const CreateRecord = () => {
           </div>
         </dialog>
       </Show>
-      <Tooltip
-        text="Create record"
-        children={
-          <button
-            class="i-lucide-square-pen cursor-pointer text-xl"
-            onclick={() => {
-              createModel();
-              setOpenCreate(true);
-            }}
-          />
-        }
-      />
+      <Show when={props.create}>
+        <Tooltip
+          text="Create record"
+          children={
+            <button
+              class="i-lucide-square-pen cursor-pointer text-xl"
+              onclick={() => {
+                createModel();
+                setOpenDialog(true);
+              }}
+            />
+          }
+        />
+      </Show>
+      <Show when={!props.create}>
+        <button
+          onclick={() => {
+            createModel();
+            setOpenDialog(true);
+          }}
+          class="dark:bg-dark-700 dark:hover:bg-dark-300 rounded-lg border border-slate-400 bg-white px-2 py-1.5 text-xs font-bold hover:bg-zinc-100 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:focus:ring-slate-300"
+        >
+          Edit
+        </button>
+      </Show>
     </>
   );
 };
-
-export { CreateRecord };

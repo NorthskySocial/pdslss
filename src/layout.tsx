@@ -1,7 +1,7 @@
 import { createEffect, ErrorBoundary, onMount, Show, Suspense } from "solid-js";
 import { A, RouteSectionProps, useLocation, useParams } from "@solidjs/router";
 import { agent, loginState, retrieveSession } from "./components/login.jsx";
-import { CreateRecord } from "./components/create.jsx";
+import { RecordEditor } from "./components/create.jsx";
 import Tooltip from "./components/tooltip.jsx";
 import { NavBar } from "./components/navbar.jsx";
 import { Search } from "./components/search.jsx";
@@ -58,7 +58,7 @@ const Layout = (props: RouteSectionProps<unknown>) => {
         </div>
         <div class="justify-right flex basis-1/3 items-center gap-x-2">
           <Show when={loginState()}>
-            <CreateRecord />
+            <RecordEditor create={true} />
           </Show>
           <Settings />
         </div>
