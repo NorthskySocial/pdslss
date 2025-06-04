@@ -10,6 +10,7 @@ const CreateRecord = () => {
   const [modal, setModal] = createSignal<HTMLDialogElement>();
   const [openCreate, setOpenCreate] = createSignal(false);
   const [createNotice, setCreateNotice] = createSignal("");
+  const [uploading, setUploading] = createSignal(false);
   let model: monaco.editor.IModel;
   let formRef!: HTMLFormElement;
 
@@ -76,9 +77,11 @@ const CreateRecord = () => {
     if (!file) return;
     (document.getElementById("blob") as HTMLInputElement).value = "";
     const rpc = new Client({ handler: agent });
+    setUploading(true);
     const res = await rpc.post("com.atproto.repo.uploadBlob", {
       input: file,
     });
+    setUploading(false);
     if (!res.ok) {
       setCreateNotice(res.data.error);
       return;
@@ -161,15 +164,20 @@ const CreateRecord = () => {
                 </div>
                 <div class="flex flex-col gap-1 sm:flex-row sm:items-center">
                   <input type="file" id="blob" />
-                  <div class="flex flex-row items-center gap-1">
-                    <button
-                      type="button"
-                      onclick={() => uploadBlob()}
-                      class="dark:hover:bg-dark-300 w-fit rounded-lg border border-gray-400 bg-transparent px-2 py-1 hover:bg-zinc-50 focus:outline-none focus:ring-1 focus:ring-gray-300"
-                    >
-                      Upload
-                    </button>
-                    <p class="text-sm">Metadata will be pasted after cursor</p>
+                  <div class="flex min-h-9 flex-row items-center gap-1">
+                    <Show when={!uploading()}>
+                      <button
+                        type="button"
+                        onclick={() => uploadBlob()}
+                        class="dark:hover:bg-dark-300 w-fit rounded-lg border border-gray-400 bg-transparent px-2 py-1 hover:bg-zinc-50 focus:outline-none focus:ring-1 focus:ring-gray-300"
+                      >
+                        Upload
+                      </button>
+                      <p class="text-sm">Metadata will be pasted after cursor</p>
+                    </Show>
+                    <Show when={uploading()}>
+                      <div class="i-line-md-loading-twotone-loop text-xl" />
+                    </Show>
                   </div>
                 </div>
               </div>
