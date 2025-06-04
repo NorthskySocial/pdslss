@@ -66,7 +66,7 @@ const Login = () => {
           Login
         </button>
       </div>
-      <div class="mt-1">{notice()}</div>
+      <div class="break-anywhere max-w-20rem mt-1">{notice()}</div>
     </form>
   );
 };
