@@ -10,6 +10,7 @@ import {
   type Session,
 } from "@atcute/oauth-browser-client";
 import { Did } from "@atcute/lexicons";
+import { isHandle } from "@atcute/lexicons/syntax";
 
 configureOAuth({
   metadata: {
@@ -27,6 +28,7 @@ const Login = () => {
 
   const login = async (handle: string) => {
     try {
+      if (!handle || !isHandle(handle)) throw new Error("Invalid handle");
       setNotice(`Resolving your identity...`);
       const resolved = await resolveFromIdentity(handle);
 
@@ -42,7 +44,7 @@ const Login = () => {
       location.assign(authUrl);
     } catch (e) {
       console.error(e);
-      setNotice("Error during OAuth login");
+      setNotice(`${e}`);
     }
   };
 
