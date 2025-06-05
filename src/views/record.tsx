@@ -12,6 +12,7 @@ import { didDocCache, getAllBacklinks, LinkData, resolvePDS } from "../utils/api
 import { AtUri, uriTemplates } from "../utils/templates.js";
 import { verifyRecord } from "../utils/verify.js";
 import { ActorIdentifier, InferXRPCBodyOutput, is } from "@atcute/lexicons";
+import { lexiconDoc } from "@atcute/lexicon-doc";
 import { ComAtprotoRepoGetRecord } from "@atcute/atproto";
 import { lexicons } from "../utils/types/lexicons.js";
 import { RecordEditor } from "../components/create.jsx";
@@ -62,6 +63,16 @@ export const RecordView = () => {
       if (params.collection in lexicons) {
         if (is(lexicons[params.collection], res.data.value)) setValidSchema(true);
         else setValidSchema(false);
+      } else if (params.collection === "com.atproto.lexicon.schema") {
+        let rec = structuredClone(res.data.value);
+        delete rec.$type;
+        try {
+          lexiconDoc.parse(rec);
+          setValidSchema(true);
+        } catch (e) {
+          console.error(e);
+          setValidSchema(false);
+        }
       }
       const { errors } = await verifyRecord({
         rpc: rpc,
