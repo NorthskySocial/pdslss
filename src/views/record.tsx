@@ -16,6 +16,7 @@ import { lexiconDoc } from "@atcute/lexicon-doc";
 import { ComAtprotoRepoGetRecord } from "@atcute/atproto";
 import { lexicons } from "../utils/types/lexicons.js";
 import { RecordEditor } from "../components/create.jsx";
+import { backlinksEnabled } from "../components/settings.jsx";
 
 export const RecordView = () => {
   const params = useParams();
@@ -211,7 +212,7 @@ export const RecordView = () => {
             </button>
           </Show>
         </div>
-        <Show when={backlinks()}>
+        <Show when={backlinksEnabled()}>
           <div class="sm:w-23rem w-21rem flex justify-between self-center">
             <div class="flex items-center gap-1">
               <button
@@ -225,16 +226,18 @@ export const RecordView = () => {
                 Record
               </button>
             </div>
-            <button
-              classList={{
-                "bg-transparent font-semibold": true,
-                "text-stone-600 dark:text-stone-400": showBacklinks(),
-                "text-lightblue-500 hover:underline": !showBacklinks(),
-              }}
-              onclick={() => setShowBacklinks(true)}
-            >
-              Backlinks
-            </button>
+            <Show when={backlinks()}>
+              <button
+                classList={{
+                  "bg-transparent font-semibold": true,
+                  "text-stone-600 dark:text-stone-400": showBacklinks(),
+                  "text-lightblue-500 hover:underline": !showBacklinks(),
+                }}
+                onclick={() => setShowBacklinks(true)}
+              >
+                Backlinks
+              </button>
+            </Show>
           </div>
         </Show>
         <Show when={!showBacklinks()}>

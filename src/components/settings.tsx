@@ -13,7 +13,9 @@ const getInitialTheme = () => {
 
 export const [theme, setTheme] = createSignal(getInitialTheme());
 export const [showHandle, setShowHandle] = createSignal(localStorage.showHandle === "true");
-const [backlinksEnabled, setBacklinksEnabled] = createSignal(localStorage.backlinks === "true");
+export const [backlinksEnabled, setBacklinksEnabled] = createSignal(
+  localStorage.backlinks === "true",
+);
 
 const Settings = () => {
   const [modal, setModal] = createSignal<HTMLDialogElement>();
