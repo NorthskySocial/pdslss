@@ -75,7 +75,7 @@ const JSONObject = ({ data, repo }: { data: { [x: string]: JSONType }; repo: str
       {([key, value]) => (
         <span
           classList={{
-            "flex gap-x-1": true,
+            "flex gap-x-1 w-full": true,
             "flex-col": value === Object(value),
           }}
         >
@@ -161,7 +161,7 @@ const JSONArray = ({ data, repo }: { data: JSONType[]; repo: string }) => {
             "mb-2": value === Object(value) && index() !== data.length - 1,
           }}
         >
-          <span class="ml-[1ch]">
+          <span class="ml-[1ch] w-full">
             <JSONValue data={value} repo={repo} />
           </span>
         </span>
