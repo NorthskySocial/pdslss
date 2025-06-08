@@ -203,7 +203,7 @@ const Settings = () => {
                     }}
                   />
                   <label for="disableMedia" class="select-none">
-                    Disable media embeds
+                    Hide media embeds
                   </label>
                 </div>
               </div>
