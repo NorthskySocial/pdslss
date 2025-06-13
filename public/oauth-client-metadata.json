@@ -1,5 +1,5 @@
 {
-  "client_id": "https://pdsls.dev/client-metadata.json",
+  "client_id": "https://pdsls.dev/oauth-client-metadata.json",
   "client_name": "PDSls",
   "client_uri": "https://pdsls.dev",
   "redirect_uris": ["https://pdsls.dev/"],
