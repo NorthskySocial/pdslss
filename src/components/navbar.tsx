@@ -85,6 +85,16 @@ const NavBar = (props: { params: Params }) => {
         <Show when={openMenu()}>
           <div class="absolute right-0 top-full z-10 w-max rounded-md border border-neutral-500 bg-white p-1 font-sans dark:bg-neutral-800">
             <div class="flex flex-col">
+              <Show when={pds()}>
+                {(pds) => (
+                  <button
+                    class="p-0.75 flex items-center rounded bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-600"
+                    onclick={() => navigator.clipboard.writeText(pds())}
+                  >
+                    Copy PDS
+                  </button>
+                )}
+              </Show>
               <Show when={props.params.repo}>
                 <button
                   class="p-0.75 flex items-center rounded bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-600"
@@ -110,16 +120,6 @@ const NavBar = (props: { params: Params }) => {
                     onclick={() => navigator.clipboard.writeText(cid())}
                   >
                     Copy CID
-                  </button>
-                )}
-              </Show>
-              <Show when={pds()}>
-                {(pds) => (
-                  <button
-                    class="p-0.75 flex items-center rounded bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-600"
-                    onclick={() => navigator.clipboard.writeText(pds())}
-                  >
-                    Copy PDS URL
                   </button>
                 )}
               </Show>
