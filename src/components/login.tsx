@@ -7,6 +7,7 @@ import {
   getSession,
   OAuthUserAgent,
   resolveFromIdentity,
+  resolveFromService,
   type Session,
 } from "@atcute/oauth-browser-client";
 import { Did } from "@atcute/lexicons";
@@ -29,9 +30,15 @@ const Login = () => {
 
   const login = async (handle: string) => {
     try {
-      if (!handle || !isHandle(handle)) throw new Error("Invalid handle");
-      setNotice(`Resolving your identity...`);
-      const resolved = await resolveFromIdentity(handle);
+      if (!handle) return;
+      let resolved;
+      if (!isHandle(handle)) {
+        setNotice(`Resolving your service...`);
+        resolved = await resolveFromService(handle);
+      } else {
+        setNotice(`Resolving your identity...`);
+        resolved = await resolveFromIdentity(handle);
+      }
 
       setNotice(`Contacting your data server...`);
       const authUrl = await createAuthorizationUrl({
