@@ -286,7 +286,7 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
                   </Show>
                   <button
                     onclick={() => setOpenDialog(false)}
-                    class="dark:bg-dark-900 dark:hover:bg-dark-800 rounded-lg border border-slate-400 bg-white px-2 py-1.5 text-xs font-bold hover:bg-zinc-200 focus:outline-none focus:ring-1 focus:ring-slate-700 sm:text-sm dark:focus:ring-slate-300"
+                    class="dark:hover:bg-dark-300 rounded-lg border border-slate-400 bg-transparent px-2 py-1.5 text-xs font-bold hover:bg-zinc-50 focus:outline-none focus:ring-1 focus:ring-slate-700 sm:text-sm dark:focus:ring-slate-300"
                   >
                     Close
                   </button>
@@ -327,7 +327,7 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
             createModel();
             setOpenDialog(true);
           }}
-          class="dark:bg-dark-700 dark:hover:bg-dark-300 rounded-lg border border-slate-400 bg-white px-2 py-1.5 text-xs font-bold hover:bg-zinc-100 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:focus:ring-slate-300"
+          class="dark:hover:bg-dark-300 rounded-lg border border-slate-400 bg-transparent px-2 py-1.5 text-xs font-bold hover:bg-zinc-50 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:focus:ring-slate-300"
         >
           Edit
         </button>

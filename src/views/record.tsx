@@ -162,7 +162,7 @@ export const RecordView = () => {
         <div class="mb-1 mt-3 flex w-full justify-center gap-x-1">
           <Show when={externalLink()}>
             <a
-              class="dark:bg-dark-700 dark:hover:bg-dark-300 block flex items-center gap-x-1 rounded-lg border border-slate-400 bg-white px-2 py-1.5 text-xs font-bold hover:bg-zinc-100 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:focus:ring-slate-300"
+              class="dark:hover:bg-dark-300 block flex items-center gap-x-1 rounded-lg border border-slate-400 bg-transparent px-2 py-1.5 text-xs font-bold hover:bg-zinc-50 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:focus:ring-slate-300"
               target="_blank"
               href={externalLink()?.link}
             >
@@ -170,7 +170,7 @@ export const RecordView = () => {
             </a>
           </Show>
           <button
-            class="dark:bg-dark-700 dark:hover:bg-dark-300 rounded-lg border border-slate-400 bg-white px-2 py-1.5 text-xs font-bold hover:bg-zinc-100 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:focus:ring-slate-300"
+            class="dark:hover:bg-dark-300 rounded-lg border border-slate-400 bg-transparent px-2 py-1.5 text-xs font-bold hover:bg-zinc-50 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:focus:ring-slate-300"
             onclick={() => navigator.clipboard.writeText(JSON.stringify(record()?.value))}
           >
             Copy
@@ -206,7 +206,7 @@ export const RecordView = () => {
             </Show>
             <button
               onclick={() => setOpenDelete(true)}
-              class="dark:bg-dark-700 dark:hover:bg-dark-300 rounded-lg border border-red-500 bg-white px-2 py-1.5 text-xs font-bold text-red-500 hover:bg-zinc-100 focus:outline-none focus:ring-1 focus:ring-red-400 dark:border-red-400 dark:text-red-400"
+              class="dark:hover:bg-dark-300 rounded-lg border border-red-500 bg-transparent px-2 py-1.5 text-xs font-bold text-red-500 hover:bg-zinc-50 focus:outline-none focus:ring-1 focus:ring-red-400 dark:border-red-400 dark:text-red-400"
             >
               Delete
             </button>

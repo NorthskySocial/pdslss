@@ -241,7 +241,7 @@ const StreamView = () => {
           <button
             type="button"
             onclick={() => connectSocket(new FormData(formRef))}
-            class="dark:bg-dark-700 dark:hover:bg-dark-800 w-fit rounded-lg border border-slate-400 bg-white px-2.5 py-1.5 text-sm font-bold hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-slate-700 dark:focus:ring-slate-300"
+            class="dark:hover:bg-dark-300 w-fit rounded-lg border border-slate-400 bg-transparent px-2.5 py-1.5 text-sm font-bold hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-slate-700 dark:focus:ring-slate-300"
           >
             {connected() ? "Disconnect" : "Connect"}
           </button>
