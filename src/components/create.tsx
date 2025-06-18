@@ -69,7 +69,7 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
       },
     });
     if (!res.ok) {
-      setNotice(res.data.error);
+      setNotice(`${res.data.error}: ${res.data.message}`);
       return;
     }
     setOpenDialog(false);
@@ -87,7 +87,7 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
     try {
       const editedRecord = JSON.parse(record.toString());
       if (formData.get("recreate")) {
-        await rpc.post("com.atproto.repo.applyWrites", {
+        const res = await rpc.post("com.atproto.repo.applyWrites", {
           input: {
             repo: params.repo as ActorIdentifier,
             validate: validate,
@@ -106,8 +106,12 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
             ],
           },
         });
+        if (!res.ok) {
+          setNotice(`${res.data.error}: ${res.data.message}`);
+          return;
+        }
       } else {
-        await rpc.post("com.atproto.repo.putRecord", {
+        const res = await rpc.post("com.atproto.repo.putRecord", {
           input: {
             repo: params.repo as ActorIdentifier,
             collection: params.collection as `${string}.${string}.${string}`,
@@ -116,6 +120,10 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
             validate: validate,
           },
         });
+        if (!res.ok) {
+          setNotice(`${res.data.error}: ${res.data.message}`);
+          return;
+        }
       }
       setOpenDialog(false);
       window.location.reload();
@@ -186,7 +194,7 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
           ref={setModal}
           class="backdrop-brightness-60 fixed left-0 top-0 z-20 flex h-screen w-screen items-center justify-center bg-transparent"
         >
-          <div class="dark:bg-dark-400 rounded-md border border-slate-900 bg-zinc-100 p-2 text-slate-900 sm:p-4 dark:border-slate-100 dark:text-slate-100">
+          <div class="dark:bg-dark-400 w-21rem sm:w-xl rounded-md border border-slate-900 bg-zinc-100 p-2 text-slate-900 sm:p-4 lg:w-[50rem] dark:border-slate-100 dark:text-slate-100">
             <h3 class="mb-2 font-bold">{props.create ? "Creating" : "Editing"} record</h3>
             <form ref={formRef} class="flex flex-col gap-y-2">
               <div class="flex w-fit flex-col gap-y-1 text-xs sm:text-sm">
