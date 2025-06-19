@@ -132,6 +132,7 @@ const Settings = () => {
                 <label for="backlinks" class="select-none font-semibold">
                   Backlinks
                 </label>
+                <div class="i-lucide-send-to-back" />
               </div>
               <div class="flex flex-col gap-1">
                 <label
