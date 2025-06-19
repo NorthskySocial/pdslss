@@ -62,7 +62,10 @@ const NavBar = (props: { params: Params }) => {
       <div class="relative flex items-center justify-between">
         <div class="min-h-1.25rem flex basis-full items-center">
           <Tooltip text="PDS">
-            <button class="i-lucide-server mr-1 shrink-0" onclick={() => addToClipboard(pds()!)} />
+            <button
+              class="i-lucide-server mr-1 shrink-0 text-lg"
+              onclick={() => addToClipboard(pds()!)}
+            />
           </Tooltip>
           <Show when={pds()}>
             <A end href={pds()!} inactiveClass="text-lightblue-500 w-full hover:underline">
@@ -72,7 +75,7 @@ const NavBar = (props: { params: Params }) => {
         </div>
         <Tooltip text={`Copy ${props.params.repo ? "AT URI" : "PDS"}`}>
           <button
-            class="i-lucide-copy ml-1 shrink-0"
+            class="i-lucide-copy ml-1 shrink-0 text-lg"
             onclick={() =>
               addToClipboard(
                 props.params.repo ?
@@ -90,7 +93,7 @@ const NavBar = (props: { params: Params }) => {
               <div class="flex basis-full items-center">
                 <Tooltip text="Repository">
                   <button
-                    class="i-lucide-at-sign mr-1"
+                    class="i-lucide-at-sign mr-1 text-lg"
                     onclick={() => addToClipboard(props.params.repo)}
                   />
                 </Tooltip>
@@ -113,8 +116,8 @@ const NavBar = (props: { params: Params }) => {
                     children={
                       <div
                         classList={{
-                          "i-lucide-circle-check text-xs": validHandle() === true,
-                          "i-lucide-circle-x text-xs text-red-500 dark:text-red-400":
+                          "i-lucide-circle-check": validHandle() === true,
+                          "i-lucide-circle-x text-red-500 dark:text-red-400":
                             validHandle() === false,
                           "i-line-md-loading-twotone-loop": validHandle() === undefined,
                         }}
@@ -126,7 +129,8 @@ const NavBar = (props: { params: Params }) => {
               <Tooltip text={showHandle() ? "Show DID" : "Show Handle"}>
                 <button
                   class={
-                    "ml-1 shrink-0 " + (swapIcons[props.params.repo] ?? "i-lucide-arrow-left-right")
+                    "ml-1 shrink-0 text-lg " +
+                    (swapIcons[props.params.repo] ?? "i-lucide-arrow-left-right")
                   }
                   onclick={() => setShowHandle(!showHandle())}
                 />
@@ -135,7 +139,7 @@ const NavBar = (props: { params: Params }) => {
             <Show when={!props.params.collection && !props.params.rkey}>
               <div class="mt-1 flex items-center">
                 <Tooltip text="Blobs">
-                  <div class="i-lucide-binary mr-1" />
+                  <div class="i-lucide-binary mr-1 text-lg" />
                 </Tooltip>
                 <A
                   end
@@ -153,7 +157,7 @@ const NavBar = (props: { params: Params }) => {
             >
               <div class="mt-1 flex items-center">
                 <Tooltip text="Labels">
-                  <div class="i-lucide-tag mr-1" />
+                  <div class="i-lucide-tag mr-1 text-lg" />
                 </Tooltip>
                 <A
                   end
@@ -170,7 +174,7 @@ const NavBar = (props: { params: Params }) => {
           <div class="mt-1 flex items-center">
             <Tooltip text="Collection">
               <button
-                class="i-lucide-list mr-1"
+                class="i-lucide-list mr-1 text-lg"
                 onclick={() => addToClipboard(props.params.collection)}
               />
             </Tooltip>
@@ -188,7 +192,7 @@ const NavBar = (props: { params: Params }) => {
             <div class="flex basis-full items-center">
               <Tooltip text="Record">
                 <button
-                  class="i-lucide-braces mr-1"
+                  class="i-lucide-braces mr-1 text-lg"
                   onclick={() => addToClipboard(props.params.rkey)}
                 />
               </Tooltip>
@@ -196,35 +200,28 @@ const NavBar = (props: { params: Params }) => {
               <Show when={validRecord()}>
                 <Tooltip
                   text="Valid record"
-                  children={<div class="i-lucide-lock-keyhole mr-1 text-xs" />}
+                  children={<div class="i-lucide-lock-keyhole mr-1" />}
                 />
               </Show>
               <Show when={validRecord() === false}>
                 <Tooltip
                   text="Invalid record"
-                  children={
-                    <div class="i-lucide-circle-x mr-1 text-xs text-red-500 dark:text-red-400" />
-                  }
+                  children={<div class="i-lucide-circle-x mr-1 text-red-500 dark:text-red-400" />}
                 />
               </Show>
               <Show when={validRecord() === undefined}>
                 <Tooltip
                   text="Validating"
-                  children={<div class="i-line-md-loading-twotone-loop mr-1 text-xs" />}
+                  children={<div class="i-line-md-loading-twotone-loop mr-1" />}
                 />
               </Show>
               <Show when={validSchema()}>
-                <Tooltip
-                  text="Valid schema"
-                  children={<div class="i-lucide-file-check mr-1 text-xs" />}
-                />
+                <Tooltip text="Valid schema" children={<div class="i-lucide-file-check mr-1" />} />
               </Show>
               <Show when={validSchema() === false}>
                 <Tooltip
                   text="Invalid schema"
-                  children={
-                    <div class="i-lucide-file-x mr-1 text-xs text-red-500 dark:text-red-400" />
-                  }
+                  children={<div class="i-lucide-file-x mr-1 text-red-500 dark:text-red-400" />}
                 />
               </Show>
             </div>
@@ -233,7 +230,7 @@ const NavBar = (props: { params: Params }) => {
                 href={`https://${pds()}/xrpc/com.atproto.repo.getRecord?repo=${props.params.repo}&collection=${props.params.collection}&rkey=${props.params.rkey}`}
                 target="_blank"
               >
-                <div class="i-lucide-external-link" />
+                <div class="i-lucide-external-link text-lg" />
               </a>
             </Tooltip>
           </div>
@@ -243,7 +240,7 @@ const NavBar = (props: { params: Params }) => {
         {(cid) => (
           <div class="mt-1 flex items-center">
             <Tooltip text="CID">
-              <button class="i-lucide-box mr-1" onclick={() => addToClipboard(cid())} />
+              <button class="i-lucide-box mr-1 text-lg" onclick={() => addToClipboard(cid())} />
             </Tooltip>
             <button
               dir="rtl"

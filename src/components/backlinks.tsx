@@ -30,7 +30,7 @@ const Backlinks = ({ links, target }: { links: LinkData; target: string }) => {
   const filteredLinks = createMemo(() => linksBySource(links));
 
   return (
-    <div class="break-anywhere flex flex-col">
+    <div class="break-anywhere flex w-full flex-col">
       <For each={filteredLinks().links}>
         {({ collection, path, matchesFilter, counts }) => (
           <div class="font-mono text-sm">

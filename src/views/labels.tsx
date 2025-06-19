@@ -85,7 +85,7 @@ const LabelView = () => {
               </button>
             </Show>
             <Show when={response.loading}>
-              <div class="i-line-md-loading-twotone-loop text-xl"></div>
+              <div class="i-line-md-loading-twotone-loop text-2xl"></div>
             </Show>
           </div>
         </div>
@@ -116,7 +116,7 @@ const LabelView = () => {
                 </button>
               </Show>
               <Show when={response.loading}>
-                <div class="i-line-md-loading-twotone-loop text-xl"></div>
+                <div class="i-line-md-loading-twotone-loop text-2xl"></div>
               </Show>
             </div>
           </Show>
@@ -172,10 +172,10 @@ const LabelView = () => {
                   </Show>
                 </div>
                 <Show when={label.neg}>
-                  <div class="i-lucide-minus shrink-0 text-lg text-red-500 dark:text-red-400" />
+                  <div class="i-lucide-minus shrink-0 text-xl text-red-500 dark:text-red-400" />
                 </Show>
                 <Show when={!label.neg}>
-                  <div class="i-lucide-plus shrink-0 text-lg text-green-500 dark:text-green-400" />
+                  <div class="i-lucide-plus shrink-0 text-xl text-green-500 dark:text-green-400" />
                 </Show>
               </div>
             )}

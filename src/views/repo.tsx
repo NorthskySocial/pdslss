@@ -181,8 +181,8 @@ const RepoView = () => {
             onclick={toggleAllCollections}
           >
             {allCollapsed() ?
-              <div class="i-lucide-copy-plus text-sm" />
-            : <div class="i-lucide-copy-minus text-sm" />}
+              <div class="i-lucide-copy-plus" />
+            : <div class="i-lucide-copy-minus" />}
             {allCollapsed() ? "Expand all" : "Collapse all"}
           </button>
           <div class="flex flex-col font-mono">
@@ -192,13 +192,13 @@ const RepoView = () => {
                   <>
                     <Show when={nsids()?.[authority].hidden}>
                       <button
-                        class="i-lucide-plus-square mr-1 text-sm"
+                        class="i-lucide-plus-square mr-1 text-base"
                         onclick={() => toggleCollection(authority)}
                       />
                     </Show>
                     <Show when={!nsids()?.[authority].hidden}>
                       <button
-                        class="i-lucide-minus-square mr-1 text-sm"
+                        class="i-lucide-minus-square mr-1 text-base"
                         onclick={() => toggleCollection(authority)}
                       />
                     </Show>
@@ -286,7 +286,7 @@ const RepoView = () => {
                   }
                   target="_blank"
                 >
-                  DID document <div class="i-lucide-external-link ml-0.5 text-[0.65rem]" />
+                  DID document <div class="i-lucide-external-link ml-0.5 text-sm" />
                 </a>
                 <Show when={did.startsWith("did:plc")}>
                   <a
@@ -294,19 +294,19 @@ const RepoView = () => {
                     href={`https://boat.kelinci.net/plc-oplogs?q=${did}`}
                     target="_blank"
                   >
-                    PLC operation logs <div class="i-lucide-external-link ml-0.5 text-[0.65rem]" />
+                    PLC operation logs <div class="i-lucide-external-link ml-0.5 text-sm" />
                   </a>
                 </Show>
                 <Show when={error()?.length === 0 || error() === undefined}>
                   <div class="flex items-center gap-1">
                     <button
                       onclick={() => downloadRepo()}
-                      class="text-lightblue-500 flex w-fit items-center bg-transparent hover:underline"
+                      class="text-lightblue-500 bg-transparent hover:underline"
                     >
                       Export repo
                     </button>
                     <Show when={downloading()}>
-                      <div class="i-line-md-loading-twotone-loop" />
+                      <div class="i-line-md-loading-twotone-loop text-xl" />
                     </Show>
                   </div>
                 </Show>

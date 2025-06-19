@@ -93,7 +93,7 @@ const AccountManager = () => {
                       {sessions[did]?.length ? sessions[did] : did}
                     </button>
                     <button
-                      class="i-lucide-x text-lg text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-500"
+                      class="i-lucide-x text-xl text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-500"
                       onclick={() => removeSession(did as Did)}
                     />
                   </div>
@@ -108,7 +108,7 @@ const AccountManager = () => {
         text="Manage accounts"
         children={
           <button
-            class="i-lucide-circle-user-round cursor-pointer text-xl"
+            class="i-lucide-circle-user-round cursor-pointer text-2xl"
             onclick={() => setOpenManager(true)}
           />
         }

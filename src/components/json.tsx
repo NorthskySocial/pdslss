@@ -96,8 +96,8 @@ const JSONObject = ({ data, repo }: { data: { [x: string]: JSONType }; repo: str
             >
               <span class="absolute -left-3.5 hidden text-[0.7rem] group-hover/clip:block">
                 {clip() ?
-                  <div class="i-lucide-clipboard-check" />
-                : <div class="i-lucide-clipboard" />}
+                  <div class="i-lucide-clipboard-check text-sm" />
+                : <div class="i-lucide-clipboard text-sm" />}
               </span>
               {key}:
             </span>

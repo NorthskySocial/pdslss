@@ -81,13 +81,13 @@ const Search = () => {
           />
           <div class="flex min-w-[2rem] justify-center">
             <Show when={loading()}>
-              <div class="i-line-md-loading-twotone-loop text-xl" />
+              <div class="i-line-md-loading-twotone-loop text-2xl" />
             </Show>
             <Show when={!loading()}>
               <button
                 type="submit"
                 onclick={() => processInput(searchInput.value)}
-                class="i-lucide-square-arrow-right text-2xl"
+                class="i-lucide-square-arrow-right text-3xl"
               />
             </Show>
           </div>
@@ -96,7 +96,7 @@ const Search = () => {
               text="Repository"
               children={
                 <A href={`/at://${agent.sub}`} class="flex items-center">
-                  <button class="i-lucide-git-fork-custom text-xl" />
+                  <button class="i-lucide-git-fork-custom text-2xl" />
                 </A>
               }
             />

@@ -152,9 +152,9 @@ export const RecordView = () => {
   };
 
   return (
-    <div class="flex w-full flex-col gap-2">
+    <div class="flex w-full flex-col items-center gap-2">
       <Show when={record() === undefined && validRecord() !== false}>
-        <div class="i-line-md-loading-twotone-loop text-xl" />
+        <div class="i-line-md-loading-twotone-loop text-2xl" />
       </Show>
       <Show when={validRecord() === false}>
         <div class="break-words text-red-500 dark:text-red-400">{notice()}</div>
@@ -167,7 +167,7 @@ export const RecordView = () => {
               target="_blank"
               href={externalLink()?.link}
             >
-              {externalLink()?.label} <div class="i-lucide-external-link text-[0.65rem]" />
+              {externalLink()?.label} <div class="i-lucide-external-link" />
             </a>
           </Show>
           <button

@@ -211,7 +211,7 @@ const Settings = () => {
         text="Settings"
         children={
           <button
-            class="i-lucide-settings cursor-pointer text-xl"
+            class="i-lucide-settings cursor-pointer text-2xl"
             onclick={() => setOpenSettings(true)}
           />
         }

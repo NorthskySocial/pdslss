@@ -306,7 +306,7 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
           text="Create record"
           children={
             <button
-              class="i-lucide-square-pen cursor-pointer text-xl"
+              class="i-lucide-square-pen cursor-pointer text-2xl"
               onclick={() => {
                 createModel();
                 setOpenDialog(true);
