@@ -139,7 +139,7 @@ const NavBar = (props: { params: Params }) => {
             <Show when={!props.params.collection && !props.params.rkey}>
               <div class="mt-1 flex items-center">
                 <Tooltip text="Blobs">
-                  <div class="i-lucide-binary mr-1 text-lg" />
+                  <div class="i-lucide-file-digit mr-1 text-lg" />
                 </Tooltip>
                 <A
                   end
