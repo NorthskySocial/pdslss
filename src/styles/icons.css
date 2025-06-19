@@ -75,3 +75,15 @@
   width: 1em;
   height: 1em;
 }
+
+.i-arcticons-tetris {
+  --un-icon: url("data:image/svg+xml,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M11.667%2016H3v8.667h8.667m0-8.666v8.666m0-8.666h8.666m-8.666%200V7.334h8.666v8.667m-8.666%208.666h8.666m0-8.666v8.666m0-8.666H29v8.666h-8.667%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222.67%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E");
+  -webkit-mask: var(--un-icon) no-repeat;
+  mask: var(--un-icon) no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  background-color: currentColor;
+  color: inherit;
+  width: 1em;
+  height: 1em;
+}
