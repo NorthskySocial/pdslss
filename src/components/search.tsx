@@ -72,25 +72,23 @@ const Search = () => {
             PDS URL or AT URI
           </label>
         </div>
-        <div class="flex w-full items-center gap-1">
+        <div class="flex w-full items-center gap-2">
           <TextInput
             ref={searchInput}
             id="input"
             placeholder={isTouchDevice ? "" : "Type / to search"}
             class="grow"
           />
-          <div class="flex min-w-[2rem] justify-center">
-            <Show when={loading()}>
-              <div class="i-line-md-loading-twotone-loop text-2xl" />
-            </Show>
-            <Show when={!loading()}>
-              <button
-                type="submit"
-                onclick={() => processInput(searchInput.value)}
-                class="i-lucide-square-arrow-right text-3xl"
-              />
-            </Show>
-          </div>
+          <Show when={loading()}>
+            <div class="i-line-md-loading-twotone-loop text-2xl" />
+          </Show>
+          <Show when={!loading()}>
+            <button
+              type="submit"
+              onclick={() => processInput(searchInput.value)}
+              class="i-lucide-square-arrow-right text-2xl"
+            />
+          </Show>
           <Show when={loginState()}>
             <Tooltip
               text="Repository"
