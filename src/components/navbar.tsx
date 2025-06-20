@@ -100,34 +100,33 @@ const NavBar = (props: { params: Params }) => {
                   />
                 </Tooltip>
                 <div class="flex gap-1">
-
-                <A
-                  end
-                  href={`/at://${props.params.repo}`}
-                  inactiveClass="text-lightblue-500 hover:underline"
-                >
-                  {showHandle() ? handle() : props.params.repo}
-                </A>
-                <Show when={showHandle()}>
-                  <Tooltip
-                    text={
-                      validHandle() === true ? "Valid handle"
-                      : validHandle() === undefined ?
-                        "Validating"
-                      : "Invalid handle"
-                    }
-                    children={
-                      <div
-                        classList={{
-                          "i-lucide-circle-check": validHandle() === true,
-                          "i-lucide-circle-x text-red-500 dark:text-red-400":
-                            validHandle() === false,
-                          "i-eos-icons-loading": validHandle() === undefined,
-                        }}
-                      />
-                    }
-                  />
-                </Show>
+                  <A
+                    end
+                    href={`/at://${props.params.repo}`}
+                    inactiveClass="text-lightblue-500 hover:underline"
+                  >
+                    {showHandle() ? handle() : props.params.repo}
+                  </A>
+                  <Show when={showHandle()}>
+                    <Tooltip
+                      text={
+                        validHandle() === true ? "Valid handle"
+                        : validHandle() === undefined ?
+                          "Validating"
+                        : "Invalid handle"
+                      }
+                      children={
+                        <div
+                          classList={{
+                            "i-lucide-circle-check": validHandle() === true,
+                            "i-lucide-circle-x text-red-500 dark:text-red-400":
+                              validHandle() === false,
+                            "i-eos-icons-loading": validHandle() === undefined,
+                          }}
+                        />
+                      }
+                    />
+                  </Show>
                 </div>
               </div>
               <Tooltip text={showHandle() ? "Show DID" : "Show Handle"}>
@@ -201,28 +200,28 @@ const NavBar = (props: { params: Params }) => {
                 />
               </Tooltip>
               <div class="flex gap-1">
-              <span>{props.params.rkey}</span>
-              <Show when={validRecord()}>
-                <Tooltip text="Valid record" children={<div class="i-lucide-lock-keyhole" />} />
-              </Show>
-              <Show when={validRecord() === false}>
-                <Tooltip
-                  text="Invalid record"
-                  children={<div class="i-lucide-circle-x text-red-500 dark:text-red-400" />}
-                />
-              </Show>
-              <Show when={validRecord() === undefined}>
-                <Tooltip text="Validating" children={<div class="i-eos-icons-loading" />} />
-              </Show>
-              <Show when={validSchema()}>
-                <Tooltip text="Valid schema" children={<div class="i-lucide-file-check" />} />
-              </Show>
-              <Show when={validSchema() === false}>
-                <Tooltip
-                  text="Invalid schema"
-                  children={<div class="i-lucide-file-x text-red-500 dark:text-red-400" />}
-                />
-              </Show>
+                <span>{props.params.rkey}</span>
+                <Show when={validRecord()}>
+                  <Tooltip text="Valid record" children={<div class="i-lucide-lock-keyhole" />} />
+                </Show>
+                <Show when={validRecord() === false}>
+                  <Tooltip
+                    text="Invalid record"
+                    children={<div class="i-lucide-circle-x text-red-500 dark:text-red-400" />}
+                  />
+                </Show>
+                <Show when={validRecord() === undefined}>
+                  <Tooltip text="Validating" children={<div class="i-eos-icons-loading" />} />
+                </Show>
+                <Show when={validSchema()}>
+                  <Tooltip text="Valid schema" children={<div class="i-lucide-file-check" />} />
+                </Show>
+                <Show when={validSchema() === false}>
+                  <Tooltip
+                    text="Invalid schema"
+                    children={<div class="i-lucide-file-x text-red-500 dark:text-red-400" />}
+                  />
+                </Show>
               </div>
             </div>
             <Tooltip text="Record on PDS">
@@ -238,13 +237,13 @@ const NavBar = (props: { params: Params }) => {
       </div>
       <Show when={props.params.rkey && cid()}>
         {(cid) => (
-          <div class="mt-1 flex items-center gap-1">
+          <div class="mt-1 flex gap-2">
             <Tooltip text="CID">
               <button class="i-lucide-box text-lg" onclick={() => addToClipboard(cid())} />
             </Tooltip>
             <button
               dir="rtl"
-              classList={{ "bg-transparent": true, truncate: !fullCid() }}
+              classList={{ "bg-transparent text-left": true, truncate: !fullCid() }}
               onclick={() => setFullCid(!fullCid())}
             >
               {cid()}
