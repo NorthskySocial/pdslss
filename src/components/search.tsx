@@ -61,47 +61,45 @@ const Search = () => {
   };
 
   return (
-    <>
-      <form
-        class="flex w-full max-w-[21rem] flex-col items-center sm:max-w-[23rem]"
-        id="uriForm"
-        onsubmit={(e) => e.preventDefault()}
-      >
-        <div class="w-full">
-          <label for="input" class="ml-0.5 text-sm">
-            PDS URL or AT URI
-          </label>
-        </div>
-        <div class="flex w-full items-center gap-2">
-          <TextInput
-            ref={searchInput}
-            id="input"
-            placeholder={isTouchDevice ? "" : "Type / to search"}
-            class="grow"
+    <form
+      class="flex w-full max-w-[21rem] flex-col sm:max-w-[23rem]"
+      id="uriForm"
+      onsubmit={(e) => e.preventDefault()}
+    >
+      <div class="w-full">
+        <label for="input" class="ml-0.5 text-sm">
+          PDS URL or AT URI
+        </label>
+      </div>
+      <div class="flex w-full items-center gap-2">
+        <TextInput
+          ref={searchInput}
+          id="input"
+          placeholder={isTouchDevice ? "" : "Type / to search"}
+          class="grow"
+        />
+        <Show when={loading()}>
+          <div class="i-line-md-loading-twotone-loop text-2xl" />
+        </Show>
+        <Show when={!loading()}>
+          <button
+            type="submit"
+            onclick={() => processInput(searchInput.value)}
+            class="i-lucide-square-arrow-right text-2xl"
           />
-          <Show when={loading()}>
-            <div class="i-line-md-loading-twotone-loop text-2xl" />
-          </Show>
-          <Show when={!loading()}>
-            <button
-              type="submit"
-              onclick={() => processInput(searchInput.value)}
-              class="i-lucide-square-arrow-right text-2xl"
-            />
-          </Show>
-          <Show when={loginState()}>
-            <Tooltip
-              text="Repository"
-              children={
-                <A href={`/at://${agent.sub}`} class="flex items-center">
-                  <button class="i-lucide-git-fork-custom text-2xl" />
-                </A>
-              }
-            />
-          </Show>
-        </div>
-      </form>
-    </>
+        </Show>
+        <Show when={loginState()}>
+          <Tooltip
+            text="Repository"
+            children={
+              <A href={`/at://${agent.sub}`} class="flex">
+                <button class="i-lucide-git-fork-custom text-2xl" />
+              </A>
+            }
+          />
+        </Show>
+      </div>
+    </form>
   );
 };
 
