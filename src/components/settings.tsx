@@ -18,6 +18,7 @@ export const [backlinksEnabled, setBacklinksEnabled] = createSignal(
   localStorage.backlinks === "true",
 );
 export const [hideMedia, setHideMedia] = createSignal(localStorage.hideMedia === "true");
+export const [kawaii, setKawaii] = createSignal(localStorage.kawaii === "true");
 
 const Settings = () => {
   const [modal, setModal] = createSignal<HTMLDialogElement>();
@@ -203,6 +204,23 @@ const Settings = () => {
                     Hide media embeds
                   </label>
                 </div>
+                <Show when={localStorage.kawaii}>
+                  <div class="flex items-center gap-1">
+                    <input
+                      id="enableKawaii"
+                      class="size-4"
+                      type="checkbox"
+                      checked={localStorage.kawaii === "true"}
+                      onChange={(e) => {
+                        localStorage.kawaii = e.currentTarget.checked;
+                        setKawaii(e.currentTarget.checked);
+                      }}
+                    />
+                    <label for="enableKawaii" class="select-none">
+                      Enable kawaii mode
+                    </label>
+                  </div>
+                </Show>
               </div>
             </div>
           </div>

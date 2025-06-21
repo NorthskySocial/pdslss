@@ -1,5 +1,5 @@
 import { createEffect, ErrorBoundary, onMount, Show, Suspense } from "solid-js";
-import { A, RouteSectionProps, useLocation, useParams } from "@solidjs/router";
+import { A, RouteSectionProps, useLocation, useParams, useSearchParams } from "@solidjs/router";
 import { agent, loginState, retrieveSession } from "./components/login.jsx";
 import { RecordEditor } from "./components/create.jsx";
 import Tooltip from "./components/tooltip.jsx";
@@ -8,7 +8,7 @@ import { Search } from "./components/search.jsx";
 import { AccountManager } from "./components/account.jsx";
 import { resolveHandle } from "./utils/api.js";
 import { Meta, MetaProvider } from "@solidjs/meta";
-import { Settings } from "./components/settings.jsx";
+import { kawaii, Settings } from "./components/settings.jsx";
 import { Handle } from "@atcute/lexicons";
 import { copyNotice } from "./utils/copy.js";
 
@@ -24,9 +24,13 @@ const Layout = (props: RouteSectionProps<unknown>) => {
   }
   const params = useParams();
   const location = useLocation();
+
   onMount(async () => {
     await retrieveSession();
     if (loginState() && location.pathname === "/") window.location.href = `/at://${agent.sub}`;
+    if (location.search.includes("kawaii=true")) {
+      localStorage.kawaii = "true";
+    }
   });
 
   createEffect(async () => {
@@ -52,10 +56,22 @@ const Layout = (props: RouteSectionProps<unknown>) => {
           </A>
           <AccountManager />
         </div>
-        <div class="basis-1/3 text-center font-mono text-lg font-bold">
+        <div class="flex basis-1/3 justify-center text-center font-mono text-lg font-bold">
           <A href="/" class="hover:underline">
             PDSls
           </A>
+          <Show when={location.search.includes("kawaii=true") || kawaii()}>
+            <a
+              href="https://bsky.app/profile/ninikyuu.bsky.social/post/3l3tq5xwqf22o"
+              target="_blank"
+            >
+              <img
+                src="/bluetan.png"
+                title="Art by nico ღ (ninikyuu.bsky.social)"
+                class="w-50px sm:w-150px md:w-200px lg:w-250px absolute z-0 sm:fixed sm:bottom-4 sm:left-0"
+              />
+            </a>
+          </Show>
         </div>
         <div class="justify-right flex basis-1/3 items-center gap-x-2">
           <Show when={loginState()}>
@@ -64,7 +80,7 @@ const Layout = (props: RouteSectionProps<unknown>) => {
           <Settings />
         </div>
       </div>
-      <div class="min-w-21rem sm:min-w-23rem mb-5 flex max-w-full flex-col items-center text-pretty md:max-w-screen-md">
+      <div class="min-w-21rem sm:min-w-23rem z-1 dark:bg-dark-800 mb-5 flex max-w-full flex-col items-center text-pretty bg-zinc-100 md:max-w-screen-md">
         <Show when={location.pathname !== "/jetstream" && location.pathname !== "/firehose"}>
           <Search />
         </Show>
