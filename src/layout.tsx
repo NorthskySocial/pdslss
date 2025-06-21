@@ -1,5 +1,5 @@
 import { createEffect, ErrorBoundary, onMount, Show, Suspense } from "solid-js";
-import { A, RouteSectionProps, useLocation, useParams, useSearchParams } from "@solidjs/router";
+import { A, RouteSectionProps, useLocation, useParams } from "@solidjs/router";
 import { agent, loginState, retrieveSession } from "./components/login.jsx";
 import { RecordEditor } from "./components/create.jsx";
 import Tooltip from "./components/tooltip.jsx";
