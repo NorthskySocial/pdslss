@@ -291,7 +291,7 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
                         createRecord(new FormData(formRef))
                       : editRecord(new FormData(formRef))
                     }
-                    class="rounded-lg bg-green-500 px-2 py-1.5 text-xs font-bold text-slate-100 hover:bg-green-400 focus:outline-none focus:ring-1 focus:ring-slate-700 sm:text-sm dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-slate-300"
+                    class="rounded-lg bg-blue-500 px-2 py-1.5 text-xs font-bold text-slate-100 hover:bg-blue-400 focus:outline-none focus:ring-1 focus:ring-slate-700 sm:text-sm dark:bg-blue-600 dark:hover:bg-blue-500 dark:focus:ring-slate-300"
                   >
                     Confirm
                   </button>
