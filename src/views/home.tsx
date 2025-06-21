@@ -1,4 +1,5 @@
 import { A } from "@solidjs/router";
+import { Show } from "solid-js";
 
 const Home = () => {
   return (
@@ -79,6 +80,18 @@ const Home = () => {
           </A>
         </p>
       </div>
+      <Show when={localStorage.kawaii === "true"}>
+        <p>
+          Blue-tan art by{" "}
+          <a
+            href="https://bsky.app/profile/did:plc:zoujtrsqvk3w4n5svsqtj3kg"
+            target="_blank"
+            class="text-lightblue-500 hover:underline"
+          >
+            nico ღ
+          </a>
+        </p>
+      </Show>
       <div>
         <i>
           Proudly powered by{" "}
