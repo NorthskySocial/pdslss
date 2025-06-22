@@ -123,15 +123,15 @@ const PdsView = () => {
             <A
               href={`/at://${repo.did}`}
               classList={{
-                "w-full flex font-mono relative": true,
+                "w-full flex font-mono items-center relative": true,
                 "text-lightblue-500": repo.active,
-                "text-gray-300 dark:text-gray-600": !repo.active,
+                "text-neutral-400 dark:text-neutral-500": !repo.active,
               }}
             >
               <Show when={!repo.active}>
                 <div class="absolute -left-5">
                   <Tooltip text={repo.status ?? "???"}>
-                    <span>🪦</span>
+                    <div class="i-lucide-skull text-lg" />
                   </Tooltip>
                 </div>
               </Show>
