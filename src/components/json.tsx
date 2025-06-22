@@ -86,7 +86,7 @@ const JSONObject = ({ data, repo }: { data: { [x: string]: JSONType }; repo: str
             "flex-col": value === Object(value),
           }}
         >
-          <span class="max-w-40% sm:max-w-50% break-anywhere shrink-0 text-[#3a94c5] dark:text-cyan-500">
+          <span class="max-w-40% sm:max-w-50% break-anywhere shrink-0 text-neutral-500 dark:text-neutral-400">
             <span
               class="group/clip relative flex size-fit cursor-pointer items-center"
               onmouseleave={() => setClip(false)}
