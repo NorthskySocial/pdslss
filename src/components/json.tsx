@@ -101,10 +101,10 @@ const JSONObject = ({ data, repo }: { data: { [x: string]: JSONType }; repo: str
                   .then(() => setClip(true))
               }
             >
-              <span class="absolute -left-3.5 hidden text-[0.7rem] group-hover/clip:block">
+              <span class="dark:bg-dark-800 absolute -left-4 hidden bg-zinc-100 text-sm group-hover/clip:block">
                 {clip() ?
-                  <div class="i-lucide-clipboard-check text-sm" />
-                : <div class="i-lucide-clipboard text-sm" />}
+                  <div class="i-lucide-clipboard-check" />
+                : <div class="i-lucide-clipboard" />}
               </span>
               {key}:
             </span>
