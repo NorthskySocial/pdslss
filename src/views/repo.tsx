@@ -186,7 +186,7 @@ const RepoView = () => {
             {allCollapsed() ? "Expand all" : "Collapse all"}
           </button>
           <div class="flex flex-col font-mono">
-            <div class="grid grid-cols-[min-content_1fr] gap-x-1 items-center overflow-hidden text-sm">
+            <div class="grid grid-cols-[min-content_1fr] items-center gap-x-1 overflow-hidden text-sm">
               <For each={Object.keys(nsids() ?? {})}>
                 {(authority) => (
                   <>

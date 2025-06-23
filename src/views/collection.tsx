@@ -49,8 +49,7 @@ const RecordLink = (props: { record: AtprotoRecord; index: number }) => {
       <Show when={hoverRk()?.id === `rkey-${props.index}`}>
         <span
           classList={{
-            "preview w-max lg:max-w-lg max-w-sm bg-zinc-100 dark:bg-dark-500 left-50% border-neutral-400 dark:border-neutral-600 max-h-md pointer-events-none absolute z-25 mt-2 block -translate-x-1/2 overflow-hidden whitespace-pre-wrap rounded-md border p-2 text-xs":
-              true,
+            "preview w-max lg:max-w-lg max-w-sm bg-zinc-100 dark:bg-dark-500 left-50% border-neutral-400 dark:border-neutral-600 max-h-md pointer-events-none absolute z-25 mt-2 block -translate-x-1/2 overflow-hidden whitespace-pre-wrap rounded-md border p-2 text-xs": true,
             "bottom-8": isOverflowing(hoverRk()!, previewHeight()),
           }}
         >
