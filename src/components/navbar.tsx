@@ -141,9 +141,7 @@ const NavBar = (props: { params: Params }) => {
             </div>
             <Show when={!props.params.collection && !props.params.rkey}>
               <div class="mt-1 flex items-center gap-2">
-                <Tooltip text="Blobs">
-                  <div class="i-lucide-file-digit text-lg" />
-                </Tooltip>
+                <div class="i-lucide-file-digit text-lg" />
                 <A
                   end
                   href={`/at://${props.params.repo}/blobs`}
@@ -159,9 +157,7 @@ const NavBar = (props: { params: Params }) => {
               }
             >
               <div class="mt-1 flex items-center gap-2">
-                <Tooltip text="Labels">
-                  <div class="i-lucide-tag text-lg" />
-                </Tooltip>
+                <div class="i-lucide-tag text-lg" />
                 <A
                   end
                   href={`/at://${props.params.repo}/labels`}
