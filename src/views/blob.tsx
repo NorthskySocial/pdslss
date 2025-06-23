@@ -52,7 +52,7 @@ const BlobView = () => {
                 target="_blank"
                 class="rounded px-0.5 hover:bg-zinc-200 dark:hover:bg-neutral-700"
               >
-                <span class="text-lightblue-500">{cid}</span>
+                <span class="text-sky-500">{cid}</span>
               </a>
             )}
           </For>

@@ -35,11 +35,11 @@ const JSONString = ({ data }: { data: string }) => {
         {(part) => (
           <>
             {ATURI_RE.test(part) ?
-              <A class="text-lightblue-500 hover:underline" href={`/${part}`}>
+              <A class="text-sky-500 hover:underline" href={`/${part}`}>
                 {part}
               </A>
             : DID_RE.test(part) ?
-              <A class="text-lightblue-500 hover:underline" href={`/at://${part}`}>
+              <A class="text-sky-500 hover:underline" href={`/at://${part}`}>
                 {part}
               </A>
             : (
@@ -48,7 +48,7 @@ const JSONString = ({ data }: { data: string }) => {
               part.split("\n").length === 1
             ) ?
               <a
-                class="text-lightblue-500 hover:underline"
+                class="text-sky-500 hover:underline"
                 href={part}
                 target="_blank"
                 rel="noopener noreferrer"

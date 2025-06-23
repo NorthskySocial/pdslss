@@ -124,7 +124,7 @@ const PdsView = () => {
               href={`/at://${repo.did}`}
               classList={{
                 "w-full flex font-mono items-center relative": true,
-                "text-lightblue-500": repo.active,
+                "text-sky-500": repo.active,
                 "text-neutral-400 dark:text-neutral-500": !repo.active,
               }}
             >

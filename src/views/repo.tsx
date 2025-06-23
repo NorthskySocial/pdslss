@@ -215,7 +215,7 @@ const RepoView = () => {
                           {(nsid) => (
                             <A
                               href={`/at://${did}/${authority}.${nsid}`}
-                              class="text-lightblue-500 hover:underline"
+                              class="text-sky-500 hover:underline"
                             >
                               {authority}.{nsid}
                             </A>
@@ -251,7 +251,7 @@ const RepoView = () => {
                         <li class="flex flex-col">
                           <span>#{service.id.split("#")[1]}</span>
                           <a
-                            class="text-lightblue-500 w-fit hover:underline"
+                            class="text-sky-500 w-fit hover:underline"
                             href={service.serviceEndpoint.toString()}
                             target="_blank"
                           >
@@ -278,7 +278,7 @@ const RepoView = () => {
                   </ul>
                 </div>
                 <a
-                  class="text-lightblue-500 flex w-fit items-center hover:underline"
+                  class="text-sky-500 flex w-fit items-center hover:underline"
                   href={
                     did.startsWith("did:plc") ?
                       `${localStorage.plcDirectory ?? "https://plc.directory"}/${did}`
@@ -290,7 +290,7 @@ const RepoView = () => {
                 </a>
                 <Show when={did.startsWith("did:plc")}>
                   <a
-                    class="text-lightblue-500 flex w-fit items-center hover:underline"
+                    class="text-sky-500 flex w-fit items-center hover:underline"
                     href={`https://boat.kelinci.net/plc-oplogs?q=${did}`}
                     target="_blank"
                   >
@@ -301,7 +301,7 @@ const RepoView = () => {
                   <div class="flex items-center gap-1">
                     <button
                       onclick={() => downloadRepo()}
-                      class="text-lightblue-500 bg-transparent hover:underline"
+                      class="text-sky-500 bg-transparent hover:underline"
                     >
                       Export repo
                     </button>

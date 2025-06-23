@@ -40,7 +40,7 @@ const RecordLink = (props: { record: AtprotoRecord; index: number }) => {
       onmouseover={(e) => setHoverRk(e.currentTarget)}
       onmouseleave={() => setHoverRk(undefined)}
     >
-      <span class="text-lightblue-500">{props.record.rkey}</span>
+      <span class="text-sky-500">{props.record.rkey}</span>
       <Show when={props.record.timestamp && props.record.timestamp <= Date.now()}>
         <span class="ml-2 text-xs text-neutral-500 dark:text-neutral-400">
           {localDateFromTimestamp(props.record.timestamp!)}

@@ -70,7 +70,7 @@ const NavBar = (props: { params: Params }) => {
             />
           </Tooltip>
           <Show when={pds()}>
-            <A end href={pds()!} inactiveClass="text-lightblue-500 w-full hover:underline">
+            <A end href={pds()!} inactiveClass="text-sky-500 w-full hover:underline">
               {pds()}
             </A>
           </Show>
@@ -103,7 +103,7 @@ const NavBar = (props: { params: Params }) => {
                   <A
                     end
                     href={`/at://${props.params.repo}`}
-                    inactiveClass="text-lightblue-500 hover:underline"
+                    inactiveClass="text-sky-500 hover:underline"
                   >
                     {showHandle() ? handle() : props.params.repo}
                   </A>
@@ -147,7 +147,7 @@ const NavBar = (props: { params: Params }) => {
                 <A
                   end
                   href={`/at://${props.params.repo}/blobs`}
-                  inactiveClass="text-lightblue-500 w-full hover:underline"
+                  inactiveClass="text-sky-500 w-full hover:underline"
                 >
                   blobs
                 </A>
@@ -165,7 +165,7 @@ const NavBar = (props: { params: Params }) => {
                 <A
                   end
                   href={`/at://${props.params.repo}/labels`}
-                  inactiveClass="text-lightblue-500 w-full hover:underline"
+                  inactiveClass="text-sky-500 w-full hover:underline"
                 >
                   labels
                 </A>
@@ -184,7 +184,7 @@ const NavBar = (props: { params: Params }) => {
             <A
               end
               href={`/at://${props.params.repo}/${props.params.collection}`}
-              inactiveClass="text-lightblue-500 w-full hover:underline"
+              inactiveClass="text-sky-500 w-full hover:underline"
             >
               {props.params.collection}
             </A>
