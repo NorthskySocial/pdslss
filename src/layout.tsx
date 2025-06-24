@@ -39,7 +39,7 @@ const Layout = (props: RouteSectionProps<unknown>) => {
   });
 
   return (
-    <div id="main" class="m-5 flex flex-col items-center text-slate-900 dark:text-slate-100">
+    <div id="main" class="m-4 flex flex-col items-center text-slate-900 dark:text-slate-100">
       <Show when={location.pathname !== "/"}>
         <MetaProvider>
           <Meta name="robots" content="noindex, nofollow" />
