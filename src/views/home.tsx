@@ -42,10 +42,7 @@ const Home = () => {
           </A>
         </div>
         <div>
-          <A
-            href="/at://did:plc:vwzwgnygau7ed7b7wt5ux7y2"
-            class="text-sky-500 hover:underline"
-          >
+          <A href="/at://did:plc:vwzwgnygau7ed7b7wt5ux7y2" class="text-sky-500 hover:underline">
             at://did:plc:vwzwgnygau7ed7b7wt5ux7y2
           </A>
         </div>
@@ -72,7 +69,7 @@ const Home = () => {
         <p>
           <span class="font-semibold">Tangled</span>:{" "}
           <A
-            href="https://tangled.sh/@juli.ee/pdsls"
+            href="https://tangled.sh/@did:plc:b3pn34agqqchkaf75v7h43dk/pdsls"
             target="_blank"
             class="text-sky-500 hover:underline"
           >
