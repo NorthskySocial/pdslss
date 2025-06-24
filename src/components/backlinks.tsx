@@ -161,7 +161,7 @@ const BacklinkItems = ({
             <button
               type="button"
               onclick={() => setMore(true)}
-              class="dark:hover:bg-dark-300 rounded-lg border border-gray-400 bg-transparent px-2 py-1.5 text-sm font-bold hover:bg-zinc-100 focus:outline-none focus:ring-1 focus:ring-gray-300"
+              class="dark:hover:bg-dark-300 rounded-lg border border-gray-400 bg-transparent px-2 py-1.5 text-xs font-bold hover:bg-zinc-100 focus:border-blue-500 focus:outline-none"
             >
               Load More
             </button>

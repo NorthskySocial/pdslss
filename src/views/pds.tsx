@@ -144,7 +144,7 @@ const PdsView = () => {
             <button
               type="button"
               onclick={() => refetch()}
-              class="dark:hover:bg-dark-300 mt-1 rounded-lg border border-gray-400 bg-transparent px-2.5 py-1.5 text-sm font-bold hover:bg-zinc-100 focus:outline-none focus:ring-1 focus:ring-gray-300"
+              class="dark:hover:bg-dark-300 rounded-lg border border-gray-400 bg-transparent px-2 py-1.5 text-sm font-bold hover:bg-zinc-100 focus:border-blue-500 focus:outline-none"
             >
               Load More
             </button>
