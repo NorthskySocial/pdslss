@@ -273,32 +273,34 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
                 <Show when={notice()}>
                   <div class="text-red-500 dark:text-red-400">{notice()}</div>
                 </Show>
-                <div class="flex items-center justify-end gap-2">
-                  <Show when={!props.create}>
-                    <div class="flex items-center gap-1">
-                      <input id="recreate" class="size-4" name="recreate" type="checkbox" />
-                      <label for="recreate" class="select-none">
-                        Recreate record
-                      </label>
-                    </div>
-                  </Show>
+                <div class="flex items-center justify-between gap-2">
                   <button
                     onclick={() => setOpenDialog(false)}
                     class="dark:hover:bg-dark-300 rounded-lg border border-slate-400 bg-transparent px-2 py-1.5 text-xs font-bold hover:bg-zinc-50 focus:outline-none focus:ring-1 focus:ring-slate-700 sm:text-sm dark:focus:ring-slate-300"
                   >
                     Close
                   </button>
-                  <button
-                    type="button"
-                    onclick={() =>
-                      props.create ?
-                        createRecord(new FormData(formRef))
-                      : editRecord(new FormData(formRef))
-                    }
-                    class="rounded-lg bg-blue-500 px-2 py-1.5 text-xs font-bold text-slate-100 hover:bg-blue-400 focus:outline-none focus:ring-1 focus:ring-slate-700 sm:text-sm dark:bg-blue-600 dark:hover:bg-blue-500 dark:focus:ring-slate-300"
-                  >
-                    Confirm
-                  </button>
+                  <div class="flex items-center gap-2">
+                    <Show when={!props.create}>
+                      <div class="flex items-center gap-1">
+                        <input id="recreate" class="size-4" name="recreate" type="checkbox" />
+                        <label for="recreate" class="select-none">
+                          Recreate record
+                        </label>
+                      </div>
+                    </Show>
+                    <button
+                      type="button"
+                      onclick={() =>
+                        props.create ?
+                          createRecord(new FormData(formRef))
+                        : editRecord(new FormData(formRef))
+                      }
+                      class="rounded-lg bg-blue-500 px-2 py-1.5 text-xs font-bold text-slate-100 hover:bg-blue-400 focus:outline-none focus:ring-1 focus:ring-slate-700 sm:text-sm dark:bg-blue-600 dark:hover:bg-blue-500 dark:focus:ring-slate-300"
+                    >
+                      Confirm
+                    </button>
+                  </div>
                 </div>
               </div>
             </form>

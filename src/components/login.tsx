@@ -59,18 +59,14 @@ const Login = () => {
   return (
     <form class="flex flex-col gap-y-1" onsubmit={(e) => e.preventDefault()}>
       <label for="handle">Add new account</label>
-      <div class="flex gap-x-2">
+      <div class="flex items-center justify-between gap-2">
         <TextInput
           id="handle"
           placeholder="user.bsky.social"
           onInput={(e) => setLoginInput(e.currentTarget.value)}
+          class="grow"
         />
-        <button
-          onclick={() => login(loginInput())}
-          class="dark:hover:bg-dark-300 rounded-lg border border-gray-400 bg-transparent px-2.5 py-1.5 text-sm font-bold hover:bg-zinc-50 focus:outline-none focus:ring-1 focus:ring-gray-300"
-        >
-          Login
-        </button>
+        <button onclick={() => login(loginInput())} class="i-lucide-log-in text-xl" />
       </div>
       <div class="break-anywhere max-w-20rem mt-1">{notice()}</div>
     </form>
