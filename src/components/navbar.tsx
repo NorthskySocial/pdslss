@@ -87,7 +87,7 @@ const NavBar = (props: { params: Params }) => {
             onclick={() =>
               addToClipboard(
                 props.params.collection ?
-                  `at://${props.params.repo}${props.params.collection ? `/${props.params.collection}` : ""}${props.params.rkey ? `/${props.params.rkey}` : ""}`
+                  `at://${props.params.repo}/${props.params.collection}${props.params.rkey ? `/${props.params.rkey}` : ""}`
                 : props.params.repo ? props.params.repo
                 : pds()!,
               )
