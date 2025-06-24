@@ -246,7 +246,11 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
                   </div>
                 </div>
                 <div class="flex flex-col gap-1 sm:flex-row sm:items-center">
-                  <input type="file" id="blob" />
+                  <input
+                    type="file"
+                    id="blob"
+                    class="file:dark:hover:bg-dark-300 file:rounded-lg file:border file:border-gray-400 file:px-2 file:py-1 file:hover:bg-zinc-50"
+                  />
                   <div class="flex min-h-9 flex-row items-center gap-1">
                     <Show when={!uploading()}>
                       <button
@@ -306,7 +310,7 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
           text="Create record"
           children={
             <button
-              class="i-lucide-square-pen cursor-pointer text-xl"
+              class="i-lucide-square-pen text-xl"
               onclick={() => {
                 createModel();
                 setOpenDialog(true);

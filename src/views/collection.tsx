@@ -36,7 +36,7 @@ const RecordLink = (props: { record: AtprotoRecord; index: number }) => {
   return (
     <span
       id={`rkey-${props.index}`}
-      class="relative cursor-pointer rounded px-0.5 hover:bg-zinc-200 dark:hover:bg-neutral-700"
+      class="relative rounded px-0.5 hover:bg-zinc-200 dark:hover:bg-neutral-700"
       onmouseover={(e) => setHoverRk(e.currentTarget)}
       onmouseleave={() => setHoverRk(undefined)}
     >

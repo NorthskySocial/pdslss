@@ -91,9 +91,9 @@ const JSONObject = ({ data, repo }: { data: { [x: string]: JSONType }; repo: str
             "flex-col": value === Object(value),
           }}
         >
-          <span class="max-w-40% sm:max-w-50% break-anywhere shrink-0 text-neutral-500 dark:text-neutral-400">
+          <span class="max-w-40% sm:max-w-50% break-anywhere shrink-0 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200">
             <span
-              class="group/clip relative flex size-fit cursor-pointer items-center"
+              class="group/clip relative flex size-fit cursor-default items-center"
               onmouseleave={() => setClip(false)}
               onclick={() =>
                 navigator.clipboard

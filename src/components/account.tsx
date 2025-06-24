@@ -106,10 +106,7 @@ const AccountManager = () => {
       <Tooltip
         text="Manage accounts"
         children={
-          <button
-            class="i-lucide-circle-user-round cursor-pointer text-xl"
-            onclick={() => setOpenManager(true)}
-          />
+          <button class="i-lucide-circle-user-round text-xl" onclick={() => setOpenManager(true)} />
         }
       />
     </>

@@ -37,7 +37,6 @@
     "@skyware/firehose": "^0.5.1",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.3",
-    "@unocss/reset": "^66.2.3",
     "hls.js": "^1.6.5",
     "monaco-editor": "^0.52.2",
     "solid-js": "^1.9.7"

@@ -229,10 +229,7 @@ const Settings = () => {
       <Tooltip
         text="Settings"
         children={
-          <button
-            class="i-lucide-settings cursor-pointer text-xl"
-            onclick={() => setOpenSettings(true)}
-          />
+          <button class="i-lucide-settings text-xl" onclick={() => setOpenSettings(true)} />
         }
       />
     </>
