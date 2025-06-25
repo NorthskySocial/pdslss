@@ -1,6 +1,6 @@
 import { createEffect, createResource, createSignal, For, Show, untrack } from "solid-js";
 import { CredentialManager, Client } from "@atcute/client";
-import { A, query, useParams } from "@solidjs/router";
+import { A, useParams } from "@solidjs/router";
 import { resolvePDS } from "../utils/api.js";
 import * as TID from "@atcute/tid";
 import { JSONType, JSONValue } from "../components/json.jsx";
@@ -70,22 +70,21 @@ const CollectionView = () => {
   const [filter, setFilter] = createSignal<string>();
   const [batchDelete, setBatchDelete] = createSignal(false);
   const [lastSelected, setLastSelected] = createSignal<number>();
+  const [reverse, setReverse] = createSignal(false);
   const did = params.repo;
   let pds: string;
   let rpc: Client;
 
-  const listRecords = query(
-    (did: string, collection: string, cursor: string | undefined) =>
-      rpc.get("com.atproto.repo.listRecords", {
-        params: {
-          repo: did as ActorIdentifier,
-          collection: collection as `${string}.${string}.${string}`,
-          limit: LIMIT,
-          cursor: cursor,
-        },
-      }),
-    "listRecords",
-  );
+  const listRecords = (did: string, collection: string, cursor: string | undefined) =>
+    rpc.get("com.atproto.repo.listRecords", {
+      params: {
+        repo: did as ActorIdentifier,
+        collection: collection as `${string}.${string}.${string}`,
+        limit: LIMIT,
+        cursor: cursor,
+        reverse: reverse(),
+      },
+    });
 
   const fetchRecords = async () => {
     if (!pds) pds = await resolvePDS(did);
@@ -233,6 +232,19 @@ const CollectionView = () => {
           />
         </div>
         <div class="flex items-center gap-x-2">
+          <label class="flex select-none items-center gap-x-1">
+            <input
+              type="checkbox"
+              checked={reverse()}
+              onchange={async (e) => {
+                setReverse(e.currentTarget.checked);
+                setRecords([]);
+                setCursor(undefined);
+                await fetchRecords();
+              }}
+            />
+            Reverse
+          </label>
           <div>
             <Show when={batchDelete()}>
               <span>{records.filter((rec) => rec.toDelete).length}</span>
