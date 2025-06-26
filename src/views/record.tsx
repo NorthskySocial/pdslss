@@ -1,6 +1,6 @@
 import { CredentialManager, Client } from "@atcute/client";
 
-import { query, useParams } from "@solidjs/router";
+import { useParams } from "@solidjs/router";
 import { createSignal, onCleanup, onMount, Show } from "solid-js";
 
 import { Backlinks } from "../components/backlinks.jsx";
@@ -109,17 +109,14 @@ export const RecordView = () => {
     window.removeEventListener("keydown", keyEvent);
   });
 
-  const getRecord = query(
-    (repo: string, collection: string, rkey: string) =>
-      rpc.get("com.atproto.repo.getRecord", {
-        params: {
-          repo: repo as ActorIdentifier,
-          collection: collection as `${string}.${string}.${string}`,
-          rkey: rkey,
-        },
-      }),
-    "getRecord",
-  );
+  const getRecord = (repo: string, collection: string, rkey: string) =>
+    rpc.get("com.atproto.repo.getRecord", {
+      params: {
+        repo: repo as ActorIdentifier,
+        collection: collection as `${string}.${string}.${string}`,
+        rkey: rkey,
+      },
+    });
 
   const deleteRecord = async () => {
     rpc = new Client({ handler: agent });

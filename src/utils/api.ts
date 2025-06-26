@@ -1,4 +1,3 @@
-import { query } from "@solidjs/router";
 import { createStore } from "solid-js/store";
 
 import "@atcute/atproto";
@@ -38,7 +37,7 @@ const handleResolver = new XrpcHandleResolver({
 const didPDSCache: Record<string, string> = {};
 const [labelerCache, setLabelerCache] = createStore<Record<string, string>>({});
 const didDocCache: Record<string, DidDocument> = {};
-const getPDS = query(async (did: string) => {
+const getPDS = async (did: string) => {
   if (did in didPDSCache) return didPDSCache[did];
 
   if (!isAtprotoDid(did)) {
@@ -60,7 +59,7 @@ const getPDS = query(async (did: string) => {
   }
 
   return (didPDSCache[did] = pds);
-}, "getPDS");
+};
 
 const resolveHandle = async (handle: Handle) => {
   if (!isHandle(handle)) {

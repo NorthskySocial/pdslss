@@ -1,6 +1,6 @@
 import { createSignal, For, Show, createResource } from "solid-js";
 import { Client, CredentialManager } from "@atcute/client";
-import { A, query, useParams } from "@solidjs/router";
+import { A, useParams } from "@solidjs/router";
 import { didDocCache, getAllBacklinks, LinkData, resolvePDS } from "../utils/api.js";
 import { Backlinks } from "../components/backlinks.jsx";
 import { ActorIdentifier } from "@atcute/lexicons";
@@ -22,11 +22,8 @@ const RepoView = () => {
   let pds: string;
   const did = params.repo;
 
-  const describeRepo = query(
-    (repo: string) =>
-      rpc.get("com.atproto.repo.describeRepo", { params: { repo: repo as ActorIdentifier } }),
-    "describeRepo",
-  );
+  const describeRepo = (repo: string) =>
+    rpc.get("com.atproto.repo.describeRepo", { params: { repo: repo as ActorIdentifier } });
 
   const fetchRepo = async () => {
     pds = await resolvePDS(did);

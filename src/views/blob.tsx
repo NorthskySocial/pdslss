@@ -1,6 +1,6 @@
 import { createResource, createSignal, For, Show } from "solid-js";
 import { Client, CredentialManager } from "@atcute/client";
-import { query, useParams } from "@solidjs/router";
+import { useParams } from "@solidjs/router";
 import { resolvePDS } from "../utils/api.js";
 
 const LIMIT = 1000;
@@ -12,17 +12,14 @@ const BlobView = () => {
   let pds: string;
   let rpc: Client;
 
-  const listBlobs = query(
-    (did: string, cursor: string | undefined) =>
-      rpc.get("com.atproto.sync.listBlobs", {
-        params: {
-          did: did as `did:${string}:${string}`,
-          limit: LIMIT,
-          cursor: cursor,
-        },
-      }),
-    "listBlobs",
-  );
+  const listBlobs = (did: string, cursor: string | undefined) =>
+    rpc.get("com.atproto.sync.listBlobs", {
+      params: {
+        did: did as `did:${string}:${string}`,
+        limit: LIMIT,
+        cursor: cursor,
+      },
+    });
 
   const fetchBlobs = async () => {
     if (!pds) pds = await resolvePDS(did);
