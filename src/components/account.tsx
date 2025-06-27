@@ -1,15 +1,17 @@
 import { createSignal, onMount, Show, onCleanup, createEffect, For } from "solid-js";
 import Tooltip from "./tooltip.jsx";
 import { deleteStoredSession, getSession, OAuthUserAgent } from "@atcute/oauth-browser-client";
-import { agent, Login, setLoginState } from "./login.jsx";
+import { agent, Login, loginState, setLoginState } from "./login.jsx";
 import { Did } from "@atcute/lexicons";
 import { resolveDidDoc } from "../utils/api.js";
 import { createStore } from "solid-js/store";
+import { Client, CredentialManager } from "@atcute/client";
 
 const AccountManager = () => {
   const [modal, setModal] = createSignal<HTMLDialogElement>();
   const [openManager, setOpenManager] = createSignal(false);
   const [sessions, setSessions] = createStore<Record<string, string | undefined>>();
+  const [avatar, setAvatar] = createSignal<string>();
 
   const clickEvent = (event: MouseEvent) => {
     if (modal() && event.target == modal()) setOpenManager(false);
@@ -18,7 +20,7 @@ const AccountManager = () => {
     if (modal() && event.key == "Escape") setOpenManager(false);
   };
 
-  onMount(() => {
+  onMount(async () => {
     window.addEventListener("keydown", keyEvent);
     window.addEventListener("click", clickEvent);
 
@@ -36,6 +38,9 @@ const AccountManager = () => {
         });
       });
     }
+
+    const repo = localStorage.getItem("lastSignedIn");
+    if (repo) setAvatar(await getAvatar(repo as Did));
   });
 
   onCleanup(() => {
@@ -48,7 +53,7 @@ const AccountManager = () => {
     else document.body.style.overflow = "auto";
   });
 
-  const resumeSession = (did: `did:${string}`) => {
+  const resumeSession = (did: Did) => {
     localStorage.setItem("lastSignedIn", did);
     window.location.href = "/";
   };
@@ -67,6 +72,17 @@ const AccountManager = () => {
       setLoginState(false);
       window.location.reload;
     }
+  };
+
+  const getAvatar = async (did: Did) => {
+    const rpc = new Client({
+      handler: new CredentialManager({ service: "https://public.api.bsky.app" }),
+    });
+    const res = await rpc.get("app.bsky.actor.getProfile", { params: { actor: did } });
+    if (res.ok) {
+      return res.data.avatar;
+    }
+    return undefined;
   };
 
   return (
@@ -104,9 +120,14 @@ const AccountManager = () => {
         </dialog>
       </Show>
       <Tooltip
-        text="Manage accounts"
+        text="Accounts"
         children={
-          <button class="i-lucide-circle-user-round text-xl" onclick={() => setOpenManager(true)} />
+          loginState() && avatar() ?
+            <img src={avatar()} class="size-5 rounded-full" onclick={() => setOpenManager(true)} />
+          : <button
+              class="i-lucide-circle-user-round text-xl"
+              onclick={() => setOpenManager(true)}
+            />
         }
       />
     </>
