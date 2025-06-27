@@ -91,7 +91,7 @@ const Search = () => {
             text="Repository"
             children={
               <A href={`/at://${agent.sub}`} class="flex">
-                <button class="i-lucide-git-fork-custom text-xl" />
+                <div class="i-lucide-git-fork-custom text-xl" />
               </A>
             }
           />
