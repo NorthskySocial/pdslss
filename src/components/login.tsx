@@ -66,7 +66,9 @@ const Login = () => {
           onInput={(e) => setLoginInput(e.currentTarget.value)}
           class="grow"
         />
-        <button onclick={() => login(loginInput())} class="i-lucide-log-in text-xl" />
+        <button onclick={() => login(loginInput())}>
+          <div class="i-lucide-log-in text-xl" />
+        </button>
       </div>
       <div class="break-anywhere max-w-20rem mt-1">{notice()}</div>
     </form>

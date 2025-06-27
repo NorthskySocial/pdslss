@@ -107,10 +107,9 @@ const AccountManager = () => {
                     >
                       {sessions[did]?.length ? sessions[did] : did}
                     </button>
-                    <button
-                      class="i-lucide-x text-xl text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-500"
-                      onclick={() => removeSession(did as Did)}
-                    />
+                    <button onclick={() => removeSession(did as Did)}>
+                      <div class="i-lucide-x text-xl text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-500" />
+                    </button>
                   </div>
                 )}
               </For>
@@ -119,17 +118,13 @@ const AccountManager = () => {
           </div>
         </dialog>
       </Show>
-      <Tooltip
-        text="Accounts"
-        children={
-          loginState() && avatar() ?
-            <img src={avatar()} class="size-5 rounded-full" onclick={() => setOpenManager(true)} />
-          : <button
-              class="i-lucide-circle-user-round text-xl"
-              onclick={() => setOpenManager(true)}
-            />
-        }
-      />
+      <button onclick={() => setOpenManager(true)}>
+        <Tooltip text="Accounts">
+          {loginState() && avatar() ?
+            <img src={avatar()} class="size-5 rounded-full" />
+          : <div class="i-lucide-circle-user-round text-xl" />}
+        </Tooltip>
+      </button>
     </>
   );
 };

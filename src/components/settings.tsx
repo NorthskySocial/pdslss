@@ -226,12 +226,9 @@ const Settings = () => {
           </div>
         </dialog>
       </Show>
-      <Tooltip
-        text="Settings"
-        children={
-          <button class="i-lucide-settings text-xl" onclick={() => setOpenSettings(true)} />
-        }
-      />
+      <button onclick={() => setOpenSettings(true)}>
+        <Tooltip text="Settings" children={<div class="i-lucide-settings text-xl" />} />
+      </button>
     </>
   );
 };

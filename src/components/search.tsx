@@ -82,11 +82,9 @@ const Search = () => {
           <div class="i-eos-icons-loading text-xl" />
         </Show>
         <Show when={!loading()}>
-          <button
-            type="submit"
-            onclick={() => processInput(searchInput.value)}
-            class="i-lucide-arrow-right text-xl"
-          />
+          <button type="submit" onclick={() => processInput(searchInput.value)}>
+            <div class="i-lucide-arrow-right text-xl" />
+          </button>
         </Show>
         <Show when={loginState()}>
           <Tooltip

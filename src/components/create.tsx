@@ -303,29 +303,26 @@ export const RecordEditor = (props: { create: boolean; record?: any }) => {
         </dialog>
       </Show>
       <Show when={props.create}>
-        <Tooltip
-          text="Create record"
-          children={
-            <button
-              class="i-lucide-square-pen text-xl"
-              onclick={() => {
-                createModel();
-                setOpenDialog(true);
-              }}
-            />
-          }
-        />
+        <button
+          onclick={() => {
+            createModel();
+            setOpenDialog(true);
+          }}
+        >
+          <Tooltip text="Create record" children={<div class="i-lucide-square-pen text-xl" />} />
+        </button>
       </Show>
       <Show when={!props.create}>
-        <Tooltip text="Edit">
-          <button
-            onclick={() => {
-              createModel();
-              setOpenDialog(true);
-            }}
-            class="i-lucide-pencil text-xl"
-          />
-        </Tooltip>
+        <button
+          onclick={() => {
+            createModel();
+            setOpenDialog(true);
+          }}
+        >
+          <Tooltip text="Edit">
+            <div class="i-lucide-pencil text-xl" />
+          </Tooltip>
+        </button>
       </Show>
     </>
   );

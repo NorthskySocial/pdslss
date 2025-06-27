@@ -147,14 +147,15 @@ const JSONObject = ({ data, repo }: { data: { [x: string]: JSONType }; repo: str
           >
             <Show when={blob.mimeType.startsWith("image/") || blob.mimeType === "video/mp4"}>
               <Tooltip text={hide() ? "Show" : "Hide"}>
-                <button
-                  classList={{
-                    "text-lg": true,
-                    "i-lucide-eye": !hide(),
-                    "i-lucide-eye-off": hide(),
-                  }}
-                  onclick={() => setHide(!hide())}
-                />
+                <button onclick={() => setHide(!hide())}>
+                  <div
+                    classList={{
+                      "text-lg": true,
+                      "i-lucide-eye": !hide(),
+                      "i-lucide-eye-off": hide(),
+                    }}
+                  />
+                </button>
               </Tooltip>
             </Show>
             <Show when={pds()}>

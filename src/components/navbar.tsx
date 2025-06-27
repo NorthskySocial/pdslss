@@ -64,10 +64,9 @@ const NavBar = (props: { params: Params }) => {
       <div class="relative flex items-center justify-between gap-1">
         <div class="min-h-1.25rem flex basis-full items-center gap-2">
           <Tooltip text="PDS">
-            <button
-              class="i-lucide-server shrink-0 text-lg"
-              onclick={() => addToClipboard(pds()!)}
-            />
+            <button onclick={() => addToClipboard(pds()!)}>
+              <div class="i-lucide-server shrink-0 text-lg" />
+            </button>
           </Tooltip>
           <Show when={pds()}>
             <A end href={pds()!} inactiveClass="text-sky-500 w-full hover:underline">
@@ -83,7 +82,6 @@ const NavBar = (props: { params: Params }) => {
           }`}
         >
           <button
-            class="i-lucide-copy shrink-0 text-lg"
             onclick={() =>
               addToClipboard(
                 props.params.collection ?
@@ -92,7 +90,9 @@ const NavBar = (props: { params: Params }) => {
                 : pds()!,
               )
             }
-          />
+          >
+            <div class="i-lucide-copy shrink-0 text-lg" />
+          </button>
         </Tooltip>
       </div>
       <div class="flex flex-col flex-wrap">
@@ -101,10 +101,9 @@ const NavBar = (props: { params: Params }) => {
             <div class="relative mt-1 flex items-center justify-between gap-1">
               <div class="flex basis-full items-center gap-2">
                 <Tooltip text="Repository">
-                  <button
-                    class="i-lucide-at-sign text-lg"
-                    onclick={() => addToClipboard(props.params.repo)}
-                  />
+                  <button onclick={() => addToClipboard(props.params.repo)}>
+                    <div class="i-lucide-at-sign text-lg" />
+                  </button>
                 </Tooltip>
                 <div class="flex gap-1">
                   <A
@@ -137,13 +136,14 @@ const NavBar = (props: { params: Params }) => {
                 </div>
               </div>
               <Tooltip text={showHandle() ? "Show DID" : "Show Handle"}>
-                <button
-                  class={
-                    "shrink-0 text-lg " +
-                    (swapIcons[props.params.repo] ?? "i-lucide-arrow-left-right")
-                  }
-                  onclick={() => setShowHandle(!showHandle())}
-                />
+                <button onclick={() => setShowHandle(!showHandle())}>
+                  <div
+                    class={
+                      "shrink-0 text-lg " +
+                      (swapIcons[props.params.repo] ?? "i-lucide-arrow-left-right")
+                    }
+                  />
+                </button>
               </Tooltip>
             </div>
             <Show when={props.params.repo in labelerCache && !props.params.collection}>
@@ -163,10 +163,9 @@ const NavBar = (props: { params: Params }) => {
         <Show when={props.params.collection}>
           <div class="mt-1 flex items-center gap-2">
             <Tooltip text="Collection">
-              <button
-                class="i-lucide-list text-lg"
-                onclick={() => addToClipboard(props.params.collection)}
-              />
+              <button onclick={() => addToClipboard(props.params.collection)}>
+                <div class="i-lucide-list text-lg" />
+              </button>
             </Tooltip>
             <A
               end
@@ -181,10 +180,9 @@ const NavBar = (props: { params: Params }) => {
           <div class="relative mt-1 flex items-center justify-between">
             <div class="flex basis-full items-center gap-2">
               <Tooltip text="Record">
-                <button
-                  class="i-lucide-braces text-lg"
-                  onclick={() => addToClipboard(props.params.rkey)}
-                />
+                <button onclick={() => addToClipboard(props.params.rkey)}>
+                  <div class="i-lucide-braces text-lg" />
+                </button>
               </Tooltip>
               <div class="flex gap-1">
                 <span>{props.params.rkey}</span>
@@ -226,7 +224,9 @@ const NavBar = (props: { params: Params }) => {
         {(cid) => (
           <div class="mt-1 flex gap-2">
             <Tooltip text="CID">
-              <button class="i-lucide-box text-lg" onclick={() => addToClipboard(cid())} />
+              <button onclick={() => addToClipboard(cid())}>
+                <div class="i-lucide-box text-lg" />
+              </button>
             </Tooltip>
             <button
               dir="rtl"

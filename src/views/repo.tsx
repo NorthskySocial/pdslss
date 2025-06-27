@@ -183,16 +183,14 @@ const RepoView = () => {
                 {(authority) => (
                   <>
                     <Show when={nsids()?.[authority].hidden}>
-                      <button
-                        class="i-lucide-plus-square mr-1 text-lg"
-                        onclick={() => toggleCollection(authority)}
-                      />
+                      <button onclick={() => toggleCollection(authority)}>
+                        <div class="i-lucide-plus-square mr-1 text-lg" />
+                      </button>
                     </Show>
                     <Show when={!nsids()?.[authority].hidden}>
-                      <button
-                        class="i-lucide-minus-square mr-1 text-lg"
-                        onclick={() => toggleCollection(authority)}
-                      />
+                      <button onclick={() => toggleCollection(authority)}>
+                        <div class="i-lucide-minus-square mr-1 text-lg" />
+                      </button>
                     </Show>
                     <button
                       class="break-anywhere bg-transparent text-left"

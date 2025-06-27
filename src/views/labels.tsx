@@ -76,11 +76,9 @@ const LabelView = () => {
           />
           <div class="absolute -right-8 flex justify-center">
             <Show when={!response.loading}>
-              <button
-                onclick={() => initQuery()}
-                type="submit"
-                class="i-lucide-arrow-right text-2xl"
-              />
+              <button onclick={() => initQuery()} type="submit">
+                <div class="i-lucide-arrow-right text-2xl" />
+              </button>
             </Show>
             <Show when={response.loading}>
               <div class="i-eos-icons-loading text-2xl" />

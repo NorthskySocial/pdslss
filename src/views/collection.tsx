@@ -176,12 +176,6 @@ const CollectionView = () => {
                 text={batchDelete() ? "Cancel" : "Delete"}
                 children={
                   <button
-                    classList={{
-                      "flex text-lg items-center": true,
-                      "i-lucide-trash-2": !batchDelete(),
-                      "i-lucide-circle-x text-neutral-500 hover:text-neutral-600 dark:text-neutral-400 dark:hover:text-neutral-300":
-                        batchDelete(),
-                    }}
                     onclick={() => {
                       setRecords(
                         { from: 0, to: untrack(() => records.length) - 1 },
@@ -191,35 +185,41 @@ const CollectionView = () => {
                       setLastSelected(undefined);
                       setBatchDelete(!batchDelete());
                     }}
-                  />
+                  >
+                    <div
+                      classList={{
+                        "flex text-lg items-center": true,
+                        "i-lucide-trash-2": !batchDelete(),
+                        "i-lucide-circle-x text-neutral-500 hover:text-neutral-600 dark:text-neutral-400 dark:hover:text-neutral-300":
+                          batchDelete(),
+                      }}
+                    />
+                  </button>
                 }
               />
               <Show when={batchDelete()}>
                 <Tooltip
                   text="Select All"
                   children={
-                    <button
-                      class="i-lucide-copy-check text-lg text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
-                      onclick={() => selectAll()}
-                    />
+                    <button onclick={() => selectAll()}>
+                      <div class="i-lucide-copy-check text-lg text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300" />
+                    </button>
                   }
                 />
                 <Tooltip
                   text="Unselect All"
                   children={
-                    <button
-                      class="i-lucide-copy text-lg text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
-                      onclick={() => unselectAll()}
-                    />
+                    <button onclick={() => unselectAll()}>
+                      <div class="i-lucide-copy text-lg text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300" />
+                    </button>
                   }
                 />
                 <Tooltip
                   text="Confirm"
                   children={
-                    <button
-                      class="i-lucide-trash-2 text-lg text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300"
-                      onclick={() => deleteRecords()}
-                    />
+                    <button onclick={() => deleteRecords()}>
+                      <div class="i-lucide-trash-2 text-lg text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300" />
+                    </button>
                   }
                 />
               </Show>

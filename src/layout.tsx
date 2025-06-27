@@ -53,11 +53,12 @@ const Layout = (props: RouteSectionProps<unknown>) => {
             <a
               href="https://bsky.app/profile/ninikyuu.bsky.social/post/3l3tq5xwqf22o"
               target="_blank"
+              class="h-28px sm:fixed sm:bottom-4 sm:left-0 sm:h-auto"
             >
               <img
                 src="/bluetan.png"
                 title="Art by nico ღ (ninikyuu.bsky.social)"
-                class="w-50px sm:w-150px md:w-200px lg:w-250px absolute z-0 sm:fixed sm:bottom-4 sm:left-0"
+                class="w-50px sm:w-150px md:w-200px lg:w-250px z-0"
               />
             </a>
           </Show>
