@@ -23,11 +23,7 @@ export const RecordView = () => {
   const params = useParams();
   const [record, setRecord] =
     createSignal<InferXRPCBodyOutput<ComAtprotoRepoGetRecord.mainSchema["output"]>>();
-  const [backlinks, setBacklinks] = createSignal<{
-    links: LinkData;
-    target: string;
-  }>();
-  const [modal, setModal] = createSignal<HTMLDialogElement>();
+  const [backlinks, setBacklinks] = createSignal<{ links: LinkData; target: string }>();
   const [deleteIcon, setDeleteIcon] = createSignal<HTMLDivElement>();
   const [openDelete, setOpenDelete] = createSignal(false);
   const [notice, setNotice] = createSignal("");
@@ -39,10 +35,10 @@ export const RecordView = () => {
   let rpc: Client;
 
   const clickEvent = (event: MouseEvent) => {
-    if (modal() && event.target !== modal() && event.target !== deleteIcon()) setOpenDelete(false);
+    if (openDelete() && event.target !== deleteIcon()) setOpenDelete(false);
   };
   const keyEvent = (event: KeyboardEvent) => {
-    if (modal() && event.key === "Escape") setOpenDelete(false);
+    if (openDelete() && event.key === "Escape") setOpenDelete(false);
   };
 
   onMount(async () => {
@@ -169,7 +165,6 @@ export const RecordView = () => {
               </Tooltip>
               <Show when={openDelete()}>
                 <button
-                  ref={setModal}
                   type="button"
                   onclick={deleteRecord}
                   class="left-50% w-7rem absolute top-7 z-50 -translate-x-1/2 rounded-lg bg-red-500 px-2 py-1.5 text-sm font-bold text-slate-100 shadow-md hover:bg-red-400 focus:outline-none focus:ring-1 focus:ring-slate-700 dark:bg-red-600 dark:hover:bg-red-500 dark:focus:ring-slate-300"
