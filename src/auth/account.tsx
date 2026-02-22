@@ -9,6 +9,7 @@ import { Login } from "./login.jsx";
 import { useOAuthScopeFlow } from "./scope-flow.js";
 import { ScopeSelector } from "./scope-selector.jsx";
 import { parseScopeString } from "./scope-utils.js";
+import { setStratosActive, setStratosEnrollment } from "../stratos";
 import {
   getAvatar,
   loadHandleForSession,
@@ -46,7 +47,11 @@ const AccountDropdown = (props: { did: Did; onEditPermissions: (did: Did) => voi
       }),
     );
     saveSessionToStorage(sessions);
-    if (currentSession === did) setAgent(undefined);
+    if (currentSession === did) {
+      setAgent(undefined);
+      setStratosEnrollment(undefined);
+      setStratosActive(false);
+    }
   };
 
   return (
