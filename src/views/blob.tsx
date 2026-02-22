@@ -1,6 +1,7 @@
 import { Client, simpleFetchHandler } from "@atcute/client";
 import { createResource, createSignal, For, Show } from "solid-js";
 import { Button } from "../components/button";
+import { stratosActive } from "../stratos/index.js";
 
 const LIMIT = 1000;
 
@@ -28,44 +29,53 @@ export const BlobView = (props: { pds: string; repo: string }) => {
   const [blobs, setBlobs] = createSignal<string[]>();
 
   return (
-    <div class="flex flex-col items-center gap-2">
-      <Show when={blobs() || response()}>
-        <div class="flex w-full flex-col gap-0.5 pb-20 font-mono text-xs sm:text-sm">
-          <For each={blobs()}>
-            {(cid) => (
-              <a
-                href={`${props.pds}/xrpc/com.atproto.sync.getBlob?did=${props.repo}&cid=${cid}`}
-                target="_blank"
-                class="truncate rounded px-0.5 text-left text-blue-500 hover:bg-neutral-200 active:bg-neutral-300 dark:text-blue-400 dark:hover:bg-neutral-700 dark:active:bg-neutral-600"
-                dir="rtl"
-              >
-                {cid}
-              </a>
-            )}
-          </For>
+    <Show
+      when={!stratosActive()}
+      fallback={
+        <div class="mt-3 text-center text-sm text-neutral-500 dark:text-neutral-400">
+          Blob browsing is not available in Stratos mode.
         </div>
-      </Show>
-      <div class="dark:bg-dark-500 fixed bottom-0 z-5 flex w-screen justify-center bg-neutral-100 pt-2 pb-4">
-        <div class="flex min-w-50 items-center justify-around gap-3 pb-2">
-          <p>
-            {blobs()?.length} blob{(blobs()?.length ?? 0 > 1) ? "s" : ""}
-          </p>
-          <Show when={cursor()}>
-            <Button
-              onClick={() => refetch()}
-              disabled={response.loading}
-              classList={{ "w-20 h-7.5 justify-center": true }}
-            >
-              <Show
-                when={!response.loading}
-                fallback={<span class="iconify lucide--loader-circle animate-spin text-base" />}
+      }
+    >
+      <div class="flex flex-col items-center gap-2">
+        <Show when={blobs() || response()}>
+          <div class="flex w-full flex-col gap-0.5 pb-20 font-mono text-xs sm:text-sm">
+            <For each={blobs()}>
+              {(cid) => (
+                <a
+                  href={`${props.pds}/xrpc/com.atproto.sync.getBlob?did=${props.repo}&cid=${cid}`}
+                  target="_blank"
+                  class="truncate rounded px-0.5 text-left text-blue-500 hover:bg-neutral-200 active:bg-neutral-300 dark:text-blue-400 dark:hover:bg-neutral-700 dark:active:bg-neutral-600"
+                  dir="rtl"
+                >
+                  {cid}
+                </a>
+              )}
+            </For>
+          </div>
+        </Show>
+        <div class="dark:bg-dark-500 fixed bottom-0 z-5 flex w-screen justify-center bg-neutral-100 pt-2 pb-4">
+          <div class="flex min-w-50 items-center justify-around gap-3 pb-2">
+            <p>
+              {blobs()?.length} blob{(blobs()?.length ?? 0 > 1) ? "s" : ""}
+            </p>
+            <Show when={cursor()}>
+              <Button
+                onClick={() => refetch()}
+                disabled={response.loading}
+                classList={{ "w-20 h-7.5 justify-center": true }}
               >
-                Load more
-              </Show>
-            </Button>
-          </Show>
+                <Show
+                  when={!response.loading}
+                  fallback={<span class="iconify lucide--loader-circle animate-spin text-base" />}
+                >
+                  Load more
+                </Show>
+              </Button>
+            </Show>
+          </div>
         </div>
       </div>
-    </div>
+    </Show>
   );
 };

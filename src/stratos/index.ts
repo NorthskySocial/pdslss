@@ -2,3 +2,4 @@ export { stratosEnrollment, setStratosEnrollment, stratosActive, setStratosActiv
 export type { StratosEnrollment } from './state';
 export { discoverStratosEnrollment } from './discovery';
 export { createServiceFetchHandler } from './dpop-fetch';
+export { resolveServiceUrl, createServiceClient } from './client';

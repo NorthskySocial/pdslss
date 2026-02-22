@@ -1,4 +1,6 @@
 import { Client, simpleFetchHandler } from "@atcute/client";
+import * as CAR from "@atcute/car";
+import * as CID from "@atcute/cid";
 import { DidDocument, getPdsEndpoint } from "@atcute/identity";
 import { lexiconDoc } from "@atcute/lexicon-doc";
 import { RecordValidator } from "@atcute/lexicon-doc/validations";
@@ -25,9 +27,10 @@ import { Favicon } from "../components/favicon.jsx";
 import { JSONValue } from "../components/json.jsx";
 import { LexiconSchemaView } from "../components/lexicon-schema.jsx";
 import { Modal } from "../components/modal.jsx";
-import { pds } from "../components/navbar.jsx";
+import { pds, setPDS } from "../components/navbar.jsx";
 import { addNotification, removeNotification } from "../components/notification.jsx";
 import { PermissionButton } from "../components/permission-button.jsx";
+import { createServiceClient, stratosActive, stratosEnrollment } from "../stratos/index.js";
 import {
   didDocumentResolver,
   resolveLexiconAuthority,
@@ -230,6 +233,7 @@ export const RecordView = () => {
   const [lexiconAuthority, setLexiconAuthority] = createSignal<AtprotoDid>();
   const [validRecord, setValidRecord] = createSignal<boolean | undefined>(undefined);
   const [validSchema, setValidSchema] = createSignal<boolean | undefined>(undefined);
+  const [verifyLabel, setVerifyLabel] = createSignal("Record verification");
   const [schema, setSchema] = createSignal<ResolvedSchema>();
   const [lexiconNotFound, setLexiconNotFound] = createSignal<boolean>();
   const [remoteValidation, setRemoteValidation] = createSignal<boolean>();
@@ -240,7 +244,15 @@ export const RecordView = () => {
     setValidRecord(undefined);
     setValidSchema(undefined);
     const pds = await resolvePDS(did!);
-    rpc = new Client({ handler: simpleFetchHandler({ service: pds }) });
+    if (stratosActive()) {
+      const enrollment = stratosEnrollment();
+      if (enrollment) setPDS(new URL(enrollment.service).hostname);
+    }
+    if (stratosActive() && agent()) {
+      rpc = createServiceClient(agent()!);
+    } else {
+      rpc = new Client({ handler: simpleFetchHandler({ service: pds }) });
+    }
     const res = await rpc.get("com.atproto.repo.getRecord", {
       params: {
         repo: did as ActorIdentifier,
@@ -262,7 +274,7 @@ export const RecordView = () => {
     return res.data;
   };
 
-  const [record, { refetch }] = createResource(fetchRecord);
+  const [record, { refetch }] = createResource(() => stratosActive(), fetchRecord);
 
   const validateLocalSchema = async (record: Record<string, unknown>) => {
     try {
@@ -325,13 +337,36 @@ export const RecordView = () => {
       const carBytes = data as Uint8Array<ArrayBufferLike>;
 
       if (isStratosAttestation(carBytes)) {
+        setVerifyLabel("Record verification");
         await verifyStratosRecord({
           did: did as string,
           collection: params.collection!,
           rkey: params.rkey!,
           carBytes,
         });
+      } else if (stratosActive()) {
+        // Stratos returns a minimal CAR with just the record block (root = record CID).
+        // verifyRecord expects a signed commit + MST proof, which Stratos doesn't provide.
+        // Fall back to CID-only verification: verify block hash matches its CID.
+        setVerifyLabel("CID verified");
+        const reader = CAR.fromUint8Array(carBytes);
+        const roots = reader.roots;
+        if (roots.length !== 1) {
+          throw new Error(`expected 1 CAR root, got ${roots.length}`);
+        }
+        const rootCidStr = roots[0].$link;
+        for (const entry of reader) {
+          const computed = await CID.create(entry.cid.codec as 0x55 | 0x71, entry.bytes);
+          if (!CID.equals(entry.cid, computed)) {
+            throw new Error(`CID integrity check failed for ${CID.toString(entry.cid)}`);
+          }
+        }
+        // verify the root CID matches the record CID from getRecord
+        if (record()?.cid && rootCidStr !== record()?.cid) {
+          throw new Error(`record CID mismatch: expected ${record()?.cid}, got ${rootCidStr}`);
+        }
       } else {
+        setVerifyLabel("Record verification");
         await verifyRecord({
           did: did as AtprotoDid,
           collection: params.collection!,
@@ -363,7 +398,7 @@ export const RecordView = () => {
   };
 
   const deleteRecord = async () => {
-    rpc = new Client({ handler: agent()! });
+    rpc = createServiceClient(agent()!);
     await rpc.post("com.atproto.repo.deleteRecord", {
       input: {
         repo: params.repo as ActorIdentifier,
@@ -617,7 +652,7 @@ export const RecordView = () => {
                 </Show>
                 <div>
                   <div class="flex items-center gap-1">
-                    <p class="font-semibold">Record verification</p>
+                    <p class="font-semibold">{verifyLabel()}</p>
                     <span
                       classList={{
                         "iconify lucide--check text-green-500 dark:text-green-400":

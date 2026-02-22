@@ -8,19 +8,23 @@
     "dev": "vite",
     "prebuild": "node scripts/generate-metadata.js",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "test": "vitest"
   },
   "devDependencies": {
     "@iconify-json/lucide": "^1.2.92",
     "@iconify/tailwind4": "^1.2.1",
     "@tailwindcss/vite": "^4.2.0",
+    "@vitest/coverage-v8": "^4.0.18",
+    "fast-check": "^4.5.3",
     "prettier": "^3.8.1",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4.2.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
-    "vite-plugin-solid": "^2.11.10"
+    "vite-plugin-solid": "^2.11.10",
+    "vitest": "^4.0.18"
   },
   "dependencies": {
     "@atcute/atproto": "^3.1.10",

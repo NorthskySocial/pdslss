@@ -15,6 +15,7 @@ import {
   Suspense,
 } from "solid-js";
 import { createStore } from "solid-js/store";
+import { agent } from "../auth/state";
 import { Backlinks } from "../components/backlinks.jsx";
 import {
   ActionMenu,
@@ -31,6 +32,8 @@ import {
   updateNotification,
 } from "../components/notification.jsx";
 import { canHover } from "../layout.jsx";
+import { setPDS } from "../components/navbar.js";
+import { createServiceClient, stratosActive, stratosEnrollment } from "../stratos/index.js";
 import {
   didDocCache,
   type HandleResolveResult,
@@ -131,6 +134,10 @@ export const RepoView = () => {
   };
 
   const fetchRepo = async () => {
+    // reset to avoid stale closures when stratosActive changes
+    rpc = undefined as unknown as Client;
+    pds = undefined as unknown as string;
+
     try {
       pds = await resolvePDS(did);
       setDidDoc(didDocCache[did] as DidDocument);
@@ -169,7 +176,16 @@ export const RepoView = () => {
       return {};
     }
 
-    rpc = new Client({ handler: simpleFetchHandler({ service: pds }) });
+    if (stratosActive()) {
+      const enrollment = stratosEnrollment();
+      if (enrollment) setPDS(new URL(enrollment.service).hostname);
+    }
+
+    if (stratosActive() && agent()) {
+      rpc = createServiceClient(agent()!);
+    } else {
+      rpc = new Client({ handler: simpleFetchHandler({ service: pds }) });
+    }
     try {
       const res = await rpc.get("com.atproto.repo.describeRepo", {
         params: { repo: did as ActorIdentifier },
@@ -207,7 +223,7 @@ export const RepoView = () => {
     }
   };
 
-  const [repo] = createResource(fetchRepo);
+  const [repo] = createResource(() => stratosActive(), fetchRepo);
 
   const validateHandles = async () => {
     for (const alias of didDoc()?.alsoKnownAs ?? []) {
@@ -371,13 +387,26 @@ export const RepoView = () => {
                     />
                   </Show>
                   <Show when={error()?.length === 0 || error() === undefined}>
-                    <ActionMenu
-                      label="Export repo"
-                      icon={
-                        downloading() ? "lucide--loader-circle animate-spin" : "lucide--download"
+                    <Show
+                      when={!stratosActive()}
+                      fallback={
+                        <button
+                          disabled
+                          class="flex items-center gap-2 rounded-md p-1.5 whitespace-nowrap opacity-40 cursor-not-allowed"
+                        >
+                          <span class="iconify shrink-0 lucide--download"></span>
+                          <span class="whitespace-nowrap">Export repo</span>
+                        </button>
                       }
-                      onClick={() => downloadRepo()}
-                    />
+                    >
+                      <ActionMenu
+                        label="Export repo"
+                        icon={
+                          downloading() ? "lucide--loader-circle animate-spin" : "lucide--download"
+                        }
+                        onClick={() => downloadRepo()}
+                      />
+                    </Show>
                   </Show>
                   <MenuSeparator />
                   <NavMenu
@@ -438,7 +467,16 @@ export const RepoView = () => {
                     <div class="iconify lucide--loader-circle mt-2 animate-spin self-center text-xl" />
                   }
                 >
-                  <BlobView pds={pds!} repo={did} />
+                  <Show
+                    when={!stratosActive()}
+                    fallback={
+                      <div class="mt-3 text-center text-sm text-neutral-500 dark:text-neutral-400">
+                        Stratos does not currently support browsing blobs
+                      </div>
+                    }
+                  >
+                    <BlobView pds={pds!} repo={did} />
+                  </Show>
                 </Suspense>
               </ErrorBoundary>
             </Show>
