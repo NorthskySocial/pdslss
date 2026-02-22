@@ -6,6 +6,7 @@ import { FailedLexiconResolutionError, ResolvedSchema } from "@atcute/lexicon-re
 import { ActorIdentifier, is, Nsid } from "@atcute/lexicons";
 import { AtprotoDid, Did, isNsid } from "@atcute/lexicons/syntax";
 import { verifyRecord } from "@atcute/repo";
+import { isStratosAttestation, verifyStratosRecord } from "../stratos/verify.js";
 import { Title } from "@solidjs/meta";
 import { A, useLocation, useNavigate, useParams } from "@solidjs/router";
 import { createResource, createSignal, ErrorBoundary, For, Show, Suspense } from "solid-js";
@@ -321,12 +322,23 @@ export const RecordView = () => {
       });
       if (!ok) throw data.error;
 
-      await verifyRecord({
-        did: did as AtprotoDid,
-        collection: params.collection!,
-        rkey: params.rkey!,
-        carBytes: data as Uint8Array<ArrayBufferLike>,
-      });
+      const carBytes = data as Uint8Array<ArrayBufferLike>;
+
+      if (isStratosAttestation(carBytes)) {
+        await verifyStratosRecord({
+          did: did as string,
+          collection: params.collection!,
+          rkey: params.rkey!,
+          carBytes,
+        });
+      } else {
+        await verifyRecord({
+          did: did as AtprotoDid,
+          collection: params.collection!,
+          rkey: params.rkey!,
+          carBytes,
+        });
+      }
 
       setValidRecord(true);
     } catch (err: any) {
