@@ -3,7 +3,7 @@ import { createSignal, For, JSX, onCleanup, onMount } from "solid-js";
 import { setOpenManager, setShowAddAccount } from "../auth/state";
 import { Button } from "../components/button";
 import { Favicon } from "../components/favicon";
-import { JSONValue } from "../components/json";
+import { JSONValue, type JSONType } from "../components/json";
 import { SearchButton } from "../components/search";
 
 const SLIDES = ["Repository", "Record", "PDS"] as const;
@@ -78,7 +78,7 @@ const ExplorerShowcase = () => {
           class="pointer-events-none absolute inset-0 overflow-hidden px-3 py-2 font-mono text-xs wrap-anywhere whitespace-pre-wrap transition-opacity duration-700 sm:text-sm"
           classList={{ "opacity-0": slide() !== 1 }}
         >
-          <JSONValue data={exampleRecord as any} repo="did:plc:ia76kvnndjutgedggx2ibrem" />
+          <JSONValue data={exampleRecord as JSONType} repo="did:plc:ia76kvnndjutgedggx2ibrem" />
         </div>
 
         {/* Repos slide */}

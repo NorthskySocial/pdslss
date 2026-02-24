@@ -36,10 +36,8 @@ export const UnpackToolView = () => {
     setPending(true);
     logger.log(`Starting extraction`);
 
-    let repo: Awaited<ReturnType<typeof fromStream>> | undefined;
-
     const stream = file.stream();
-    repo = fromStream(stream);
+    const repo = fromStream(stream);
 
     try {
       let count = 0;

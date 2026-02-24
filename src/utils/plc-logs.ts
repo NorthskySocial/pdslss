@@ -345,8 +345,9 @@ function findLastMatching<T>(
   predicate: (item: T) => boolean,
   start: number = arr.length - 1,
 ): T | undefined {
-  for (let i = start, v: any; i >= 0; i--) {
-    if (predicate((v = arr[i]))) {
+  for (let i = start; i >= 0; i--) {
+    const v = arr[i];
+    if (predicate(v)) {
       return v;
     }
   }
@@ -359,6 +360,7 @@ function difference<T>(a: readonly T[], b: readonly T[]): T[] {
   return a.filter((value) => !set.has(value));
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const dequal = (a: any, b: any): boolean => {
   let ctor: any;
   let len: number;
@@ -395,6 +397,7 @@ const dequal = (a: any, b: any): boolean => {
 
   return a !== a && b !== b;
 };
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export const groupBy = <K, T>(items: T[], keyFn: (item: T, index: number) => K): Map<K, T[]> => {
   const map = new Map<K, T[]>();

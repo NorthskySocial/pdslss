@@ -33,8 +33,8 @@ export { editorInstance, placeholder, setPlaceholder };
 
 export const RecordEditor = (props: {
   create: boolean;
-  record?: any;
-  refetch?: any;
+  record?: unknown;
+  refetch?: () => void;
   scope?: "create" | "update" | "delete" | "blob";
 }) => {
   const navigate = useNavigate();
@@ -120,11 +120,12 @@ export const RecordEditor = (props: {
     const rpc = createServiceClient(sessionAgent);
     const collection = formData.get("collection");
     const rkey = formData.get("rkey");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let record: any;
     try {
       record = JSON.parse(editorInstance.view.state.doc.toString());
-    } catch (e: any) {
-      setNotice(e.message);
+    } catch (e) {
+      setNotice(e instanceof Error ? e.message : String(e));
       return;
     }
     const res = await rpc.post("com.atproto.repo.createRecord", {
@@ -208,8 +209,8 @@ export const RecordEditor = (props: {
       });
       setTimeout(() => removeNotification(id), 3000);
       props.refetch();
-    } catch (err: any) {
-      setNotice(err.message);
+    } catch (err) {
+      setNotice(err instanceof Error ? err.message : String(err));
     }
   };
 

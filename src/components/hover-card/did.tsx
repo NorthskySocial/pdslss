@@ -1,5 +1,5 @@
 import { getPdsEndpoint, type DidDocument } from "@atcute/identity";
-import { createSignal, Show } from "solid-js";
+import { createSignal, type JSX, Show } from "solid-js";
 import { resolveDidDoc } from "../../utils/api";
 import HoverCard from "./base";
 
@@ -8,7 +8,7 @@ interface DidHoverCardProps {
   newTab?: boolean;
   class?: string;
   labelClass?: string;
-  trigger?: any;
+  trigger?: JSX.Element;
   hoverDelay?: number;
 }
 
@@ -34,8 +34,8 @@ const prefetchDid = async (did: string) => {
     const pds = getPdsEndpoint(doc)?.replace("https://", "").replace("http://", "");
 
     didCache.set(did, { handle, pds, loading: false });
-  } catch (err: any) {
-    didCache.set(did, { loading: false, error: err.message || "Failed to resolve" });
+  } catch (err) {
+    didCache.set(did, { loading: false, error: err instanceof Error ? err.message : "Failed to resolve" });
   }
 };
 

@@ -1,8 +1,8 @@
 import { Client, simpleFetchHandler } from "@atcute/client";
 import { ActorIdentifier } from "@atcute/lexicons";
-import { createSignal, Show } from "solid-js";
+import { createSignal, type JSX, Show } from "solid-js";
 import { getPDS } from "../../utils/api";
-import { JSONValue } from "../json";
+import { JSONValue, type JSONType } from "../json";
 import HoverCard from "./base";
 
 interface RecordHoverCardProps {
@@ -10,7 +10,7 @@ interface RecordHoverCardProps {
   newTab?: boolean;
   class?: string;
   labelClass?: string;
-  trigger?: any;
+  trigger?: JSX.Element;
   hoverDelay?: number;
 }
 
@@ -47,8 +47,8 @@ const prefetchRecord = async (uri: string) => {
     }
 
     recordCache.set(uri, { value: res.data.value, loading: false });
-  } catch (err: any) {
-    recordCache.set(uri, { value: null, loading: false, error: err.message || "Failed to fetch" });
+  } catch (err) {
+    recordCache.set(uri, { value: null, loading: false, error: err instanceof Error ? err.message : "Failed to fetch" });
   }
 };
 
@@ -104,7 +104,7 @@ const RecordHoverCard = (props: RecordHoverCardProps) => {
       <Show when={record()?.value && !record()?.loading}>
         <div class="font-mono text-xs wrap-break-word">
           <JSONValue
-            data={record()?.value as any}
+            data={record()?.value as JSONType}
             repo={parsed()?.repo || ""}
             truncate
             newTab

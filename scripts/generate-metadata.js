@@ -1,3 +1,4 @@
+/* global process */
 import { mkdirSync, writeFileSync } from "fs";
 import { dirname } from "path";
 import { fileURLToPath } from "url";

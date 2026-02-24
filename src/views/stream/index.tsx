@@ -21,6 +21,7 @@ const TYPE_COLORS: Record<string, string> = {
   sync: "bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300",
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const StreamRecordItem = (props: { record: any; streamType: StreamType }) => {
   const [expanded, setExpanded] = createSignal(false);
   const config = () => STREAM_CONFIGS[props.streamType];
@@ -103,6 +104,7 @@ export const StreamView = () => {
   const streamType = getStreamType(useLocation().pathname);
   const config = () => STREAM_CONFIGS[streamType];
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [records, setRecords] = createSignal<any[]>([]);
   const [connected, setConnected] = createSignal(false);
   const [paused, setPaused] = createSignal(false);
@@ -119,6 +121,7 @@ export const StreamView = () => {
   let socket: WebSocket;
   let firehose: Firehose;
   let formRef!: HTMLFormElement;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let pendingRecords: any[] = [];
   let rafId: number | null = null;
   let statsIntervalId: number | null = null;
@@ -128,6 +131,7 @@ export const StreamView = () => {
   let eventTypesMap: Record<string, number> = {};
   let collectionsMap: Record<string, number> = {};
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const addRecord = (record: any) => {
     currentSecondEventCount++;
     totalEventsCount++;

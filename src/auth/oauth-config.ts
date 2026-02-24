@@ -3,7 +3,7 @@ import { configureOAuth } from "@atcute/oauth-browser-client";
 import { didDocumentResolver, handleResolver } from "../utils/api";
 
 const reactiveDidDocumentResolver = {
-  resolve: async (did: string) => didDocumentResolver().resolve(did as any),
+  resolve: async (did: string) => didDocumentResolver().resolve(did as `did:${string}:${string}`),
 };
 
 configureOAuth({

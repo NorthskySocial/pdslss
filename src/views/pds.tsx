@@ -28,7 +28,7 @@ export const PdsView = () => {
   const getVersion = async () => {
     // @ts-expect-error: undocumented endpoint
     const res = await rpc.get("_health", {});
-    setVersion((res.data as any).version);
+    setVersion((res.data as { version?: string }).version);
   };
 
   const describeServer = async () => {

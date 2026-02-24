@@ -11,7 +11,7 @@ import { editorInstance } from "./create/state";
 
 const Editor = (props: { content: string }) => {
   let editorDiv!: HTMLDivElement;
-  let themeColor = new Compartment();
+  const themeColor = new Compartment();
   let view: EditorView;
 
   const themeEvent = () => {

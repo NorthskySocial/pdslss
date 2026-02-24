@@ -32,8 +32,8 @@ export const HandleInput = (props: { onClose: () => void }) => {
       });
       props.onClose();
       handleFormRef.reset();
-    } catch (err: any) {
-      setError(err.message || "Failed to resolve handle");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to resolve handle");
     } finally {
       setResolving(false);
     }

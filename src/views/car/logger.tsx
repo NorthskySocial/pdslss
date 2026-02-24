@@ -123,6 +123,7 @@ export const LoggerView = (props: { logger: Logger }) => {
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const throttle = <T extends (...args: any[]) => void>(func: T, wait: number) => {
   let timeout: ReturnType<typeof setTimeout> | null = null;
   let lastArgs: Parameters<T> | null = null;

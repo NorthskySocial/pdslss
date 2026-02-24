@@ -4,7 +4,7 @@ import { fromBase58Btc } from "@atcute/multibase";
 export const detectKeyType = (key: string): string => {
   try {
     return parsePublicMultikey(key).type;
-  } catch (e) {
+  } catch {
     try {
       const bytes = fromBase58Btc(key.startsWith("z") ? key.slice(1) : key);
       if (bytes.length >= 2) {
@@ -13,7 +13,7 @@ export const detectKeyType = (key: string): string => {
           return "ed25519";
         }
       }
-    } catch {}
+    } catch { /* multibase decoding may fail */ }
     return "unknown";
   }
 };
@@ -21,7 +21,7 @@ export const detectKeyType = (key: string): string => {
 export const detectDidKeyType = (key: string): string => {
   try {
     return parseDidKey(key).type;
-  } catch (e) {
+  } catch {
     if (key.startsWith("did:key:")) {
       return detectKeyType(key.slice(8));
     }

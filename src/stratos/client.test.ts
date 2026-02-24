@@ -35,6 +35,7 @@ function makeMockAgent(): OAuthUserAgent & { lastCalledUrl: string | undefined }
 		lastCalledUrl: undefined as string | undefined,
 		handle: vi.fn(async (url: string, _init?: RequestInit) => {
 			agent.lastCalledUrl = url;
+			void _init;
 			return new Response(null, { status: 200 });
 		}),
 	} as unknown as OAuthUserAgent & { lastCalledUrl: string | undefined };

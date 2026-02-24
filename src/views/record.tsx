@@ -10,7 +10,7 @@ import { AtprotoDid, Did, isNsid } from "@atcute/lexicons/syntax";
 import { verifyRecord } from "@atcute/repo";
 import { Title } from "@solidjs/meta";
 import { A, useLocation, useNavigate, useParams } from "@solidjs/router";
-import { createResource, createSignal, ErrorBoundary, For, Show, Suspense } from "solid-js";
+import { createResource, createSignal, ErrorBoundary, For, type JSX, Show, Suspense } from "solid-js";
 import { agent } from "../auth/state";
 import { Backlinks } from "../components/backlinks.jsx";
 import { Button } from "../components/button.jsx";
@@ -23,7 +23,7 @@ import {
   NavMenu,
 } from "../components/dropdown.jsx";
 import { Favicon } from "../components/favicon.jsx";
-import { JSONValue } from "../components/json.jsx";
+import { JSONValue, type JSONType } from "../components/json.jsx";
 import { LexiconSchemaView } from "../components/lexicon-schema.jsx";
 import { Modal } from "../components/modal.jsx";
 import { pds, setPDS } from "../components/navbar.jsx";
@@ -42,7 +42,7 @@ import { lexicons } from "../utils/types/lexicons.js";
 
 const toAuthority = (hostname: string) => hostname.split(".").reverse().join(".");
 
-const faviconWrapper = (children: any) => (
+const faviconWrapper = (children: JSX.Element) => (
   <div class="flex size-4 items-center justify-center">{children}</div>
 );
 
@@ -81,7 +81,7 @@ const getAuthoritySegment = (nsid: string): string => {
 const resolveSchema = async (authority: AtprotoDid, nsid: Nsid): Promise<unknown> => {
   const cacheKey = `${authority}:${nsid}`;
 
-  let cachedSchema = schemaCache.get(cacheKey);
+  const cachedSchema = schemaCache.get(cacheKey);
   if (cachedSchema) {
     return cachedSchema;
   }
@@ -128,22 +128,23 @@ const resolveSchema = async (authority: AtprotoDid, nsid: Nsid): Promise<unknown
   }
 };
 
-const extractRefs = (obj: any): Nsid[] => {
+const extractRefs = (obj: unknown): Nsid[] => {
   const refs: Set<string> = new Set();
 
-  const traverse = (value: any) => {
+  const traverse = (value: unknown) => {
     if (!value || typeof value !== "object") return;
+    const v = value as Record<string, unknown>;
 
-    if (value.type === "ref" && value.ref) {
-      const ref = value.ref;
+    if (v.type === "ref" && v.ref) {
+      const ref = v.ref as string;
       if (!ref.startsWith("#")) {
         const nsid = ref.split("#")[0];
         if (isNsid(nsid)) refs.add(nsid);
       }
     }
 
-    if (value.type === "union" && Array.isArray(value.refs)) {
-      for (const ref of value.refs) {
+    if (v.type === "union" && Array.isArray(v.refs)) {
+      for (const ref of v.refs) {
         if (!ref.startsWith("#")) {
           const nsid = ref.split("#")[0];
           if (isNsid(nsid)) refs.add(nsid);
@@ -162,10 +163,10 @@ const extractRefs = (obj: any): Nsid[] => {
 const resolveAllLexicons = async (
   nsid: Nsid,
   depth: number = 0,
-  resolved: Map<string, any> = new Map(),
+  resolved: Map<string, unknown> = new Map(),
   failed: Set<string> = new Set(),
   inFlight: Map<string, Promise<void>> = new Map(),
-): Promise<{ resolved: Map<string, any>; failed: Set<string> }> => {
+): Promise<{ resolved: Map<string, unknown>; failed: Set<string> }> => {
   if (depth >= 10) {
     console.warn(`Maximum recursion depth reached for ${nsid}`);
     return { resolved, failed };
@@ -284,10 +285,10 @@ export const RecordView = () => {
         if (is(lexicons[params.collection], record)) setValidSchema(true);
         else setValidSchema(false);
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("Schema validation error:", err);
       setValidSchema(false);
-      setValidationError(err.message || String(err));
+      setValidationError(err instanceof Error ? err.message : String(err));
     }
   };
 
@@ -312,10 +313,10 @@ export const RecordView = () => {
       });
 
       setValidSchema(true);
-    } catch (err: any) {
+    } catch (err) {
       console.error("Schema validation error:", err);
       setValidSchema(false);
-      setValidationError(err.message || String(err));
+      setValidationError(err instanceof Error ? err.message : String(err));
     }
     setRemoteValidation(false);
   };
@@ -373,9 +374,9 @@ export const RecordView = () => {
       }
 
       setValidRecord(true);
-    } catch (err: any) {
+    } catch (err) {
       console.error("Record verification error:", err);
-      setVerifyError(err.message);
+      setVerifyError(err instanceof Error ? err.message : String(err));
       setValidRecord(false);
     }
   };
@@ -412,7 +413,7 @@ export const RecordView = () => {
     navigate(`/at://${params.repo}/${params.collection}`);
   };
 
-  const checkUri = (uri: string, record: any) => {
+  const checkUri = (uri: string, record: unknown) => {
     const uriParts = uri.split("/"); // expected: ["at:", "", "repo", "collection", "rkey"]
     if (uriParts.length != 5) return undefined;
     if (uriParts[0] !== "at:" || uriParts[1] !== "") return undefined;
@@ -594,7 +595,7 @@ export const RecordView = () => {
             </div>
             <Show when={!location.hash || location.hash === "#record"}>
               <div class="w-full max-w-screen min-w-full px-2 font-mono text-xs wrap-anywhere whitespace-pre-wrap sm:w-max sm:text-sm md:max-w-3xl">
-                <JSONValue data={record()?.value as any} repo={record()!.uri.split("/")[2]} />
+                <JSONValue data={record()?.value as JSONType} repo={record()!.uri.split("/")[2]} />
               </div>
             </Show>
             <Show when={location.hash === "#schema" || location.hash.startsWith("#schema:")}>
@@ -607,6 +608,7 @@ export const RecordView = () => {
               <Show when={schema() || params.collection === "com.atproto.lexicon.schema"}>
                 <ErrorBoundary fallback={(err) => <div>Error: {err.message}</div>}>
                   <LexiconSchemaView
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     schema={schema()?.rawSchema ?? (record()?.value as any)}
                     authority={lexiconAuthority()}
                   />

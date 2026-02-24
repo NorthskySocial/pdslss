@@ -182,7 +182,7 @@ const CollectionView = () => {
 
   const deleteRecords = async () => {
     const recsToDel = records.filter((record) => record.toDelete);
-    let writes: Array<
+    const writes: Array<
       | $type.enforce<ComAtprotoRepoApplyWrites.Delete>
       | $type.enforce<ComAtprotoRepoApplyWrites.Create>
     > = [];

@@ -27,6 +27,7 @@ export type StreamConfig = {
   fields: FormField[];
   useFirehoseLib: boolean;
   buildUrl: (instance: string, formData: FormData) => string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parseRecord: (record: any) => RecordInfo;
   showEventTypes: boolean;
   collectionsLabel: string;
@@ -114,7 +115,7 @@ export const STREAM_CONFIGS: Record<StreamType, StreamConfig> = {
         searchParam: "cursor",
       },
     ],
-    buildUrl: (instance, _formData) => {
+    buildUrl: (instance) => {
       let url = instance;
       url = url.replace("/xrpc/com.atproto.sync.subscribeRepos", "");
       if (!(url.startsWith("wss://") || url.startsWith("ws://"))) {

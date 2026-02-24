@@ -68,7 +68,7 @@ const getPDS = async (did: string) => {
     didDocCache[did] = doc;
   } catch (e) {
     console.error(e);
-    throw new Error("Error during did document resolution");
+    throw new Error("Error during did document resolution", { cause: e });
   }
 
   const pds = getPdsEndpoint(doc);
@@ -235,8 +235,8 @@ export const resolveHandleDetailed = async (handle: Handle) => {
       );
       const did = await Promise.race([resolver.resolve(handle), timeoutPromise]);
       return { success: true, did };
-    } catch (err: any) {
-      return { success: false, error: err.message ?? String(err) };
+    } catch (err) {
+      return { success: false, error: err instanceof Error ? err.message : String(err) };
     }
   };
 

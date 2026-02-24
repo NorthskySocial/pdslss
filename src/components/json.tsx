@@ -255,7 +255,7 @@ const JSONObject = (props: { data: { [x: string]: JSONType } }) => {
     </For>
   );
 
-  const blob: AtBlob = props.data as any;
+  const blob: AtBlob = props.data as unknown as AtBlob;
   const canShowMedia = () =>
     pds() &&
     !ctx.hideBlobs &&

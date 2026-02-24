@@ -18,7 +18,7 @@ import {
   ChatBskyActorDeclaration,
 } from "@atcute/bluesky";
 
-export const lexicons: Record<string, any> = {
+export const lexicons: Record<string, unknown> = {
   // Bluesky
   "app.bsky.actor.profile": AppBskyActorProfile.mainSchema,
   "app.bsky.actor.status": AppBskyActorStatus.mainSchema,

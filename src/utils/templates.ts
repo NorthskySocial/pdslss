@@ -1,5 +1,5 @@
 export type AtUri = { repo: string; collection: string; rkey: string };
-type TemplateFn = (uri: AtUri, record?: any) => { label: string; link: string };
+type TemplateFn = (uri: AtUri, record?: unknown) => { label: string; link: string };
 type TemplateMap = Record<string, TemplateFn>;
 
 export const uriTemplates: TemplateMap = {
