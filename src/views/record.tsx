@@ -8,7 +8,6 @@ import { FailedLexiconResolutionError, ResolvedSchema } from "@atcute/lexicon-re
 import { ActorIdentifier, is, Nsid } from "@atcute/lexicons";
 import { AtprotoDid, Did, isNsid } from "@atcute/lexicons/syntax";
 import { verifyRecord } from "@atcute/repo";
-import { isStratosAttestation, verifyStratosRecord } from "../stratos/verify.js";
 import { Title } from "@solidjs/meta";
 import { A, useLocation, useNavigate, useParams } from "@solidjs/router";
 import { createResource, createSignal, ErrorBoundary, For, Show, Suspense } from "solid-js";
@@ -335,34 +334,33 @@ export const RecordView = () => {
 
       const carBytes = data as Uint8Array<ArrayBufferLike>;
 
-      if (isStratosAttestation(carBytes)) {
-        setVerifyLabel("Record verification");
-        await verifyStratosRecord({
-          did: did as string,
-          collection: params.collection!,
-          rkey: params.rkey!,
-          carBytes,
-        });
-      } else if (stratosActive()) {
-        // Stratos returns a minimal CAR with just the record block (root = record CID).
-        // verifyRecord expects a signed commit + MST proof, which Stratos doesn't provide.
-        // Fall back to CID-only verification: verify block hash matches its CID.
-        setVerifyLabel("CID verified");
-        const reader = CAR.fromUint8Array(carBytes);
-        const roots = reader.roots;
-        if (roots.length !== 1) {
-          throw new Error(`expected 1 CAR root, got ${roots.length}`);
-        }
-        const rootCidStr = roots[0].$link;
-        for (const entry of reader) {
-          const computed = await CID.create(entry.cid.codec as 0x55 | 0x71, entry.bytes);
-          if (!CID.equals(entry.cid, computed)) {
-            throw new Error(`CID integrity check failed for ${CID.toString(entry.cid)}`);
+      if (stratosActive()) {
+        // Try full commit + MST verification first; fall back to CID-only for legacy repos
+        try {
+          setVerifyLabel("Record verification");
+          await verifyRecord({
+            did: did as AtprotoDid,
+            collection: params.collection!,
+            rkey: params.rkey!,
+            carBytes,
+          });
+        } catch {
+          setVerifyLabel("CID verified");
+          const reader = CAR.fromUint8Array(carBytes);
+          const roots = reader.roots;
+          if (roots.length !== 1) {
+            throw new Error(`expected 1 CAR root, got ${roots.length}`);
           }
-        }
-        // verify the root CID matches the record CID from getRecord
-        if (record()?.cid && rootCidStr !== record()?.cid) {
-          throw new Error(`record CID mismatch: expected ${record()?.cid}, got ${rootCidStr}`);
+          const rootCidStr = roots[0].$link;
+          for (const entry of reader) {
+            const computed = await CID.create(entry.cid.codec as 0x55 | 0x71, entry.bytes);
+            if (!CID.equals(entry.cid, computed)) {
+              throw new Error(`CID integrity check failed for ${CID.toString(entry.cid)}`);
+            }
+          }
+          if (record()?.cid && rootCidStr !== record()?.cid) {
+            throw new Error(`record CID mismatch: expected ${record()?.cid}, got ${rootCidStr}`);
+          }
         }
       } else {
         setVerifyLabel("Record verification");
