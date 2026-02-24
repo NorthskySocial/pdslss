@@ -21,7 +21,10 @@ export const createServiceFetchHandler = (
 	return {
 		async handle(pathname: string, init?: RequestInit): Promise<Response> {
 			const url = new URL(pathname, serviceUrl);
-			return agent.handle(url.href, init);
+			const headers = new Headers(init?.headers);
+			// ngrok free tier returns an HTML interstitial for browser User-Agents
+			headers.set("ngrok-skip-browser-warning", "1");
+			return agent.handle(url.href, { ...init, headers });
 		},
 	};
 };

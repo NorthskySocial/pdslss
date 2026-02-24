@@ -246,6 +246,7 @@ export const RecordView = () => {
     if (stratosActive()) {
       const enrollment = stratosEnrollment();
       if (enrollment) setPDS(new URL(enrollment.service).hostname);
+      if (!agent()) throw new Error("Sign in to view Stratos records");
       rpc = createServiceClient(agent()!);
     } else {
       const pds = await resolvePDS(did!);

@@ -179,9 +179,7 @@ export const RepoView = () => {
     if (stratosActive()) {
       const enrollment = stratosEnrollment();
       if (enrollment) setPDS(new URL(enrollment.service).hostname);
-    }
-
-    if (stratosActive() && agent()) {
+      if (!agent()) throw new Error("Sign in to view Stratos records");
       rpc = createServiceClient(agent()!);
     } else {
       rpc = new Client({ handler: simpleFetchHandler({ service: pds }) });
@@ -211,6 +209,13 @@ export const RepoView = () => {
             break;
           case "RepoTakendown":
             setError("Taken down");
+            break;
+          case "RepoNotFound":
+            if (stratosActive()) {
+              setNsids({});
+              break;
+            }
+            setError("Unreachable");
             break;
           default:
             setError("Unreachable");

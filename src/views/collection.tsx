@@ -141,8 +141,7 @@ const CollectionView = () => {
     if (stratosActive()) {
       const enrollment = stratosEnrollment();
       if (enrollment) setPDS(new URL(enrollment.service).hostname);
-    }
-    if (stratosActive() && agent()) {
+      if (!agent()) throw new Error("Sign in to view Stratos records");
       rpc = createServiceClient(agent()!);
     } else {
       rpc = new Client({ handler: simpleFetchHandler({ service: pds }) });
