@@ -19,7 +19,9 @@ type BacklinkEntry = {
   counts: { distinct_dids: number; records: number };
 };
 
-const flattenLinks = (links: Record<string, Record<string, { distinct_dids: number; records: number }>>): BacklinkEntry[] => {
+const flattenLinks = (
+  links: Record<string, Record<string, { distinct_dids: number; records: number }>>,
+): BacklinkEntry[] => {
   const entries: BacklinkEntry[] = [];
   Object.keys(links)
     .toSorted()

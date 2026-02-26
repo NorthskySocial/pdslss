@@ -36,7 +36,9 @@ export const useOAuthScopeFlow = (options: UseOAuthScopeFlowOptions = {}) => {
           await options.beforeRedirect(account);
           setShowScopeSelector(false);
           return;
-        } catch { /* beforeRedirect may reject to signal re-auth needed */ }
+        } catch {
+          /* beforeRedirect may reject to signal re-auth needed */
+        }
       }
 
       localStorage.setItem("pendingScopes", scopeIds);

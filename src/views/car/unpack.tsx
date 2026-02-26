@@ -112,7 +112,8 @@ export const UnpackToolView = () => {
 
               try {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const fd = await (window as any).showSaveFilePicker({
+                const fd = await (window as any)
+                  .showSaveFilePicker({
                     suggestedName: `${file.name.replace(/\.car$/, "")}.zip`,
                     id: "car-unpack",
                     startIn: "downloads",

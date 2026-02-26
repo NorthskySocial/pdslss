@@ -1,9 +1,9 @@
-import { Client } from '@atcute/client';
-import type { OAuthUserAgent } from '@atcute/oauth-browser-client';
-import { setPDS } from '../components/navbar';
-import { resolvePDS } from '../utils/api';
-import { createServiceFetchHandler } from './dpop-fetch';
-import { stratosActive, stratosEnrollment } from './state';
+import { Client } from "@atcute/client";
+import type { OAuthUserAgent } from "@atcute/oauth-browser-client";
+import { setPDS } from "../components/navbar";
+import { resolvePDS } from "../utils/api";
+import { createServiceFetchHandler } from "./dpop-fetch";
+import { stratosActive, stratosEnrollment } from "./state";
 
 /**
  * resolves the service URL for the active target.
@@ -16,15 +16,15 @@ import { stratosActive, stratosEnrollment } from './state';
  * @returns the service URL (Stratos or PDS)
  */
 export const resolveServiceUrl = async (did: string): Promise<string> => {
-	if (stratosActive()) {
-		const enrollment = stratosEnrollment();
-		if (enrollment) {
-			const url = new URL(enrollment.service);
-			setPDS(url.hostname);
-			return enrollment.service;
-		}
-	}
-	return resolvePDS(did);
+  if (stratosActive()) {
+    const enrollment = stratosEnrollment();
+    if (enrollment) {
+      const url = new URL(enrollment.service);
+      setPDS(url.hostname);
+      return enrollment.service;
+    }
+  }
+  return resolvePDS(did);
 };
 
 /**
@@ -36,13 +36,13 @@ export const resolveServiceUrl = async (did: string): Promise<string> => {
  * @returns a Client instance targeting the correct service
  */
 export const createServiceClient = (agent: OAuthUserAgent): Client => {
-	if (stratosActive()) {
-		const enrollment = stratosEnrollment();
-		if (enrollment) {
-			return new Client({
-				handler: createServiceFetchHandler(agent, enrollment.service),
-			});
-		}
-	}
-	return new Client({ handler: agent });
+  if (stratosActive()) {
+    const enrollment = stratosEnrollment();
+    if (enrollment) {
+      return new Client({
+        handler: createServiceFetchHandler(agent, enrollment.service),
+      });
+    }
+  }
+  return new Client({ handler: agent });
 };

@@ -1,10 +1,10 @@
-import { defineConfig } from 'vitest/config';
-import solidPlugin from 'vite-plugin-solid';
+import solidPlugin from "vite-plugin-solid";
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-	plugins: [solidPlugin()],
-	test: {
-		environment: 'node',
-		globals: true,
-	},
+  plugins: [solidPlugin()],
+  test: {
+    environment: "node",
+    globals: true,
+  },
 });

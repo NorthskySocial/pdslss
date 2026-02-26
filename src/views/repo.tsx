@@ -26,13 +26,13 @@ import {
   NavMenu,
 } from "../components/dropdown.jsx";
 import { Favicon } from "../components/favicon.jsx";
+import { setPDS } from "../components/navbar.js";
 import {
   addNotification,
   removeNotification,
   updateNotification,
 } from "../components/notification.jsx";
 import { canHover } from "../layout.jsx";
-import { setPDS } from "../components/navbar.js";
 import { createServiceClient, stratosActive, stratosEnrollment } from "../stratos/index.js";
 import {
   didDocCache,
@@ -397,9 +397,9 @@ export const RepoView = () => {
                       fallback={
                         <button
                           disabled
-                          class="flex items-center gap-2 rounded-md p-1.5 whitespace-nowrap opacity-40 cursor-not-allowed"
+                          class="flex cursor-not-allowed items-center gap-2 rounded-md p-1.5 whitespace-nowrap opacity-40"
                         >
-                          <span class="iconify shrink-0 lucide--download"></span>
+                          <span class="iconify lucide--download shrink-0"></span>
                           <span class="whitespace-nowrap">Export repo</span>
                         </button>
                       }

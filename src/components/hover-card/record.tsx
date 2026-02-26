@@ -1,6 +1,6 @@
 import { Client, simpleFetchHandler } from "@atcute/client";
 import { ActorIdentifier } from "@atcute/lexicons";
-import { createSignal, type JSX, Show } from "solid-js";
+import { createSignal, Show, type JSX } from "solid-js";
 import { getPDS } from "../../utils/api";
 import { JSONValue, type JSONType } from "../json";
 import HoverCard from "./base";
@@ -48,7 +48,11 @@ const prefetchRecord = async (uri: string) => {
 
     recordCache.set(uri, { value: res.data.value, loading: false });
   } catch (err) {
-    recordCache.set(uri, { value: null, loading: false, error: err instanceof Error ? err.message : "Failed to fetch" });
+    recordCache.set(uri, {
+      value: null,
+      loading: false,
+      error: err instanceof Error ? err.message : "Failed to fetch",
+    });
   }
 };
 

@@ -8,7 +8,15 @@ import { AtprotoDid, Did, isNsid } from "@atcute/lexicons/syntax";
 import { verifyRecord } from "@atcute/repo";
 import { Title } from "@solidjs/meta";
 import { A, useLocation, useNavigate, useParams } from "@solidjs/router";
-import { createResource, createSignal, ErrorBoundary, For, type JSX, Show, Suspense } from "solid-js";
+import {
+  createResource,
+  createSignal,
+  ErrorBoundary,
+  For,
+  Show,
+  Suspense,
+  type JSX,
+} from "solid-js";
 import { agent } from "../auth/state";
 import { Backlinks } from "../components/backlinks.jsx";
 import { Button } from "../components/button.jsx";
@@ -27,7 +35,14 @@ import { Modal } from "../components/modal.jsx";
 import { pds, setPDS } from "../components/navbar.jsx";
 import { addNotification, removeNotification } from "../components/notification.jsx";
 import { PermissionButton } from "../components/permission-button.jsx";
-import { createServiceClient, isStratosNsid, stratosActive, stratosEnrollment, stratosLexicons, verifyStratosRecord } from "../stratos/index.js";
+import {
+  createServiceClient,
+  isStratosNsid,
+  stratosActive,
+  stratosEnrollment,
+  stratosLexicons,
+  verifyStratosRecord,
+} from "../stratos/index.js";
 import {
   didDocumentResolver,
   resolveLexiconAuthority,
@@ -291,7 +306,9 @@ export const RecordView = () => {
         if (failed.size > 0) {
           console.error(`Failed to resolve ${failed.size} documents:`, Array.from(failed));
           setValidSchema(false);
-          setValidationError(`Unable to resolve lexicon documents: ${Array.from(failed).join(", ")}`);
+          setValidationError(
+            `Unable to resolve lexicon documents: ${Array.from(failed).join(", ")}`,
+          );
           return;
         }
         const lexiconDocs = Object.fromEntries(resolved);
@@ -351,9 +368,8 @@ export const RecordView = () => {
 
       if (stratosActive()) {
         const enrollment = stratosEnrollment();
-        const serviceDid = enrollment
-          ? `did:web:${new URL(enrollment.service).hostname}`
-          : undefined;
+        const serviceDid =
+          enrollment ? `did:web:${new URL(enrollment.service).hostname}` : undefined;
         const result = await verifyStratosRecord(
           carBytes,
           did!,
@@ -362,9 +378,7 @@ export const RecordView = () => {
           serviceDid,
         );
         setVerifyLabel(
-          result.level === "service-signature"
-            ? "Signature verified"
-            : "CID integrity verified",
+          result.level === "service-signature" ? "Signature verified" : "CID integrity verified",
         );
       } else {
         setVerifyLabel("Record verification");

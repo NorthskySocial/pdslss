@@ -5,11 +5,11 @@ import { createEffect, For, onMount, Show } from "solid-js";
 import { createStore, produce } from "solid-js/store";
 import { ActionMenu, DropdownMenu, MenuProvider, NavMenu } from "../components/dropdown.jsx";
 import { Modal } from "../components/modal.jsx";
+import { setStratosActive, setStratosEnrollment } from "../stratos";
 import { Login } from "./login.jsx";
 import { useOAuthScopeFlow } from "./scope-flow.js";
 import { ScopeSelector } from "./scope-selector.jsx";
 import { parseScopeString } from "./scope-utils.js";
-import { setStratosActive, setStratosEnrollment } from "../stratos";
 import {
   getAvatar,
   loadHandleForSession,

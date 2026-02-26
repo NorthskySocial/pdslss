@@ -13,7 +13,9 @@ export const detectKeyType = (key: string): string => {
           return "ed25519";
         }
       }
-    } catch { /* multibase decoding may fail */ }
+    } catch {
+      /* multibase decoding may fail */
+    }
     return "unknown";
   }
 };

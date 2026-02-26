@@ -2,7 +2,7 @@ import * as TID from "@atcute/tid";
 import { A, Params } from "@solidjs/router";
 import { createEffect, createMemo, createSignal, For, Show } from "solid-js";
 import { canHover } from "../layout";
-import { stratosActive, stratosEnrollment, setStratosActive } from "../stratos";
+import { setStratosActive, stratosActive, stratosEnrollment } from "../stratos";
 import { didDocCache } from "../utils/api";
 import { addToClipboard } from "../utils/copy";
 import { localDateFromTimestamp } from "../utils/date";
@@ -91,10 +91,7 @@ export const NavBar = (props: { params: Params }) => {
                     href={pds()!}
                     inactiveClass="text-blue-500 py-0.5 w-full font-medium hover:text-blue-600 transition-colors duration-150 dark:text-blue-400 dark:hover:text-blue-300"
                   >
-                    <Show
-                      when={stratosActive() && stratosEnrollment()}
-                      fallback={pds()}
-                    >
+                    <Show when={stratosActive() && stratosEnrollment()} fallback={pds()}>
                       {new URL(stratosEnrollment()!.service).hostname}
                     </Show>
                   </A>
@@ -107,7 +104,11 @@ export const NavBar = (props: { params: Params }) => {
         </div>
         <div class="flex items-center gap-1">
           <Show when={stratosEnrollment()}>
-            <Tooltip text={stratosActive() ? "Stratos active — click to switch to PDS" : "Switch to Stratos"}>
+            <Tooltip
+              text={
+                stratosActive() ? "Stratos active — click to switch to PDS" : "Switch to Stratos"
+              }
+            >
               <button
                 type="button"
                 onclick={(e) => {
@@ -117,8 +118,10 @@ export const NavBar = (props: { params: Params }) => {
                 }}
                 classList={{
                   "flex items-center rounded px-1.5 py-1 transition-all duration-200 sm:py-1.5": true,
-                  "text-purple-600 hover:bg-purple-100/70 dark:text-purple-400 dark:hover:bg-purple-900/40": stratosActive(),
-                  "text-neutral-400 hover:bg-neutral-200/70 hover:text-neutral-600 dark:text-neutral-500 dark:hover:bg-neutral-700/70 dark:hover:text-neutral-300": !stratosActive(),
+                  "text-purple-600 hover:bg-purple-100/70 dark:text-purple-400 dark:hover:bg-purple-900/40":
+                    stratosActive(),
+                  "text-neutral-400 hover:bg-neutral-200/70 hover:text-neutral-600 dark:text-neutral-500 dark:hover:bg-neutral-700/70 dark:hover:text-neutral-300":
+                    !stratosActive(),
                 }}
                 aria-label={stratosActive() ? "Stratos active" : "Stratos inactive"}
                 aria-pressed={stratosActive()}

@@ -11,6 +11,7 @@ import { Button } from "../components/button.jsx";
 import HoverCard from "../components/hover-card/base";
 import { JSONType, JSONValue } from "../components/json.jsx";
 import { Modal } from "../components/modal.jsx";
+import { setPDS } from "../components/navbar.js";
 import { addNotification, removeNotification } from "../components/notification.jsx";
 import { PermissionButton } from "../components/permission-button.jsx";
 import { StickyOverlay } from "../components/sticky.jsx";
@@ -18,7 +19,6 @@ import { TextInput } from "../components/text-input.jsx";
 import Tooltip from "../components/tooltip.jsx";
 import { createServiceClient, stratosActive, stratosEnrollment } from "../stratos/index.js";
 import { resolvePDS } from "../utils/api.js";
-import { setPDS } from "../components/navbar.js";
 import { localDateFromTimestamp } from "../utils/date.js";
 import {
   clearCollectionCache,
