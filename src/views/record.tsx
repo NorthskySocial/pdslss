@@ -368,8 +368,7 @@ export const RecordView = () => {
 
       if (stratosActive()) {
         const target = targetEnrollment();
-        const serviceDid =
-          target ? `did:web:${new URL(target.service).hostname}` : undefined;
+        const serviceDid = target ? `did:web:${new URL(target.service).hostname}` : undefined;
         const result = await verifyStratosRecord(
           carBytes,
           did!,

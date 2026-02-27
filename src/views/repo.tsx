@@ -33,7 +33,14 @@ import {
   updateNotification,
 } from "../components/notification.jsx";
 import { canHover } from "../layout.jsx";
-import { createServiceClient, discoverStratosEnrollment, setStratosActive, setTargetEnrollment, stratosActive, targetEnrollment } from "../stratos/index.js";
+import {
+  createServiceClient,
+  discoverStratosEnrollment,
+  setStratosActive,
+  setTargetEnrollment,
+  stratosActive,
+  targetEnrollment,
+} from "../stratos/index.js";
 import {
   didDocCache,
   type HandleResolveResult,

@@ -172,7 +172,10 @@ const CollectionView = () => {
     return res.data.records;
   };
 
-  const [response, { refetch }] = createResource(() => ({ stratos: stratosActive() }), fetchRecords);
+  const [response, { refetch }] = createResource(
+    () => ({ stratos: stratosActive() }),
+    fetchRecords,
+  );
 
   const filteredRecords = createMemo(() =>
     records.filter((rec) =>

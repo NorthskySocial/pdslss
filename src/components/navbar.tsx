@@ -113,9 +113,9 @@ export const NavBar = (props: { params: Params }) => {
           <Show when={stratosEnrollment() && targetEnrollment()}>
             <Tooltip
               text={
-                serviceMismatch() ?
-                  "Different Stratos service — cannot browse"
-                : stratosActive() ? "Stratos active — click to switch to PDS"
+                serviceMismatch() ? "Different Stratos service — cannot browse"
+                : stratosActive() ?
+                  "Stratos active — click to switch to PDS"
                 : "Switch to Stratos"
               }
             >
@@ -138,7 +138,8 @@ export const NavBar = (props: { params: Params }) => {
                 }}
                 aria-label={
                   serviceMismatch() ? "Different Stratos service"
-                  : stratosActive() ? "Stratos active"
+                  : stratosActive() ?
+                    "Stratos active"
                   : "Stratos inactive"
                 }
                 aria-pressed={stratosActive()}
