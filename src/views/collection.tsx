@@ -17,7 +17,7 @@ import { PermissionButton } from "../components/permission-button.jsx";
 import { StickyOverlay } from "../components/sticky.jsx";
 import { TextInput } from "../components/text-input.jsx";
 import Tooltip from "../components/tooltip.jsx";
-import { createServiceClient, stratosActive, stratosEnrollment } from "../stratos/index.js";
+import { createServiceClient, stratosActive, targetEnrollment } from "../stratos/index.js";
 import { resolvePDS } from "../utils/api.js";
 import { localDateFromTimestamp } from "../utils/date.js";
 import {
@@ -139,10 +139,10 @@ const CollectionView = () => {
 
     if (!pds) pds = await resolvePDS(did!);
     if (stratosActive()) {
-      const enrollment = stratosEnrollment();
-      if (enrollment) setPDS(new URL(enrollment.service).hostname);
+      const target = targetEnrollment();
+      if (target) setPDS(new URL(target.service).hostname);
       if (!agent()) throw new Error("Sign in to view Stratos records");
-      rpc = createServiceClient(agent()!);
+      rpc = createServiceClient(agent()!, target?.service);
     } else {
       rpc = new Client({ handler: simpleFetchHandler({ service: pds }) });
     }
@@ -172,7 +172,7 @@ const CollectionView = () => {
     return res.data.records;
   };
 
-  const [response, { refetch }] = createResource(() => stratosActive(), fetchRecords);
+  const [response, { refetch }] = createResource(() => ({ stratos: stratosActive() }), fetchRecords);
 
   const filteredRecords = createMemo(() =>
     records.filter((rec) =>
@@ -203,7 +203,7 @@ const CollectionView = () => {
     });
 
     const BATCHSIZE = 200;
-    rpc = createServiceClient(agent()!);
+    rpc = createServiceClient(agent()!, targetEnrollment()?.service);
     for (let i = 0; i < writes.length; i += BATCHSIZE) {
       await rpc.post("com.atproto.repo.applyWrites", {
         input: {

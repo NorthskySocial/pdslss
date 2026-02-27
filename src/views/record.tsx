@@ -39,8 +39,8 @@ import {
   createServiceClient,
   isStratosNsid,
   stratosActive,
-  stratosEnrollment,
   stratosLexicons,
+  targetEnrollment,
   verifyStratosRecord,
 } from "../stratos/index.js";
 import {
@@ -261,10 +261,10 @@ export const RecordView = () => {
     setValidRecord(undefined);
     setValidSchema(undefined);
     if (stratosActive()) {
-      const enrollment = stratosEnrollment();
-      if (enrollment) setPDS(new URL(enrollment.service).hostname);
+      const target = targetEnrollment();
+      if (target) setPDS(new URL(target.service).hostname);
       if (!agent()) throw new Error("Sign in to view Stratos records");
-      rpc = createServiceClient(agent()!);
+      rpc = createServiceClient(agent()!, target?.service);
     } else {
       const pds = await resolvePDS(did!);
       rpc = new Client({ handler: simpleFetchHandler({ service: pds }) });
@@ -290,7 +290,7 @@ export const RecordView = () => {
     return res.data;
   };
 
-  const [record, { refetch }] = createResource(() => stratosActive(), fetchRecord);
+  const [record, { refetch }] = createResource(() => ({ stratos: stratosActive() }), fetchRecord);
 
   const validateLocalSchema = async (record: Record<string, unknown>) => {
     try {
@@ -367,9 +367,9 @@ export const RecordView = () => {
       const carBytes = data as Uint8Array<ArrayBufferLike>;
 
       if (stratosActive()) {
-        const enrollment = stratosEnrollment();
+        const target = targetEnrollment();
         const serviceDid =
-          enrollment ? `did:web:${new URL(enrollment.service).hostname}` : undefined;
+          target ? `did:web:${new URL(target.service).hostname}` : undefined;
         const result = await verifyStratosRecord(
           carBytes,
           did!,
@@ -418,7 +418,7 @@ export const RecordView = () => {
   };
 
   const deleteRecord = async () => {
-    rpc = createServiceClient(agent()!);
+    rpc = createServiceClient(agent()!, targetEnrollment()?.service);
     await rpc.post("com.atproto.repo.deleteRecord", {
       input: {
         repo: params.repo as ActorIdentifier,

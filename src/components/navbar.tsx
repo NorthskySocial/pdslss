@@ -2,7 +2,7 @@ import * as TID from "@atcute/tid";
 import { A, Params } from "@solidjs/router";
 import { createEffect, createMemo, createSignal, For, Show } from "solid-js";
 import { canHover } from "../layout";
-import { setStratosActive, stratosActive, stratosEnrollment } from "../stratos";
+import { setStratosActive, stratosActive, stratosEnrollment, targetEnrollment } from "../stratos";
 import { didDocCache } from "../utils/api";
 import { addToClipboard } from "../utils/copy";
 import { localDateFromTimestamp } from "../utils/date";
@@ -10,6 +10,13 @@ import { Favicon } from "./favicon";
 import Tooltip from "./tooltip";
 
 export const [pds, setPDS] = createSignal<string>();
+
+const serviceMismatch = () => {
+  const own = stratosEnrollment();
+  const target = targetEnrollment();
+  if (!own || !target) return false;
+  return own.service !== target.service;
+};
 
 const CopyButton = (props: { content: string; label: string }) => {
   return (
@@ -91,8 +98,8 @@ export const NavBar = (props: { params: Params }) => {
                     href={pds()!}
                     inactiveClass="text-blue-500 py-0.5 w-full font-medium hover:text-blue-600 transition-colors duration-150 dark:text-blue-400 dark:hover:text-blue-300"
                   >
-                    <Show when={stratosActive() && stratosEnrollment()} fallback={pds()}>
-                      {new URL(stratosEnrollment()!.service).hostname}
+                    <Show when={stratosActive() && targetEnrollment()} fallback={pds()}>
+                      {new URL(targetEnrollment()!.service).hostname}
                     </Show>
                   </A>
                 </Show>
@@ -103,30 +110,46 @@ export const NavBar = (props: { params: Params }) => {
           </Show>
         </div>
         <div class="flex items-center gap-1">
-          <Show when={stratosEnrollment()}>
+          <Show when={stratosEnrollment() && targetEnrollment()}>
             <Tooltip
               text={
-                stratosActive() ? "Stratos active — click to switch to PDS" : "Switch to Stratos"
+                serviceMismatch() ?
+                  "Different Stratos service — cannot browse"
+                : stratosActive() ? "Stratos active — click to switch to PDS"
+                : "Switch to Stratos"
               }
             >
               <button
                 type="button"
+                disabled={serviceMismatch()}
                 onclick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  setStratosActive((v) => !v);
+                  if (!serviceMismatch()) setStratosActive((v) => !v);
                 }}
                 classList={{
                   "flex items-center rounded px-1.5 py-1 transition-all duration-200 sm:py-1.5": true,
                   "text-purple-600 hover:bg-purple-100/70 dark:text-purple-400 dark:hover:bg-purple-900/40":
-                    stratosActive(),
+                    stratosActive() && !serviceMismatch(),
                   "text-neutral-400 hover:bg-neutral-200/70 hover:text-neutral-600 dark:text-neutral-500 dark:hover:bg-neutral-700/70 dark:hover:text-neutral-300":
-                    !stratosActive(),
+                    !stratosActive() && !serviceMismatch(),
+                  "text-amber-500 cursor-not-allowed opacity-60 dark:text-amber-400":
+                    serviceMismatch(),
                 }}
-                aria-label={stratosActive() ? "Stratos active" : "Stratos inactive"}
+                aria-label={
+                  serviceMismatch() ? "Different Stratos service"
+                  : stratosActive() ? "Stratos active"
+                  : "Stratos inactive"
+                }
                 aria-pressed={stratosActive()}
               >
-                <span class="iconify lucide--shield"></span>
+                <span
+                  classList={{
+                    iconify: true,
+                    "lucide--shield": !serviceMismatch(),
+                    "lucide--shield-alert": serviceMismatch(),
+                  }}
+                ></span>
               </button>
             </Tooltip>
           </Show>
@@ -136,9 +159,9 @@ export const NavBar = (props: { params: Params }) => {
         </div>
       </div>
 
-      <Show when={stratosActive() && stratosEnrollment()?.boundaries?.length}>
+      <Show when={stratosActive() && targetEnrollment()?.boundaries?.length}>
         <div class="flex flex-wrap gap-1 px-2 py-1">
-          <For each={stratosEnrollment()!.boundaries}>
+          <For each={targetEnrollment()!.boundaries}>
             {(boundary) => (
               <span class="rounded-full bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-700 dark:bg-purple-900/40 dark:text-purple-300">
                 {boundary.value}

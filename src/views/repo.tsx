@@ -33,7 +33,7 @@ import {
   updateNotification,
 } from "../components/notification.jsx";
 import { canHover } from "../layout.jsx";
-import { createServiceClient, stratosActive, stratosEnrollment } from "../stratos/index.js";
+import { createServiceClient, discoverStratosEnrollment, setStratosActive, setTargetEnrollment, stratosActive, targetEnrollment } from "../stratos/index.js";
 import {
   didDocCache,
   type HandleResolveResult,
@@ -137,6 +137,8 @@ export const RepoView = () => {
     // reset to avoid stale closures when stratosActive changes
     rpc = undefined as unknown as Client;
     pds = undefined as unknown as string;
+    setTargetEnrollment(undefined);
+    setError(undefined);
 
     try {
       pds = await resolvePDS(did);
@@ -176,11 +178,25 @@ export const RepoView = () => {
       return {};
     }
 
+    // discover the browsed user's stratos enrollment so the navbar can
+    // show/hide the stratos toggle and warn about service mismatches
+    try {
+      const target = await discoverStratosEnrollment(did as Did);
+      setTargetEnrollment(target);
+    } catch {
+      setTargetEnrollment(null);
+    }
+
     if (stratosActive()) {
-      const enrollment = stratosEnrollment();
-      if (enrollment) setPDS(new URL(enrollment.service).hostname);
-      if (!agent()) throw new Error("Sign in to view Stratos records");
-      rpc = createServiceClient(agent()!);
+      const target = targetEnrollment();
+      if (!target) {
+        setStratosActive(false);
+        rpc = new Client({ handler: simpleFetchHandler({ service: pds }) });
+      } else {
+        if (!agent()) throw new Error("Sign in to view Stratos records");
+        setPDS(new URL(target.service).hostname);
+        rpc = createServiceClient(agent()!, target.service);
+      }
     } else {
       rpc = new Client({ handler: simpleFetchHandler({ service: pds }) });
     }
@@ -228,7 +244,7 @@ export const RepoView = () => {
     }
   };
 
-  const [repo] = createResource(() => stratosActive(), fetchRepo);
+  const [repo] = createResource(() => ({ stratos: stratosActive() }), fetchRepo);
 
   const validateHandles = async () => {
     for (const alias of didDoc()?.alsoKnownAs ?? []) {

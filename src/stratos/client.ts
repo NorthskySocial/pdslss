@@ -35,14 +35,12 @@ export const resolveServiceUrl = async (did: string): Promise<string> => {
  * @param agent the authenticated OAuthUserAgent
  * @returns a Client instance targeting the correct service
  */
-export const createServiceClient = (agent: OAuthUserAgent): Client => {
-  if (stratosActive()) {
-    const enrollment = stratosEnrollment();
-    if (enrollment) {
-      return new Client({
-        handler: createServiceFetchHandler(agent, enrollment.service),
-      });
-    }
+export const createServiceClient = (agent: OAuthUserAgent, serviceUrl?: string): Client => {
+  const url = serviceUrl ?? (stratosActive() ? stratosEnrollment()?.service : undefined);
+  if (url) {
+    return new Client({
+      handler: createServiceFetchHandler(agent, url),
+    });
   }
   return new Client({ handler: agent });
 };
