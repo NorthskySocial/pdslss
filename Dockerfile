@@ -6,7 +6,8 @@ ENV APP_PROTOCOL="https"
 RUN apk add --no-cache git
 RUN npm install -g pnpm
 
-RUN pnpm prebuild
+COPY ./scripts ./scripts
+RUN node scripts/generate-metadata.js
 
 RUN git clone https://tangled.org/pds.ls/pdsls /build
 
