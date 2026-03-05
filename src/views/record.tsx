@@ -490,12 +490,12 @@ export const RecordView = () => {
                       <span
                         class="flex cursor-default items-center gap-0.5 text-sm"
                         title={
-                          attestationResult() === undefined ? "Verifying attestation\u2026"
+                          attestationResult() === undefined ? "Verifying attestation..."
                           : attestationResult()?.valid ? "Attestation verified"
                           : "Attestation verification failed"
                         }
                       >
-                        <span>\uD83D\uDD10</span>
+                        <span>🔐</span>
                         <span
                           classList={{
                             "iconify lucide--check text-green-500 dark:text-green-400":
@@ -517,7 +517,7 @@ export const RecordView = () => {
                       fallback={
                         <div class="flex items-center gap-2">
                           <span class="iconify lucide--loader-circle animate-spin"></span>
-                          Verifying attestation\u2026
+                          Verifying attestation...
                         </div>
                       }
                     >
