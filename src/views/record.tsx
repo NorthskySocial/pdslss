@@ -37,9 +37,7 @@ import { addNotification, removeNotification } from "../components/notification.
 import { PermissionButton } from "../components/permission-button.jsx";
 import {
   createServiceClient,
-  isStratosNsid,
   stratosActive,
-  stratosLexicons,
   targetEnrollment,
   verifyStratosRecord,
 } from "../stratos/index.js";
@@ -196,20 +194,16 @@ const resolveAllLexicons = async (
     let authority: AtprotoDid | undefined;
     const authoritySegment = getAuthoritySegment(nsid);
     try {
-      if (isStratosNsid(nsid)) {
-        resolved.set(nsid, stratosLexicons[nsid]);
-      } else {
-        let authorityPromise = authorityCache.get(authoritySegment);
-        if (!authorityPromise) {
-          authorityPromise = resolveLexiconAuthority(nsid);
-          authorityCache.set(authoritySegment, authorityPromise);
-        }
-
-        authority = await authorityPromise;
-        const schema = await resolveSchema(authority, nsid);
-
-        resolved.set(nsid, schema);
+      let authorityPromise = authorityCache.get(authoritySegment);
+      if (!authorityPromise) {
+        authorityPromise = resolveLexiconAuthority(nsid);
+        authorityCache.set(authoritySegment, authorityPromise);
       }
+
+      authority = await authorityPromise;
+      const schema = await resolveSchema(authority, nsid);
+
+      resolved.set(nsid, schema);
 
       const refs = extractRefs(resolved.get(nsid)!);
 
@@ -301,20 +295,6 @@ export const RecordView = () => {
       } else if (params.collection && params.collection in lexicons) {
         if (is(lexicons[params.collection], record)) setValidSchema(true);
         else setValidSchema(false);
-      } else if (params.collection && isStratosNsid(params.collection)) {
-        const { resolved, failed } = await resolveAllLexicons(params.collection as Nsid);
-        if (failed.size > 0) {
-          console.error(`Failed to resolve ${failed.size} documents:`, Array.from(failed));
-          setValidSchema(false);
-          setValidationError(
-            `Unable to resolve lexicon documents: ${Array.from(failed).join(", ")}`,
-          );
-          return;
-        }
-        const lexiconDocs = Object.fromEntries(resolved);
-        const validator = new RecordValidator(lexiconDocs, params.collection as Nsid);
-        validator.parse({ key: params.rkey ?? null, object: record });
-        setValidSchema(true);
       }
     } catch (err) {
       console.error("Schema validation error:", err);
@@ -407,12 +387,7 @@ export const RecordView = () => {
         setLexiconNotFound(false);
       }
     } catch {
-      if (isStratosNsid(nsid)) {
-        setSchema({ rawSchema: stratosLexicons[nsid] } as ResolvedSchema);
-        setLexiconNotFound(false);
-      } else {
-        setLexiconNotFound(true);
-      }
+      setLexiconNotFound(true);
     }
   };
 
