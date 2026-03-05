@@ -261,7 +261,8 @@ export const RecordView = () => {
     setValidRecord(undefined);
     setValidSchema(undefined);
     setAttestationResult(undefined);
-    if (stratosActive()) {
+    // lexicon schemas live on the authority's PDS, not on Stratos
+    if (stratosActive() && params.collection !== "com.atproto.lexicon.schema") {
       const target = targetEnrollment();
       if (target) setPDS(new URL(target.service).hostname);
       if (!agent()) throw new Error("Sign in to view Stratos records");
