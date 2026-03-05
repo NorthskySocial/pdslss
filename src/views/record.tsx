@@ -492,7 +492,8 @@ export const RecordView = () => {
                         class="flex cursor-default items-center gap-0.5 text-sm"
                         title={
                           attestationResult() === undefined ? "Verifying attestation..."
-                          : attestationResult()?.valid ? "Attestation verified"
+                          : attestationResult()?.valid ?
+                            "Attestation verified"
                           : "Attestation verification failed"
                         }
                       >
@@ -544,22 +545,20 @@ export const RecordView = () => {
                               <span class="text-neutral-500 dark:text-neutral-400">
                                 Service key:{" "}
                               </span>
-                              <span class="break-all font-mono">{result().serviceKey}</span>
+                              <span class="font-mono break-all">{result().serviceKey}</span>
                             </div>
                             <div>
                               <span class="text-neutral-500 dark:text-neutral-400">
                                 User signing key:{" "}
                               </span>
-                              <span class="break-all font-mono">{result().userSigningKey}</span>
+                              <span class="font-mono break-all">{result().userSigningKey}</span>
                             </div>
                             <Show when={result().boundaries.length > 0}>
                               <div>
                                 <span class="text-neutral-500 dark:text-neutral-400">
                                   Boundaries:{" "}
                                 </span>
-                                <span class="font-mono">
-                                  {result().boundaries.join(", ")}
-                                </span>
+                                <span class="font-mono">{result().boundaries.join(", ")}</span>
                               </div>
                             </Show>
                           </div>
@@ -777,16 +776,12 @@ export const RecordView = () => {
                     </Show>
                     <Show when={attestationResult()}>
                       <div class="mt-1 flex flex-col gap-0.5 text-xs text-neutral-700 dark:text-neutral-300">
-                        <div class="truncate">
-                          Service key: {attestationResult()!.serviceKey}
-                        </div>
+                        <div class="truncate">Service key: {attestationResult()!.serviceKey}</div>
                         <div class="truncate">
                           User signing key: {attestationResult()!.userSigningKey}
                         </div>
                         <Show when={attestationResult()!.boundaries.length > 0}>
-                          <div>
-                            Boundaries: {attestationResult()!.boundaries.join(", ")}
-                          </div>
+                          <div>Boundaries: {attestationResult()!.boundaries.join(", ")}</div>
                         </Show>
                       </div>
                     </Show>
