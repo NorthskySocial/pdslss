@@ -7,6 +7,8 @@
     "predev": "node scripts/generate-metadata.js",
     "dev": "vite",
     "prebuild": "node scripts/generate-metadata.js",
+    "prettier": "prettier --write .",
+    "prettier-check": "prettier --check .",
     "build": "vite build",
     "serve": "vite preview",
     "test": "vitest"

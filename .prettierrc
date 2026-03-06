@@ -1,6 +1,5 @@
 {
   "printWidth": 100,
   "experimentalTernaries": true,
-  "plugins": ["prettier-plugin-organize-imports", "prettier-plugin-tailwindcss"],
-  "pluginSearchDirs": false
+  "plugins": ["prettier-plugin-organize-imports", "prettier-plugin-tailwindcss"]
 }
