@@ -6,6 +6,7 @@ import { produce } from "solid-js/store";
 
 import { ActionMenu, DropdownMenu, MenuProvider, NavMenu } from "../components/dropdown.jsx";
 import { Modal } from "../components/modal.jsx";
+import { clearSpaceCredentials } from "../lib/spaces.js";
 import { setStratosEnrollment } from "../stratos";
 import { Login } from "./login.jsx";
 import { useOAuthScopeFlow } from "./scope-flow.js";
@@ -50,6 +51,7 @@ const AccountDropdown = (props: { did: Did; onEditPermissions: (did: Did) => voi
       }),
     );
     saveSessionToStorage(sessions);
+    clearSpaceCredentials(did);
     if (currentSession === did) {
       setAgent(undefined);
       setStratosEnrollment(undefined);

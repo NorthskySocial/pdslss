@@ -7,7 +7,7 @@ import {
 import { agent, sessions } from "./state";
 
 export const SPACE_READ_SCOPE_ID = "space-read" as const;
-export const SPACE_READ_SCOPE = "space:*?authority=*&action=read_self";
+export const SPACE_READ_SCOPE = "space:*?authority=*&action=read";
 
 export const GRANULAR_SCOPES = [
   {
@@ -33,7 +33,7 @@ export const GRANULAR_SCOPES = [
   {
     id: SPACE_READ_SCOPE_ID,
     scope: SPACE_READ_SCOPE,
-    label: "Read your Space records (alpha)",
+    label: "Read Space records (alpha)",
   },
   {
     id: "stratos-enrollment",
