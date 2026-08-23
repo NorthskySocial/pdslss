@@ -14,7 +14,7 @@ import {
   Suspense,
 } from "solid-js";
 
-import { hasUserScope } from "../../auth/scope-utils";
+import { hasAccountScope, hasUserScope } from "../../auth/scope-utils";
 import { agent, sessions } from "../../auth/state";
 import { createServiceClient, stratosActive, stratosEnrollment } from "../../stratos";
 import { Button } from "../button.jsx";
@@ -61,8 +61,14 @@ export const RecordEditor = (props: {
   const [openConfirmDialog, setOpenConfirmDialog] = createSignal(false);
   const [validate, setValidate] = createSignal<boolean | undefined>(undefined);
   const [recreate, setRecreate] = createSignal(false);
+  const [selectedRepo, setSelectedRepo] = createSignal<Did | undefined>(agent()?.sub);
 
   const hasPermission = () => !props.scope || hasUserScope(props.scope);
+  const uploadRepo = () => (props.create ? selectedRepo() : agent()?.sub);
+  const canUploadBlob = () => {
+    const repo = uploadRepo();
+    return repo ? hasAccountScope(repo, "blob") : false;
+  };
   const [isMaximized, setIsMaximized] = createSignal(false);
   const [isMinimized, setIsMinimized] = createSignal(false);
   const [collectionError, setCollectionError] = createSignal("");
@@ -70,6 +76,10 @@ export const RecordEditor = (props: {
   let blobInput!: HTMLInputElement;
   let formRef!: HTMLFormElement;
   let insertMenuRef!: HTMLDivElement;
+
+  createEffect(() => {
+    setSelectedRepo(agent()?.sub);
+  });
 
   createEffect(() => {
     if (openInsertMenu()) {
@@ -294,12 +304,12 @@ export const RecordEditor = (props: {
                 class="dark:bg-dark-100 max-w-40 truncate rounded-md border border-neutral-200 bg-white px-1 py-1 select-none focus:outline-1 focus:outline-neutral-400 dark:border-neutral-600 dark:focus:outline-neutral-400"
                 name="repo"
                 id="repo"
+                value={selectedRepo()}
+                onChange={(e) => setSelectedRepo(e.currentTarget.value as Did)}
               >
                 <For each={Object.keys(sessions)}>
                   {(session) => (
-                    <option value={session} selected={session === agent()?.sub}>
-                      {sessions[session].handle ?? session}
-                    </option>
+                    <option value={session}>{sessions[session].handle ?? session}</option>
                   )}
                 </For>
               </select>
@@ -380,19 +390,19 @@ export const RecordEditor = (props: {
                     <button
                       type="button"
                       class={
-                        hasUserScope("blob")
+                        canUploadBlob()
                           ? "flex items-center gap-2 rounded-md p-2 text-left text-xs hover:bg-neutral-100 active:bg-neutral-200 dark:hover:bg-neutral-700 dark:active:bg-neutral-600"
                           : "flex items-center gap-2 rounded-md p-2 text-left text-xs opacity-40"
                       }
                       onClick={() => {
-                        if (hasUserScope("blob")) {
+                        if (canUploadBlob()) {
                           setOpenInsertMenu(false);
                           blobInput.click();
                         }
                       }}
                     >
                       <span class="iconify lucide--upload shrink-0"></span>
-                      <span>Upload blob{hasUserScope("blob") ? "" : " (permission needed)"}</span>
+                      <span>Upload blob{canUploadBlob() ? "" : " (permission needed)"}</span>
                     </button>
                   </div>
                 </Show>
@@ -414,6 +424,7 @@ export const RecordEditor = (props: {
               >
                 <FileUpload
                   file={blobInput.files![0]}
+                  repo={uploadRepo()!}
                   blobInput={blobInput}
                   onClose={() => setOpenUpload(false)}
                 />
