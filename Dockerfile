@@ -21,7 +21,7 @@ RUN bun run build
 
 # NGINX serving layer
 
-FROM nginx:alpine
+FROM nginx:alpine-slim
 
 COPY --from=build /app/dist /usr/share/nginx/html
 

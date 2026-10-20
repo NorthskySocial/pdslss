@@ -1,3 +1,4 @@
+import { Did } from "@atcute/lexicons";
 import {
   buildCollectionScope,
   buildRpcScope,
@@ -7,7 +8,7 @@ import {
 import { agent, sessions } from "./state";
 
 export const SPACE_READ_SCOPE_ID = "space-read" as const;
-export const SPACE_READ_SCOPE = "space:*?authority=*&action=read_self";
+export const SPACE_READ_SCOPE = "space:*?authority=*&action=read";
 
 export const GRANULAR_SCOPES = [
   {
@@ -33,7 +34,7 @@ export const GRANULAR_SCOPES = [
   {
     id: SPACE_READ_SCOPE_ID,
     scope: SPACE_READ_SCOPE,
-    label: "Read your Space records (alpha)",
+    label: "Read Space records (alpha)",
   },
   {
     id: "stratos-enrollment",
@@ -88,12 +89,18 @@ export const hasUserScope = (scopeId: ScopeId): boolean => {
   const currentAgent = agent();
   if (!currentAgent) return false;
 
+  return hasAccountScope(currentAgent.sub, scopeId);
+};
+
+export const hasAccountScope = (did: Did, scopeId: ScopeId): boolean => {
+  const currentAgent = agent();
+
   const configuredScope = GRANULAR_SCOPES.find(({ id }) => id === scopeId)?.scope;
-  if (configuredScope && currentAgent.session.token.scope) {
+  if (currentAgent?.sub === did && configuredScope && currentAgent.session.token.scope) {
     return currentAgent.session.token.scope.split(" ").includes(configuredScope);
   }
 
-  const grantedScopes = sessions[currentAgent.sub]?.grantedScopes;
+  const grantedScopes = sessions[did]?.grantedScopes;
   if (!grantedScopes) return true;
   return hasScope(grantedScopes, scopeId);
 };
