@@ -1,5 +1,4 @@
 import { Did } from "@atcute/lexicons";
-
 import {
   buildCollectionScope,
   buildRpcScope,
